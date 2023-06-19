@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from "react";
-import AuthLogin from "@/components/loginComponent";
-import AuthRegister from "@/components/registerComponent";
-import AuthLayout from "./layout";
+import AuthLogin from "@/components/auth/login";
+import AuthRegister from "@/components/auth/register";
 
 const Auth = () => {
   const [onRegister, setOnRegister] = useState<boolean>(true);

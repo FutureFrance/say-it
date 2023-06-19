@@ -1,14 +1,17 @@
+'use client'
+
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { ZodError } from 'zod';
 import { registerFormType, registerSchema } from '@/validations/authForm';
-import { IAuthFormProps } from '@/types/authForm';
-import ErrorTimeout from '@/components/errorTimeout';
-import Input from '@/components/Input/inputComponent';
-import InputLabel from '@/components/Input/labelComponent';
+import { IAuthFormProps } from '@/types/authForm.type';
+import ErrorTimeout from '@/components/ui/errors/errorTimeout';
+import Input from '@/components/Inputs/input';
+import InputLabel from '@/components/Inputs/label';
 import { register } from '@/services/auth.service';
-import OAuthGoogle from './Input/oauthGoogle';
+import OAuthGoogle from '@/components/buttons/oauthGoogle';
+import { signIn } from 'next-auth/react';
 
 const initialFormState = {
   first_name: undefined, last_name: undefined, email: undefined, password: undefined, confirm_password: undefined
@@ -54,6 +57,12 @@ export const AuthRegister = ({ setOnRegister }: IAuthFormProps ) => {
       registerSchema.parse({ ...payload, confirm_password });
 
       await register(payload);
+      
+      await signIn("credentials", {
+        ...payload,
+        callbackUrl: `/feed`,
+        redirect: false,
+      });
       router.push('/feed');
     } catch(err) {
       if (err instanceof ZodError) {
@@ -109,7 +118,7 @@ export const AuthRegister = ({ setOnRegister }: IAuthFormProps ) => {
           />
           <Input 
             id='email' 
-            type='text' 
+            type='email' 
             placeholder={email} 
             setPlaceholder={setEmail}
             styles={inputStyles}
