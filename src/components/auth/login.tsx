@@ -1,14 +1,16 @@
+'use client'
+
 import { FormEvent, useState } from "react";
-import InputLabel from "./Input/labelComponent";
-import Input from "./Input/inputComponent";
-import axios, { AxiosError } from "axios";
-import { IAuthFormProps } from "@/types/authForm";
-import { loginFormType, loginSchema } from "@/validations/authForm";
-import { ZodError } from "zod";
-import ErrorTimeout from "./errorTimeout";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { login } from "@/services/auth.service";
-import OAuthGoogle from "./Input/oauthGoogle";
+import { AxiosError } from "axios";
+import { ZodError } from "zod";
+import { IAuthFormProps } from "@/types/authForm.type";
+import { loginFormType, loginSchema } from "@/validations/authForm";
+import InputLabel from "@/components/Inputs/label";
+import Input from "@/components/Inputs/input";
+import ErrorTimeout from "@/components/ui/errors/errorTimeout";
+import OAuthGoogle from "@/components/buttons/oauthGoogle";
 
 const initialFormState = { email: undefined, password: undefined };
 const inputStyles = 'border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-grey dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full h-[33px] font-medium text-gray-900 text-sm';
@@ -45,9 +47,14 @@ export const AuthLogin = ({ setOnRegister }: IAuthFormProps) => {
 
       loginSchema.parse(payload);
 
-      await login(payload);
+      await signIn("credentials", {
+        ...payload,
+        callbackUrl: `/feed`,
+        redirect: false,
+      });
       router.push('/feed');
     } catch(err) {
+      console.log("ERRRRRRRR", typeof err)
       if (err instanceof ZodError) {
         handleValidationErrors(err);
       } else if (err instanceof AxiosError) {
@@ -70,7 +77,7 @@ export const AuthLogin = ({ setOnRegister }: IAuthFormProps) => {
 
         <Input 
           id="email"
-          type="text"
+          type="email"
           placeholder={email}
           setPlaceholder={setEmail}
           styles={inputStyles}

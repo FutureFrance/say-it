@@ -1,4 +1,4 @@
-import { loginFormType, registerFormType } from "../validations/authForm";
+import { loginFormType, registerFormType } from "@/validations/authForm";
 import { Dispatch, SetStateAction, useEffect } from "react";
 
 type IErrorTimeout = {
