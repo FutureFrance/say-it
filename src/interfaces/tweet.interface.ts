@@ -1,11 +1,23 @@
-import { IUser } from "./user.interface";
+import { IUser } from "@/types/user.interface";
 
 export interface ITweet {
   id: number;
-  owner: IUser;
+  user: IUser;
   text_body: string;
-  media?: any[]; // IMedia
+  media?: Array<IMedia>; 
   likes?: any[]; // ILike
   comments?: any[]; // IComment
   views?: number;
+}
+
+export interface IMedia {
+  id: number;
+  path: string;
+  media_type: MediaTypes;
+}
+
+export enum MediaTypes {
+  IMAGE = 'image',
+  VIDEO = 'video',
+  AUDIO = 'audio'
 }
