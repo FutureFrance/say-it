@@ -1,6 +1,7 @@
 import { Provider } from '@/components/sessionProvider'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import AppMenu from '@/components/appMenu'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#000000]`}>
+      <body className={`${inter.className}`}>
         <Provider> 
           {children}
         </ Provider>
