@@ -2,9 +2,14 @@ import MenuOption from "./appMenu/menuOption";
 
 export const AppMenu = () => {
   return (
-    <div className="text-white font-thin col-span-1 flex justify-end max-h-[100vh]">
-      <div className="w-[40%] flex flex-col gap-7">
-        <img src="/assets/app_menu/logo.png" alt="logo" className="max-w-[25px] max-h-[25px]"/>
+    <div className="col-span-1">
+      <div className="flex flex-col justify-center text-white font-thin h-[100vh] fixed">
+        <MenuOption 
+          optionText=""
+          urlTarget="/feed"
+          imgSource="/assets/app_menu/logo.png"
+          styles="hover:bg-slate-700 hover:rounded-full p-2 flex items-center"
+        />
 
         <MenuOption 
           optionText="Home"

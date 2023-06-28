@@ -1,14 +1,12 @@
-import { ITweet } from "@/interfaces/tweet.interface";
+import { IUser } from "@/types/user.interface";
 
-export const TweetOwnerAvatar = ({ tweet }: { tweet: ITweet}) => {
+export const TweetOwnerAvatar = ({ user }: { user: IUser}) => {
   return (
-    <div className="tweet_owner_profile_photo max-w-8 max-h-8 mr-4 sm: mr-2">
-      <img 
-        src={tweet.user.avatar} 
-        className="max-w-8 max-h-8 h-[100%] rounded-full" 
-        alt="tweet_owner_avatar" 
-      />
-    </div>
+    <img 
+      src={user.avatar} 
+      className="w-8 h-8 rounded-full mr-4 sm: mr-2"
+      alt="tweet_owner_avatar" 
+    />
   )
 }
 

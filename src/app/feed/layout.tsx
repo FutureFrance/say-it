@@ -6,9 +6,11 @@ export default function FeedLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-[#000000] grid grid-cols-3">
-      <AppMenu />
-      { children }
+    <div className="bg-[#000000]">
+      <div className="container grid grid-cols-4">
+        <AppMenu />
+        { children }
+      </div>
     </div>
   )
 }

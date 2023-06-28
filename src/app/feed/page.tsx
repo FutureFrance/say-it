@@ -15,6 +15,7 @@ const ServerFeed = async () => {
     <>
       <Feed session={session} tweets={tweets}/> 
       {/* <TestUpload /> */}
+      <div className="col-span-1"></div>
     </>
   )
 }
