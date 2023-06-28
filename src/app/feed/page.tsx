@@ -3,7 +3,7 @@ import Feed from "@/components/feed";
 import { authOptions } from "@/lib/auth";
 import { getTweets } from "@/services/tweets.service";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 
 const ServerFeed = async () => {
   const session = await getServerSession(authOptions); 
@@ -15,6 +15,7 @@ const ServerFeed = async () => {
     <>
       <Feed session={session} tweets={tweets}/> 
       {/* <TestUpload /> */}
+      <div className="col-span-1"></div>
     </>
   )
 }
