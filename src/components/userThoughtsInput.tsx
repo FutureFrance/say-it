@@ -6,7 +6,7 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
         <div className="tweet_owner_profile_photo max-w-8 max-h-8 mr-4">
             <img 
               src={session.user.avatar} 
-              className="max-w-8 max-h-8 h-[100%] rounded-full" 
+              className="max-w-4 max-h-4 rounded-full" 
               alt="tweet_owner_avatar" 
             />
           </div>

@@ -9,7 +9,7 @@ const ServerFeed = async () => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect('/auth');
   
-  const tweets = await getTweets(session.accessToken);
+  const tweets = (await getTweets(session.accessToken, session.user.id)).tweets;
 
   return (
     <>
