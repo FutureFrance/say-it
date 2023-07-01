@@ -13,7 +13,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
     <div className="tweet pr-8 p-2 flex">
       <TweetOwnerAvatar user={tweet.user}/>
       
-      <div className="tweet_content">
+      <div className="tweet_content w-[100%]">
         <div className="owner_content">
           <p className="font-semibold">{`${session.user.first_name}${session.user.last_name}`}</p>
         </div>
@@ -21,7 +21,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
           <p className="font-thin text-sm">{tweet.text_body}</p>
         </div>
 
-        <div className="tweet_media mb-4 flex">
+        <div className="tweet_media mb-4 flex flex-wrap">
           {
             tweet.media?.map(media => { 
               return (
@@ -29,7 +29,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
                   key={media.id} 
                   src={`${media.path}`} 
                   alt="tweet_media" 
-                  className="max-w-[100%] rounded-md object-cover flex-shrink-0" 
+                  className="w-full rounded-md object-contain" 
                 />
               )
             })

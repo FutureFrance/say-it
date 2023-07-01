@@ -5,7 +5,7 @@ export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
     <div className="tweet_statistics flex justify-between items-center">
        <div className="comments">
         <img
-          className="max-w-[15px] max-h-[15px] hover:bg-[blue] rounded-full p-[2px]" 
+          className="max-w-[20px] max-h-[20px] hover:bg-[blue] rounded-full p-[2px]" 
           src="/assets/tweet_statistics/comments_icon.png" 
           alt="stats_icon" />
         <p>{tweet.comments_count}</p>
@@ -21,7 +21,7 @@ export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
       
       <div className="views">
         <img
-          className="max-w-[15px] max-h-[15px]" 
+          className="max-w-[20px] max-h-[20px] hover:bg-neutral-800 rounded-full p-[2px]" 
           src="/assets/tweet_statistics/bar_chart_icon.png" 
           alt="stats_icon" />
         <p>{tweet.views}</p>

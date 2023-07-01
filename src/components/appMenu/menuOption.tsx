@@ -7,7 +7,7 @@ type IProps = {
   styles?: string;
 }
 
-export const MenuOption = ({ urlTarget, imgSource, optionText, styles = "hover:bg-slate-700 hover:rounded-full p-2 flex items-center gap-4" }: IProps) => {
+export const MenuOption = ({ urlTarget, imgSource, optionText, styles = "hover:bg-neutral-800 hover:rounded-full p-2 flex items-center gap-4" }: IProps) => {
   return (
     <Link href={urlTarget} className="max-w-min">
       <div className={styles}>

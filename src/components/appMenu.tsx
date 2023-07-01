@@ -8,7 +8,7 @@ export const AppMenu = () => {
           optionText=""
           urlTarget="/feed"
           imgSource="/assets/app_menu/logo.png"
-          styles="hover:bg-slate-700 hover:rounded-full p-2 flex items-center"
+          styles="hover:bg-neutral-800 hover:rounded-full p-2 flex items-center"
         />
 
         <MenuOption 
