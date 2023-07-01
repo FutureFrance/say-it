@@ -1,4 +1,4 @@
-import { IUser } from "@/types/user.interface";
+import { IUser } from "@/interfaces/user.interface";
 
 export const TweetOwnerAvatar = ({ user }: { user: IUser}) => {
   return (

@@ -1,12 +1,13 @@
-import { IUser } from "@/types/user.interface";
+import { IUser } from "@/interfaces/user.interface";
 
 export interface ITweet {
   id: number;
   user: IUser;
   text_body: string;
   media?: Array<IMedia>; 
-  likes?: any[]; // ILike
+  likes_count?: number; 
   comments?: any[]; // IComment
+  comments_count: number;
   views?: number;
 }
 

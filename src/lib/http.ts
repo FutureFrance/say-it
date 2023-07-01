@@ -13,6 +13,6 @@ export const axiosAuthHeader = async (token: string | undefined = undefined) => 
     : (await getSession())?.accessToken;
 
   return {
-    headers: { Authorization: `Bearer ${authToken}` },
+    Authorization: `Bearer ${authToken}`,
   };
 };
