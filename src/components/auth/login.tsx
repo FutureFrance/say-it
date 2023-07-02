@@ -54,7 +54,6 @@ export const AuthLogin = ({ setOnRegister }: IAuthFormProps) => {
       });
       router.push('/feed');
     } catch(err) {
-      console.log("ERRRRRRRR", typeof err)
       if (err instanceof ZodError) {
         handleValidationErrors(err);
       } else if (err instanceof AxiosError) {

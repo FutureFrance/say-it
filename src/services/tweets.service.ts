@@ -1,6 +1,8 @@
+import { IndividualTweet } from "@/interfaces/tweets/individualTweet.interface";
 import { IPaginatedTweets } from "@/interfaces/tweets/paginatedTweet.interface";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { api, axiosAuthHeader } from "@/lib/http";
+import { headers } from "next/dist/client/components/headers";
 
 export const getTweets = async (token: string | undefined = undefined, userId: number, offset = 0, count = 5) => {
   return await api
@@ -21,6 +23,17 @@ export const createTweet = async (text_body: string, token: string | undefined =
           "Content-Type": 'multipart/form-data'
         } 
       })
+    .then(res => {
+      return res.data
+    })
+    .catch(err => {
+      throw err;
+    })
+}
+
+export const getTweet = async (token: string | undefined = undefined, userId: number, tweetId: number) => {
+  return await api
+    .get<IndividualTweet>(`tweets/user/${userId}/${tweetId}`, { headers: await axiosAuthHeader(token)})
     .then(res => {
       return res.data
     })

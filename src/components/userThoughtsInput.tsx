@@ -4,16 +4,20 @@ import { createTweet } from "@/services/tweets.service";
 import { AxiosError } from "axios";
 import { Session } from "next-auth";
 import { useRef, useState } from "react";
+import TweetButton from "./buttons/tweetButton";
 
 export const UserThoughtsInput = ({ session }: { session: Session }) => {
   const [tweetMessage, setTweetMessage] = useState<string>("");
-  const [files, setFiles] = useState<FileList | null>();
+  const [files, setFiles] = useState<FileList | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleTweetSubmit = async () => {
     try {
+      if (!files && tweetMessage === "") return setApiError("Tweet length must be at least 1 or at least one file");
+      if (files && files?.length > 4) return setApiError("Too many files, max 4"); 
+
       await createTweet(tweetMessage, session.accessToken, files);
 
       setTweetMessage("");
@@ -72,7 +76,7 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
                   id='file'
                   className="opacity-0 w-[35px] h-[35px] inset-0 w-full" 
                   type="file" 
-                  max={7}
+                  max={4}
                   multiple 
                   onChange={e => setFiles(e.target.files)}
                   //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
@@ -86,12 +90,14 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
                 />
               </label>
             </div>
-            <button 
+            {/* <button 
               className="bg-sky-500/75 py-2 px-4 rounded-full flex-right text-sm font-bold"
               onClick={() => handleTweetSubmit()}
             >
               Tweet
-            </button>
+            </button> */}
+
+            <TweetButton onClickAction={() => handleTweetSubmit()}/>
           </div>
           { apiError && <p>{apiError}</p> }
         </div>

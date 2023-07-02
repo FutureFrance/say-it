@@ -3,12 +3,12 @@ import { ITweet } from "@/interfaces/tweets/tweet.interface";
 export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
   return (
     <div className="tweet_statistics flex justify-between items-center">
-       <div className="comments">
+       <div className="replies flex gap-2 items-center">
         <img
           className="max-w-[20px] max-h-[20px] hover:bg-[blue] rounded-full p-[2px]" 
           src="/assets/tweet_statistics/comments_icon.png" 
           alt="stats_icon" />
-        <p>{tweet.comments_count}</p>
+        <p>{tweet.replies_count}</p>
       </div>
 
       <div className="likes flex gap-2 items-center">

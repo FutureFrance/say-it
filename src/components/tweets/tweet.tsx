@@ -1,4 +1,4 @@
-import { ITweet } from "@/interfaces/tweets/tweet.interface";
+import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
 import { Session } from "next-auth"
 import TweetOwnerAvatar from "./tweetOwnerAvatar";
 import TweetStatistics from "./tweetStatistics";
@@ -9,6 +9,17 @@ type IProps = {
 }
 
 export const Tweet = ({ session, tweet }: IProps) => {
+  const leftMedia: Array<IMedia> = [];
+  const rightMedia: Array<IMedia> = [];
+
+  tweet.media?.forEach((media, index) => {
+    if (index % 2 === 0) {
+      leftMedia.push(media);
+    } else {
+      rightMedia.push(media);
+    }
+  });
+
   return (
     <div className="tweet pr-8 p-2 flex">
       <TweetOwnerAvatar user={tweet.user}/>
@@ -23,16 +34,35 @@ export const Tweet = ({ session, tweet }: IProps) => {
 
         <div className="tweet_media mb-4 flex flex-wrap">
           {
-            tweet.media?.map(media => { 
-              return (
-                <img 
-                  key={media.id} 
-                  src={`${media.path}`} 
-                  alt="tweet_media" 
-                  className="w-full rounded-md object-contain" 
-                />
-              )
-            })
+            tweet.media?.length === 1 
+            ?
+              <img 
+                className={`w-[100%] h-[100%]`} 
+                key={tweet.media[0].id} 
+                src={tweet.media[0].path} 
+              />
+            :
+              <>
+                <div className="w-[50%]">
+                  {leftMedia.map((media) => (
+                    <img 
+                      className={`object-cover w-[100%] ${leftMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
+                      key={media.id} 
+                      src={media.path} 
+                    />
+                  ))}
+                </div>
+
+                <div className="w-[50%]">
+                  {rightMedia.map((media) => (
+                    <img
+                      className={`object-cover w-[100%] ${rightMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
+                      key={media.id} 
+                      src={media.path} 
+                    />
+                  ))}
+                </div>
+              </> 
           }
         </div>
 
