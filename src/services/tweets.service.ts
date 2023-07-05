@@ -2,7 +2,6 @@ import { IndividualTweet } from "@/interfaces/tweets/individualTweet.interface";
 import { IPaginatedTweets } from "@/interfaces/tweets/paginatedTweet.interface";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { api, axiosAuthHeader } from "@/lib/http";
-import { headers } from "next/dist/client/components/headers";
 
 export const getTweets = async (token: string | undefined = undefined, userId: number, offset = 0, count = 5) => {
   return await api

@@ -1,8 +1,10 @@
+'use client'
+
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 
 export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
   return (
-    <div className="tweet_statistics flex justify-between items-center">
+    <div className="tweet_statistics flex justify-between items-center" onClick={(e) => e.stopPropagation()}>
        <div className="replies flex gap-2 items-center">
         <img
           className="max-w-[20px] max-h-[20px] hover:bg-[blue] rounded-full p-[2px]" 
@@ -11,7 +13,7 @@ export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
         <p>{tweet.replies_count}</p>
       </div>
 
-      <div className="likes flex gap-2 items-center">
+      <div className="likes flex gap-2 items-center" onClick={(e) => e.stopPropagation()}>
         <img
           className="max-w-[20px] max-h-[20px] hover:bg-[red] rounded-full p-[2px]"  
           src="/assets/tweet_statistics/heart_icon.png" 
@@ -19,7 +21,7 @@ export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
         <p className="font-size-sm">{tweet.likes_count}</p>
       </div>
       
-      <div className="views">
+      <div className="views" onClick={(e) => e.stopPropagation()}>
         <img
           className="max-w-[20px] max-h-[20px] hover:bg-neutral-800 rounded-full p-[2px]" 
           src="/assets/tweet_statistics/bar_chart_icon.png" 

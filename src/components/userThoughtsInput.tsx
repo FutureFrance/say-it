@@ -16,7 +16,7 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
 
   const handleTweetSubmit = async () => {
     try {
-      if (!files && tweetMessage === "") return setApiError("Tweet length must be at least 1 or at least one file");
+      if (files.length < 1 && tweetMessage === "") return setApiError("Tweet length must be at least 1 or at least one file");
       if (files && files?.length > 4) return setApiError("Too many files, max 4"); 
 
       await createTweet(tweetMessage, session.accessToken, files);
@@ -50,12 +50,12 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
   return (
     <div className="flex p-4 pb-0">
         <div className="tweet_owner_profile_photo max-w-2 max-h-2 mr-4">
-            <img 
-              src={session.user.avatar} 
-              className="rounded-full object-contain w-8 h-8" 
-              alt="tweet_owner_avatar" 
-            />
-          </div>
+          <img 
+            src={session.user.avatar} 
+            className="rounded-full object-contain w-8 h-8" 
+            alt="tweet_owner_avatar" 
+          />
+        </div>
 
         <div className="w-[100%]">
           <textarea 

@@ -1,8 +1,11 @@
+'use client'
+
 import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
 import { Session } from "next-auth"
 import TweetOwnerAvatar from "./tweetOwnerAvatar";
 import TweetStatistics from "./tweetStatistics";
 import TweetMedia from "./media/tweetMedia";
+import { useRouter } from "next/navigation";
 
 type IProps = {
   session: Session;
@@ -10,6 +13,8 @@ type IProps = {
 }
 
 export const Tweet = ({ session, tweet }: IProps) => {
+  const router = useRouter();
+
   const leftMedia: Array<IMedia> = [];
   const rightMedia: Array<IMedia> = [];
 
@@ -22,10 +27,10 @@ export const Tweet = ({ session, tweet }: IProps) => {
   });
 
   return (
-    <div className="tweet pr-8 p-2 flex">
+    <div className="tweet pr-8 p-2 flex" onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}>
       <TweetOwnerAvatar user={tweet.user}/>
       
-      <div className="tweet_content w-[100%]">
+      <div className="tweet_content w-[100%] cursor-pointer" >
         <div className="owner_content">
           <p className="font-semibold">{`${session.user.first_name}${session.user.last_name}`}</p>
         </div>

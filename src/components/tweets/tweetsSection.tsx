@@ -19,14 +19,14 @@ export const TweetsSection = ({ fetchedTweets, session }: IProps) => {
 
   const fetchNewTweets = async () => {
     const response = await getTweets(session.accessToken, session.user.id, pageOffSet);
-
+    
     setTweets(prev => [...prev, ...response.tweets]);
     setTageOffSet(prev => prev + 5);
     setHasMore(response.hasMore);
 
     return [...tweets, ...response.tweets];
   } 
-
+  
   return ( 
     <div className="tweets_section">
       {tweets.length > 0 ?
