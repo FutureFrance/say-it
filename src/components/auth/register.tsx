@@ -12,6 +12,7 @@ import InputLabel from '@/components/Inputs/label';
 import { register } from '@/services/auth.service';
 import OAuthGoogle from '@/components/buttons/oauthGoogle';
 import { signIn } from 'next-auth/react';
+import PopUpMessage from '../ui/errors/popUpMessage';
 
 const initialFormState = {
   first_name: undefined, last_name: undefined, email: undefined, password: undefined, confirm_password: undefined
@@ -27,7 +28,7 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
   const [password, setPassword] = useState<string>("");
   const [confirm_password, setConfirmPassword] = useState<string>("");
   const [errors, setErrors] = useState<registerFormType>({});
-  const [serverError, setServerError] = useState<string>("");
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -68,7 +69,7 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
       if (err instanceof ZodError) {
         handleValidationErrors(err);
       } else if (err instanceof AxiosError) {
-        setServerError(err.response?.data.message);
+        setApiError(err.response?.data.message);
       }
     }
   } 
@@ -107,7 +108,7 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
             setPlaceholder={setLastName}
             styles={inputStyles}
           />
-          { errors?.last_name && <ErrorTimeout timeout={9000} error={errors.last_name} setError={setErrors}/> }
+          { errors?.last_name && <ErrorTimeout timeout={9000} error={errors.last_name} setError={setErrors} /> }
         </div>
         
         <div className='w-72'>
@@ -123,7 +124,7 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
             setPlaceholder={setEmail}
             styles={inputStyles}
           />
-          { errors?.email && <ErrorTimeout timeout={10000} error={errors.email} setError={setErrors}/> }
+          { errors?.email && <ErrorTimeout timeout={10000} error={errors.email} setError={setErrors} /> }
         </div>
 
         <div className='w-72'>
@@ -139,7 +140,7 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
             setPlaceholder={setPassword}
             styles={inputStyles}
           />
-          { errors?.password && <ErrorTimeout timeout={11000} error={errors.password} setError={setErrors}/> }
+          { errors?.password && <ErrorTimeout timeout={11000} error={errors.password} setError={setErrors} /> }
         </div>
 
         <div className='w-72'>
@@ -155,9 +156,9 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
             setPlaceholder={setConfirmPassword}
             styles={inputStyles}
           />
-          { errors?.confirm_password && <ErrorTimeout timeout={12000} error={errors.confirm_password} setError={setErrors}/>}
+          { errors?.confirm_password && <ErrorTimeout timeout={12000} error={errors.confirm_password} setError={setErrors} />}
         </div>
-        { serverError && <p className="text-red-700 text-xs mxx-w-72">[Error icon]: {serverError}</p> }
+
         <button type='submit' className='bg-[#2563aa] text-xs text-white font-semibold text-sm py-3 mx-max'>Register an account</button>
       </form>
       
@@ -171,6 +172,14 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
           Log in
         </span>
       </p>
+
+      { apiError && 
+      <PopUpMessage 
+        text={apiError} 
+        setText={setApiError}
+        iconSrc="/assets/error_info.png"
+      /> 
+    }
     </>
   )
 }

@@ -1,5 +1,6 @@
 import { getUserInfo, login } from "@/services/auth.service";
 import { loginFormType } from "@/validations/authForm";
+import { AxiosError } from "axios";
 import { CookiesOptions, NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -30,11 +31,9 @@ export const authOptions: NextAuthOptions = {
             password: credentials.password 
           }); 
 
-          if (!token) return null;
-
           return token;
         } catch(err: any) {
-          throw new Error(err);
+          throw new Error(err.response.data.message);
         }
       }
     })
