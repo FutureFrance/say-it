@@ -4,25 +4,46 @@ import { createTweet } from "@/services/tweets.service";
 import { AxiosError } from "axios";
 import { Session } from "next-auth";
 import { useRef, useState } from "react";
+import TweetButton from "./buttons/tweetButton";
 
 export const UserThoughtsInput = ({ session }: { session: Session }) => {
   const [tweetMessage, setTweetMessage] = useState<string>("");
-  const [files, setFiles] = useState<FileList | null>();
+  const [files, setFiles] = useState<Array<File>>([]);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [showDivider, setShowDivider] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleTweetSubmit = async () => {
     try {
+      if (!files && tweetMessage === "") return setApiError("Tweet length must be at least 1 or at least one file");
+      if (files && files?.length > 4) return setApiError("Too many files, max 4"); 
+
       await createTweet(tweetMessage, session.accessToken, files);
 
       setTweetMessage("");
-      setFiles(null);
+      setFiles([]);
       if (fileInputRef.current) fileInputRef.current.value = '';
     } catch(err: any) {
       if (err instanceof AxiosError) {
         setApiError(err.response?.data.message);
       }
+    }
+  }
+
+  const deleteImage = (fileName: string) => {
+    if (fileInputRef.current?.files && files) {
+      const _files = fileInputRef.current.files;
+      const dt = new DataTransfer()
+      
+      for (let i = 0; i < _files.length; i++) {
+        const file = _files[i]
+
+        if (fileName !== file.name) dt.items.add(file); 
+      }
+      
+      fileInputRef.current.files = dt.files;
+      setFiles(prev => prev.filter(file => file.name !== fileName))
     }
   }
 
@@ -42,6 +63,7 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
             placeholder="What's happening?!"
             value={tweetMessage}
             onChange={(e) => setTweetMessage(e.target.value)}
+            onFocus={() => setShowDivider(true)}
           />
           
           {
@@ -50,12 +72,20 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
                 {
                   Array.from(files).map((file: File) => {
                     return (
-                      <img 
-                        key={file.name} 
-                        src={URL.createObjectURL(file)} 
-                        className="w-full rounded-md object-contain" 
-                        alt={file.name} 
-                      />
+                      <div key={file.name} className="max-w-[515px] max-h-[515px] relative">
+                        <img 
+                          key={file.name} 
+                          src={URL.createObjectURL(file)} 
+                          className="w-full rounded-md object-contain h-[100%] cursor-pointer" 
+                          alt={file.name} 
+                        />
+                        <div 
+                          className="absolute bg-[#474b4e] p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer hover:bg-[red]"
+                          onClick={() => deleteImage(file.name)}
+                        >
+                          <img src="/assets/x_icon.png" className="w-[10px] h-[10px]" />
+                        </div>
+                      </div>
                     )
                   })
                 }
@@ -63,18 +93,18 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
             )
           }
 
-          <div className="border w-[100%] border-zinc-800 my-2"></div>
+          { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> }
 
           <div className="user_actions flex justify-between items-center">
             <div className="relative">
-              <label htmlFor="file" className="flex">
+              <label htmlFor="file" className="flex w-[35px]">
                 <input 
                   id='file'
                   className="opacity-0 w-[35px] h-[35px] inset-0 w-full" 
                   type="file" 
-                  max={7}
+                  max={4}
                   multiple 
-                  onChange={e => setFiles(e.target.files)}
+                  onChange={e => setFiles(e.target.files ? Array.from(e.target.files) : [])}
                   //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
                   ref={fileInputRef}
                 />
@@ -86,12 +116,8 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
                 />
               </label>
             </div>
-            <button 
-              className="bg-sky-500/75 py-2 px-4 rounded-full flex-right text-sm font-bold"
-              onClick={() => handleTweetSubmit()}
-            >
-              Tweet
-            </button>
+
+            <TweetButton onClickAction={() => handleTweetSubmit()}/>
           </div>
           { apiError && <p>{apiError}</p> }
         </div>

@@ -1,6 +1,6 @@
 import AppMenu from "@/components/appMenu"
 
-export default function FeedLayout({
+export default function TweetLayout({
   children,
 }: {
   children: React.ReactNode

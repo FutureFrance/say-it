@@ -4,10 +4,10 @@ export interface ITweet {
   id: number;
   user: IUser;
   text_body: string;
+  likes_count: number; 
+  replies_count: number;
   media?: Array<IMedia>; 
-  likes_count?: number; 
-  comments?: any[]; // IComment
-  comments_count: number;
+  replies?: Array<ITweet>; 
   views?: number;
 }
 

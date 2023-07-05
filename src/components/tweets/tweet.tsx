@@ -1,7 +1,8 @@
-import { ITweet } from "@/interfaces/tweets/tweet.interface";
+import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
 import { Session } from "next-auth"
 import TweetOwnerAvatar from "./tweetOwnerAvatar";
 import TweetStatistics from "./tweetStatistics";
+import TweetMedia from "./media/tweetMedia";
 
 type IProps = {
   session: Session;
@@ -9,6 +10,17 @@ type IProps = {
 }
 
 export const Tweet = ({ session, tweet }: IProps) => {
+  const leftMedia: Array<IMedia> = [];
+  const rightMedia: Array<IMedia> = [];
+
+  tweet.media?.forEach((media, index) => {
+    if (index % 2 === 0) {
+      leftMedia.push(media);
+    } else {
+      rightMedia.push(media);
+    }
+  });
+
   return (
     <div className="tweet pr-8 p-2 flex">
       <TweetOwnerAvatar user={tweet.user}/>
@@ -21,21 +33,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
           <p className="font-thin text-sm">{tweet.text_body}</p>
         </div>
 
-        <div className="tweet_media mb-4 flex flex-wrap">
-          {
-            tweet.media?.map(media => { 
-              return (
-                <img 
-                  key={media.id} 
-                  src={`${media.path}`} 
-                  alt="tweet_media" 
-                  className="w-full rounded-md object-contain" 
-                />
-              )
-            })
-          }
-        </div>
-
+        <TweetMedia tweet={tweet} leftMedia={leftMedia} rightMedia={rightMedia}/>
         <TweetStatistics tweet={tweet} />
       </div>
     </div>

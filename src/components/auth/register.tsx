@@ -20,7 +20,7 @@ const initialFormState = {
 const inputStyles = 'border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-grey dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full h-[33px] font-medium text-gray-900 text-sm';
 const labelStyles = 'block mb-2 text-xs font-medium text-gray-900 dark:text-black';
 
-export const AuthRegister = ({ setOnRegister }: IAuthFormProps ) => {
+export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
   const [first_name, setFirstName] = useState<string>("");
   const [last_name, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -166,7 +166,7 @@ export const AuthRegister = ({ setOnRegister }: IAuthFormProps ) => {
       <p className='text-sm'>Have an account ? 
         <span 
           className='text-blue-500 text-xs hover:cursor-pointer transition duration-300 hover:underline'
-          onClick={() => setOnRegister(false)}  
+          onClick={() => setOnLogin(false)}  
         >
           Log in
         </span>

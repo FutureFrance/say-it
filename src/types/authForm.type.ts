@@ -2,5 +2,5 @@ import { NextRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 
 export type IAuthFormProps = {
-  setOnRegister: Dispatch<SetStateAction<boolean>>;
+  setOnLogin: Dispatch<SetStateAction<boolean>>;
 }

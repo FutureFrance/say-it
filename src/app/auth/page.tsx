@@ -5,13 +5,13 @@ import AuthLogin from "@/components/auth/login";
 import AuthRegister from "@/components/auth/register";
 
 const Auth = () => {
-  const [onRegister, setOnRegister] = useState<boolean>(true);
+  const [onLogin, setOnLogin] = useState<boolean>(true);
 
   return (
     <>
-      { onRegister 
-        ? <AuthRegister setOnRegister={setOnRegister} />
-        : <AuthLogin setOnRegister={setOnRegister} />
+      { onLogin
+        ? <AuthLogin setOnLogin={setOnLogin} />
+        : <AuthRegister setOnLogin={setOnLogin} />
       }
     </>
   )
