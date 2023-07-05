@@ -2,6 +2,7 @@ import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
 import { Session } from "next-auth"
 import TweetOwnerAvatar from "./tweetOwnerAvatar";
 import TweetStatistics from "./tweetStatistics";
+import TweetMedia from "./media/tweetMedia";
 
 type IProps = {
   session: Session;
@@ -32,40 +33,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
           <p className="font-thin text-sm">{tweet.text_body}</p>
         </div>
 
-        <div className="tweet_media mb-4 flex flex-wrap">
-          {
-            tweet.media?.length === 1 
-            ?
-              <img 
-                className={`w-[100%] h-[100%]`} 
-                key={tweet.media[0].id} 
-                src={tweet.media[0].path} 
-              />
-            :
-              <>
-                <div className="w-[50%]">
-                  {leftMedia.map((media) => (
-                    <img 
-                      className={`object-cover w-[100%] ${leftMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
-                      key={media.id} 
-                      src={media.path} 
-                    />
-                  ))}
-                </div>
-
-                <div className="w-[50%]">
-                  {rightMedia.map((media) => (
-                    <img
-                      className={`object-cover w-[100%] ${rightMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
-                      key={media.id} 
-                      src={media.path} 
-                    />
-                  ))}
-                </div>
-              </> 
-          }
-        </div>
-
+        <TweetMedia tweet={tweet} leftMedia={leftMedia} rightMedia={rightMedia}/>
         <TweetStatistics tweet={tweet} />
       </div>
     </div>

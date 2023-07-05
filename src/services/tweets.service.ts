@@ -15,7 +15,7 @@ export const getTweets = async (token: string | undefined = undefined, userId: n
     })
 }
 
-export const createTweet = async (text_body: string, token: string | undefined = undefined, files?: FileList | null) => {
+export const createTweet = async (text_body: string, token: string | undefined = undefined, files?: Array<any> | null) => {
     return await api
     .post<ITweet>('tweets', { text_body: text_body, files }, { 
         headers: {
