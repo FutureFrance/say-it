@@ -20,7 +20,7 @@ export const login = async (body: Required<loginFormType>) => {
         return res?.data;
       })
       .catch(e => {
-        return null;
+        throw e;
       })
 }
 

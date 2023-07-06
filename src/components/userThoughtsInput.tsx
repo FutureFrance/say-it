@@ -5,28 +5,30 @@ import { AxiosError } from "axios";
 import { Session } from "next-auth";
 import { useRef, useState } from "react";
 import TweetButton from "./buttons/tweetButton";
+import PopUpMessage from "./ui/errors/popUpMessage";
 
 export const UserThoughtsInput = ({ session, inputId }: { session: Session, inputId: string }) => {
   const [tweetMessage, setTweetMessage] = useState<string>("");
   const [files, setFiles] = useState<Array<File>>([]);
-  const [apiError, setApiError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [showDivider, setShowDivider] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleTweetSubmit = async () => {
     try {
-      if (files.length < 1 && tweetMessage === "") return setApiError("Tweet length must be at least 1 or at least one file");
-      if (files && files?.length > 4) return setApiError("Too many files, max 4"); 
+      if (files.length < 1 && tweetMessage === "") return setError("Tweet length must be at least 1 or at least one file");
+      if (files && files?.length > 4) return setError("Too many files, max 4"); 
 
       await createTweet(tweetMessage, session.accessToken, files);
 
       setTweetMessage("");
       setFiles([]);
+      
       if (fileInputRef.current) fileInputRef.current.value = '';
     } catch(err: any) {
       if (err instanceof AxiosError) {
-        setApiError(err.response?.data.message);
+        setError(err.response?.data.message);
       }
     }
   }
@@ -49,51 +51,51 @@ export const UserThoughtsInput = ({ session, inputId }: { session: Session, inpu
 
   return (
     <div className="flex p-4 pb-0">
-        <div className="tweet_owner_profile_photo max-w-2 max-h-2 mr-4">
-          <img 
-            src={session.user.avatar} 
-            className="rounded-full object-contain w-8 h-8" 
-            alt="tweet_owner_avatar" 
-          />
-        </div>
+      <div className="tweet_owner_profile_photo max-w-2 max-h-2 mr-4">
+        <img 
+          src={session.user.avatar} 
+          className="rounded-full object-contain w-8 h-8" 
+          alt="tweet_owner_avatar" 
+        />
+      </div>
 
-        <div className="w-[100%]">
-          <textarea 
-            className="color-black bg-[#000000] focus:outline-none max-h-16 w-[100%] resizable-textarea resize-none" 
-            placeholder="What's happening?!"
-            value={tweetMessage}
-            onChange={(e) => setTweetMessage(e.target.value)}
-            onFocus={() => setShowDivider(true)}
-          />
-          
-          {
-            files && (
-              <div className="max-h-[500px] max-w-[600px] flex"> 
-                {
-                  Array.from(files).map((file: File) => {
-                    return (
-                      <div key={file.name} className="max-w-[515px] max-h-[515px] relative">
-                        <img 
-                          key={file.name} 
-                          src={URL.createObjectURL(file)} 
-                          className="w-full rounded-md object-contain h-[100%] cursor-pointer" 
-                          alt={file.name} 
-                        />
-                        <div 
-                          className="absolute bg-[#474b4e] p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer hover:bg-[red]"
-                          onClick={() => deleteImage(file.name)}
-                        >
-                          <img src="/assets/x_icon.png" className="w-[10px] h-[10px]" />
-                        </div>
+      <div className="w-[100%]">
+        <textarea 
+          className="color-black bg-[#000000] focus:outline-none max-h-16 w-[100%] resizable-textarea resize-none" 
+          placeholder="What's happening?!"
+          value={tweetMessage}
+          onChange={(e) => setTweetMessage(e.target.value)}
+          onFocus={() => setShowDivider(true)}
+        />
+        
+        {
+          files && (
+            <div className="max-h-[500px] max-w-[600px] flex"> 
+              {
+                Array.from(files).map((file: File) => {
+                  return (
+                    <div key={file.name} className="max-w-[515px] max-h-[515px] relative">
+                      <img 
+                        key={file.name} 
+                        src={URL.createObjectURL(file)} 
+                        className="w-full rounded-md object-contain h-[100%] cursor-pointer" 
+                        alt={file.name} 
+                      />
+                      <div 
+                        className="absolute bg-[#474b4e] p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer hover:bg-[red]"
+                        onClick={() => deleteImage(file.name)}
+                      >
+                        <img src="/assets/x_icon.png" className="w-[10px] h-[10px]" />
                       </div>
-                    )
-                  })
-                }
-              </div>
-            )
-          }
+                    </div>
+                  )
+                })
+              }
+            </div>
+          )
+        }
 
-          { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> }
+        { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> }
 
           <div className="user_actions flex justify-between items-center">
             <div className="relative">
@@ -109,19 +111,25 @@ export const UserThoughtsInput = ({ session, inputId }: { session: Session, inpu
                   ref={fileInputRef}
                 />
 
-                <img 
-                  className="absolute top-0 left-0 cursor-pointer w-[35px] h-[35px] hover:bg-neutral-800 p-2 rounded-full" 
-                  src="/assets/image_icon.png" 
-                  alt="image icon" 
-                />
-              </label>
-            </div>
-
-            <TweetButton onClickAction={() => handleTweetSubmit()}/>
+              <img 
+                className="absolute top-0 left-0 cursor-pointer w-[35px] h-[35px] hover:bg-neutral-800 p-2 rounded-full" 
+                src="/assets/image_icon.png" 
+                alt="image icon" 
+              />
+            </label>
           </div>
-          { apiError && <p>{apiError}</p> }
+
+          <TweetButton onClickAction={() => handleTweetSubmit()}/>
         </div>
       </div>
+      { error && 
+        <PopUpMessage 
+          text={error} 
+          setText={setError}
+          iconSrc="/assets/error_info.png"
+        /> 
+      }
+    </div>
   )
 }
 

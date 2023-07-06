@@ -11,6 +11,7 @@ import InputLabel from "@/components/Inputs/label";
 import Input from "@/components/Inputs/input";
 import ErrorTimeout from "@/components/ui/errors/errorTimeout";
 import OAuthGoogle from "@/components/buttons/oauthGoogle";
+import PopUpMessage from "../ui/errors/popUpMessage";
 
 const initialFormState = { email: undefined, password: undefined };
 const inputStyles = 'border border-gray-300 text-gray-900 sm:text-sm rounded focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 block dark:border-gray-600 dark:placeholder-gray-400 dark:text-grey dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full h-[33px] font-medium text-gray-900 text-sm';
@@ -20,7 +21,7 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<loginFormType>({});
-  const [serverError, setServerError] = useState<string>("");
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -47,17 +48,22 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
 
       loginSchema.parse(payload);
 
-      await signIn("credentials", {
+      const authResponse = await signIn("credentials", {
         ...payload,
         callbackUrl: `/feed`,
         redirect: false,
       });
+      console.log(authResponse)
+      if (authResponse?.error) throw authResponse?.error;
+
       router.push('/feed');
-    } catch(err) {
+    } catch(err: any) {
       if (err instanceof ZodError) {
         handleValidationErrors(err);
       } else if (err instanceof AxiosError) {
-        setServerError(err.response?.data.message);
+        setApiError(err.response?.data.message);
+      } else {
+        setApiError(err);
       }
     }
   }
@@ -81,7 +87,7 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
           setPlaceholder={setEmail}
           styles={inputStyles}
         />
-        { errors?.email && <ErrorTimeout timeout={8000} error={errors.email} setError={setErrors}/> }
+        { errors?.email && <ErrorTimeout timeout={8000} error={errors.email} setError={setErrors} /> }
       </div>
       
       <div>
@@ -98,10 +104,9 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
           setPlaceholder={setPassword}
           styles={inputStyles}
         />
-         { errors?.password && <ErrorTimeout timeout={8000} error={errors.password} setError={setErrors}/> }
+         { errors?.password && <ErrorTimeout timeout={8000} error={errors.password} setError={setErrors} /> }
       </div>
 
-      { serverError && <p className="text-red-700 text-xs">[Error icon]: {serverError}</p> }
       <button type="submit" className='bg-[#2563aa] text-xs text-white font-semibold text-sm py-3 mx-max'>Log in</button>
     </form>
 
@@ -115,6 +120,14 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
         Register
       </span>
     </p>
+
+    { apiError && 
+      <PopUpMessage 
+        text={apiError} 
+        setText={setApiError}
+        iconSrc="/assets/error_info.png"
+      /> 
+    }
     </>
   )
 }

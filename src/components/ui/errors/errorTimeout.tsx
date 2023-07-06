@@ -7,7 +7,7 @@ type IErrorTimeout = {
   setError: Dispatch<SetStateAction<registerFormType | loginFormType>>;
 }
 
-const ErrorTimeout = ({ timeout, error, setError }: IErrorTimeout) => {
+const ErrorTimeout = ({ timeout, error, setError}: IErrorTimeout) => {
   useEffect(() => {
     const placedTimeout = setTimeout(() => {
       setError({});
@@ -19,9 +19,9 @@ const ErrorTimeout = ({ timeout, error, setError }: IErrorTimeout) => {
   }, []);
 
   return (
-    <div className="flex items-center pt-2">
+    <div className='flex items-center pt-2'>
       <img 
-        className="w-[10px] h-[10px]" 
+        className='w-[10px] h-[10px]' 
         src="/assets/error_info.png" 
         alt="err_icon" 
       />
