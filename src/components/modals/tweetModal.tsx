@@ -10,7 +10,7 @@ const TweetModal = ({ setModalOn, session }: { setModalOn: Dispatch<boolean>, se
         className="modal_container bg-[black] w-[35%] h-[35%] rounded-[30px]" //sm:w-[100%]
         onClick={(e) => e.stopPropagation()}
       >
-        <UserThoughtsInput session={session} />
+        <UserThoughtsInput session={session} inputId="appMenu_file_input"/>
       </div>
     </Modal>
   )

@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 import { useRef, useState } from "react";
 import TweetButton from "./buttons/tweetButton";
 
-export const UserThoughtsInput = ({ session }: { session: Session }) => {
+export const UserThoughtsInput = ({ session, inputId }: { session: Session, inputId: string }) => {
   const [tweetMessage, setTweetMessage] = useState<string>("");
   const [files, setFiles] = useState<Array<File>>([]);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -97,9 +97,9 @@ export const UserThoughtsInput = ({ session }: { session: Session }) => {
 
           <div className="user_actions flex justify-between items-center">
             <div className="relative">
-              <label htmlFor="file" className="flex w-[35px]">
+              <label htmlFor={inputId} className="flex w-[35px]">
                 <input 
-                  id='file'
+                  id={inputId}
                   className="opacity-0 w-[35px] h-[35px] inset-0 w-full" 
                   type="file" 
                   max={4}

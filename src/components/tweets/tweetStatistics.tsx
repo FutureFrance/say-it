@@ -1,11 +1,22 @@
 'use client'
 
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
+import { useState } from "react";
+import Modal from "../modal";
+import UserThoughtsInput from "../userThoughtsInput";
+import { Session } from "next-auth";
 
-export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
+export const TweetStatistics = ({ tweet, session } : { tweet: ITweet, session: Session }) => {
+  const [isModalOn, setIsModalOn] = useState<boolean>(false);
+
+  const handleCommentClick = async (e: React.MouseEvent<HTMLDivElement | MouseEvent>) => {
+    e.stopPropagation();
+    setIsModalOn(true);
+  }
+
   return (
-    <div className="tweet_statistics flex justify-between items-center" onClick={(e) => e.stopPropagation()}>
-       <div className="replies flex gap-2 items-center">
+    <div className="tweet_statistics flex justify-between items-center">
+       <div className="replies flex gap-2 items-center" onClick={e => handleCommentClick(e)}>
         <img
           className="max-w-[20px] max-h-[20px] hover:bg-[blue] rounded-full p-[2px]" 
           src="/assets/tweet_statistics/comments_icon.png" 
@@ -28,6 +39,18 @@ export const TweetStatistics = ({ tweet } : { tweet: ITweet }) => {
           alt="stats_icon" />
         <p>{tweet.views}</p>
       </div>
+
+      {
+        isModalOn && 
+        <Modal setModalOn={setIsModalOn}>
+          <div 
+            className="modal_container bg-[black] w-[35%] h-[35%] rounded-[30px]" //sm:w-[100%]
+            onClick={(e) => e.stopPropagation()}
+          >
+            <UserThoughtsInput session={session} inputId="comment_file_input"/>
+          </div>
+        </Modal>
+      }
     </div>
   )
 }

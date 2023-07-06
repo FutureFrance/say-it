@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Session } from "next-auth";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Tweet from "./tweet";
-import { getTweets } from "@/services/tweets.service";
+import { getUserTweets } from "@/services/tweets.service";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 
 type IProps = { 
@@ -16,9 +16,11 @@ export const TweetsSection = ({ fetchedTweets, session }: IProps) => {
   const [tweets, setTweets] = useState<Array<ITweet>>(fetchedTweets);
   const [pageOffSet, setTageOffSet] = useState<number>(5);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  
+  const timestamp = new Date();
 
   const fetchNewTweets = async () => {
-    const response = await getTweets(session.accessToken, session.user.id, pageOffSet);
+    const response = await getUserTweets(session.accessToken, session.user.id, pageOffSet);
     
     setTweets(prev => [...prev, ...response.tweets]);
     setTageOffSet(prev => prev + 5);

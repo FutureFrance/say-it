@@ -1,8 +1,8 @@
 'use client'
 
+import { useState } from "react";
 import Modal from "@/components/modal";
 import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
-import { useState } from "react";
 
 type IProps = { 
   tweet: ITweet, 
@@ -20,7 +20,7 @@ const TweetMedia = ({ tweet, leftMedia, rightMedia }: IProps) => {
   }
 
   return (
-    <div className="tweet_media mb-4 flex flex-wrap">
+    <div className="tweet_media mb-4 flex flex-wrap" onClick={e => e.stopPropagation()}>
       {
         tweet.media?.length === 1 
         ?

@@ -3,7 +3,7 @@ import { IPaginatedTweets } from "@/interfaces/tweets/paginatedTweet.interface";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { api, axiosAuthHeader } from "@/lib/http";
 
-export const getTweets = async (token: string | undefined = undefined, userId: number, offset = 0, count = 5) => {
+export const getUserTweets = async (token: string | undefined = undefined, userId: number, offset = 0, count = 5) => { // get user tweets but need get feed tweets
   return await api
     .get<IPaginatedTweets>(`/tweets/user/${userId}/?offset=${offset}&count=${count}`, { headers: await axiosAuthHeader(token) })
     .then(res => {
