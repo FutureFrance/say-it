@@ -2,16 +2,38 @@
 
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { useState } from "react";
-import Modal from "../modal";
-import UserThoughtsInput from "../userThoughtsInput";
 import { Session } from "next-auth";
+import TweetModal from "../modals/tweetModal";
+import { AxiosError } from "axios";
+import { deleteLike, likeTweet } from "@/services/likes.service";
+import PopUpMessage from "../ui/errors/popUpMessage";
 
-export const TweetStatistics = ({ tweet, session } : { tweet: ITweet, session: Session }) => {
+export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITweet, session: Session }) => {
   const [isModalOn, setIsModalOn] = useState<boolean>(false);
-
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [tweet, setTweet] = useState<ITweet>(fetchedTweet);
+ 
   const handleCommentClick = async (e: React.MouseEvent<HTMLDivElement | MouseEvent>) => {
     e.stopPropagation();
     setIsModalOn(true);
+  }
+
+  const handleLikeClick = async (e: React.MouseEvent<HTMLDivElement | MouseEvent>) => {
+    e.stopPropagation();
+
+    try {
+      if (tweet.liked) {
+        await deleteLike(session.accessToken, tweet.likeId as number, tweet.id);
+
+        setTweet(prev => ({ ...prev, likes_count: prev.likes_count -= 1, liked: !prev.liked }));
+      } else {
+        const likedTweet = await likeTweet(session.accessToken, tweet.id)
+        
+        setTweet(prev => ({ ...likedTweet, liked: !prev.liked, likeId: likedTweet.likeId }));
+      }
+    } catch (err: any) {
+      if (err instanceof AxiosError) setApiError(err.response?.data.message);
+    }
   }
 
   return (
@@ -24,9 +46,9 @@ export const TweetStatistics = ({ tweet, session } : { tweet: ITweet, session: S
         <p>{tweet.replies_count}</p>
       </div>
 
-      <div className="likes flex gap-2 items-center" onClick={(e) => e.stopPropagation()}>
+      <div className={`likes flex gap-2 items-center`} onClick={(e) => handleLikeClick(e)}>
         <img
-          className="max-w-[20px] max-h-[20px] hover:bg-[red] rounded-full p-[2px]"  
+          className={`max-w-[20px] max-h-[20px] hover:bg-[red] rounded-full p-[2px] ${tweet.liked ? 'bg-[red]' : ''}`}
           src="/assets/tweet_statistics/heart_icon.png" 
           alt="heart_icon" />
         <p className="font-size-sm">{tweet.likes_count}</p>
@@ -42,14 +64,11 @@ export const TweetStatistics = ({ tweet, session } : { tweet: ITweet, session: S
 
       {
         isModalOn && 
-        <Modal setModalOn={setIsModalOn}>
-          <div 
-            className="modal_container bg-[black] w-[35%] h-[35%] rounded-[30px]" //sm:w-[100%]
-            onClick={(e) => e.stopPropagation()}
-          >
-            <UserThoughtsInput session={session} inputId="comment_file_input"/>
-          </div>
-        </Modal>
+        <TweetModal session={session} setModalOn={setIsModalOn} inputId="comment_file_input" tweetParentId={tweet.id} toReply={true}/>
+      }
+
+      {
+        apiError && <PopUpMessage text={apiError} setText={setApiError} iconSrc="/assets/error_info.png"/>
       }
     </div>
   )

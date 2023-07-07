@@ -53,8 +53,8 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
         callbackUrl: `/feed`,
         redirect: false,
       });
-      console.log(authResponse)
-      if (authResponse?.error) throw authResponse?.error;
+
+      if (authResponse?.error) setApiError(authResponse.error);;
 
       router.push('/feed');
     } catch(err: any) {
@@ -62,9 +62,7 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
         handleValidationErrors(err);
       } else if (err instanceof AxiosError) {
         setApiError(err.response?.data.message);
-      } else {
-        setApiError(err);
-      }
+      } 
     }
   }
 

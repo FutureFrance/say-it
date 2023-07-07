@@ -25,7 +25,7 @@ const TweetMedia = ({ tweet, leftMedia, rightMedia }: IProps) => {
         tweet.media?.length === 1 
         ?
           <img 
-            className={`w-[100%] h-[100%] cursor-pointer`} 
+            className={`w-[100%] h-[100%] rounded-[10px] cursor-pointer`} 
             onClick={() => handleImageClick(tweet.media ? tweet.media[0].path : "")}
             key={tweet.media[0].id} 
             src={tweet.media[0].path} 
@@ -35,7 +35,7 @@ const TweetMedia = ({ tweet, leftMedia, rightMedia }: IProps) => {
             <div className="w-[50%]">
               {leftMedia.map((media) => (
                 <img 
-                  className={`object-cover w-[100%] cursor-pointer ${leftMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
+                  className={`object-cover w-[100%] rounded-[10px] cursor-pointer ${leftMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
                   onClick={() => handleImageClick(media.path)}
                   key={media.id} 
                   src={media.path} 
@@ -46,7 +46,7 @@ const TweetMedia = ({ tweet, leftMedia, rightMedia }: IProps) => {
             <div className="w-[50%]">
               {rightMedia.map((media) => (
                 <img
-                  className={`object-cover w-[100%] cursor-pointer ${rightMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
+                  className={`object-cover w-[100%] rounded-[10px] cursor-pointer ${rightMedia.length > 1 ? 'h-[50%]' : 'h-[100%]'}`} 
                   onClick={() => handleImageClick(media.path)}
                   key={media.id} 
                   src={media.path} 

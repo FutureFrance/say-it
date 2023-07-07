@@ -1,3 +1,4 @@
+import { fetchTargetEnum } from "@/app/feed/page";
 import Tweet from "@/components/tweets/tweet";
 import TweetsSection from "@/components/tweets/tweetsSection";
 import { authOptions } from "@/lib/auth";
@@ -13,10 +14,14 @@ const TweetPage = async ({ params }: { params: { userId: number, tweetId: number
 
   return (
     <section className="text-white font-thin border border-zinc-800 col-span-2 max-w-[600px]">
-      <Tweet session={session} tweet={tweetInfo.tweet}/>
+      <Tweet session={session} tweet={tweetInfo.parentTweet}/>
 
-      {tweetInfo.replies.length > 0 && (
-        <TweetsSection session={session} fetchedTweets={tweetInfo.replies}/>
+      {tweetInfo.tweets.length > 0 && (
+        <TweetsSection 
+          session={session} 
+          fetchTarget={fetchTargetEnum.REPLIES} 
+          targetId={tweetInfo.parentTweet.id}
+        />
       )}
     </section>
   )

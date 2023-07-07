@@ -32,7 +32,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
   }
 
   return (
-    <div className="tweet pr-8 p-2 flex" onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}>
+    <div className="tweet pr-8 p-2 flex cursor-pointer" onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}>
       <TweetOwnerAvatar user={tweet.user}/>
       
       <div className="tweet_content w-[100%] cursor-pointer">
@@ -45,7 +45,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
         </div>
 
         <TweetMedia tweet={tweet} leftMedia={leftMedia} rightMedia={rightMedia}/>
-        <TweetStatistics tweet={tweet} session={session}/>
+        <TweetStatistics fetchedTweet={tweet} session={session}/>
       </div>
     </div>
   )

@@ -11,6 +11,8 @@ export interface ITweet {
   replies?: Array<ITweet>; 
   views?: number;
   created_at: string;
+  liked: boolean;
+  likeId?: number;
 }
 
 export interface IMedia {

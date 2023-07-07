@@ -1,3 +1,4 @@
+import { fetchTargetEnum } from "@/app/feed/page";
 import TweetsSection from "@/components/tweets/tweetsSection";
 import UserProfileSection from "@/components/user/userProfileSection";
 import { authOptions } from "@/lib/auth";
@@ -14,7 +15,12 @@ const User = async ({ params }: {params: { userId: number }}) => {
   return (
     <section className="text-white font-thin border border-zinc-800 col-span-2 max-w-[600px]">
       <UserProfileSection session={session}/>
-      <TweetsSection fetchedTweets={tweets} session={session}/>
+      <TweetsSection 
+        session={session} 
+        fetchTarget={fetchTargetEnum.TWEETS} 
+        fetchedTweets={tweets} 
+        targetId={session.user.id}
+      />
     </section>
   )
 }

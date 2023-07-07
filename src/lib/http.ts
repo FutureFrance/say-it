@@ -7,12 +7,12 @@ export const api = axios.create({
   //withCredentials: true
 });
 
-export const axiosAuthHeader = async (token: string | undefined = undefined) => {
-  const authToken = token
-    ? token 
-    : (await getSession())?.accessToken;
+// export const axiosAuthHeader = async (token: string | undefined = undefined) => {
+//   const authToken = token
+//     ? token 
+//     : (await getSession())?.accessToken;
 
-  return {
-    Authorization: `Bearer ${authToken}`,
-  };
-};
+//   return {
+//     Authorization: `Bearer ${authToken}`,
+//   };
+// };
