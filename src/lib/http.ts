@@ -1,18 +1,26 @@
-
-import { getSession } from 'next-auth/react';
 import axios from "axios";
 
 export const api = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
-  //withCredentials: true
+  //withCredentials: true,
 });
 
-// export const axiosAuthHeader = async (token: string | undefined = undefined) => {
-//   const authToken = token
-//     ? token 
-//     : (await getSession())?.accessToken;
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const { status } = error.response;
 
-//   return {
-//     Authorization: `Bearer ${authToken}`,
-//   };
-// };
+    if (status === 401) {
+      if (typeof window === 'undefined') {
+        error.response.statusCode = 302;
+        error.response.headers.Location = '/auth';
+      } else {
+        window.location.href = '/auth';
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);

@@ -53,8 +53,8 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
         callbackUrl: `/feed`,
         redirect: false,
       });
-
-      if (authResponse?.error) setApiError(authResponse.error);;
+      console.log(authResponse)
+      if (authResponse?.error) throw authResponse?.error;
 
       router.push('/feed');
     } catch(err: any) {

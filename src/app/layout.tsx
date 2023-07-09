@@ -1,9 +1,7 @@
-import { Provider } from '@/components/sessionProvider'
-import { Inter } from 'next/font/google'
+import { Providers } from '@/redux/providers/providers'
 import './globals.css'
-import AppMenu from '@/components/appMenu'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Provider } from 'react-redux'
+import { store } from '@/redux/store'
 
 export const metadata = {
   title: 'Create Next App',
@@ -18,12 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <body className={`${inter.className}`}>
-        <Provider> 
+      <body>
+        <Providers >
           {children}
-        </ Provider>
+        </Providers>
       </body> 
-      {/* design the menu */}
     </html>
   )
 }

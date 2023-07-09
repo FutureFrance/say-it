@@ -24,13 +24,14 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {},
+      //@ts-ignore
       async authorize(credentials: Required<loginFormType>, req): Promise<User | null> {
         try {
           const token = await login({ 
             email: credentials.email, 
             password: credentials.password 
           }); 
-
+          //@ts-ignore
           return token;
         } catch(err: any) {
           throw new Error(err.response.data.message);
@@ -40,9 +41,11 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, user, token }) {
+      //@ts-ignore
       const data = await getUserInfo(token.accessToken); 
       
       if (token && data) {
+        //@ts-ignore
         session.accessToken = token.accessToken;
         token.user = data;
         session.user = data;

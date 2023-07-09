@@ -12,7 +12,7 @@ export interface ITweet {
   views?: number;
   created_at: string;
   liked: boolean;
-  likeId?: number;
+  likeId?: number | undefined;
 }
 
 export interface IMedia {

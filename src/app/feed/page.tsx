@@ -6,6 +6,8 @@ import { getUserTweets } from "@/services/tweets.service";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
+export const revalidate = 1;
+
 export enum fetchTargetEnum {
   TWEETS = 'tweets',
   REPLIES = 'replies' 

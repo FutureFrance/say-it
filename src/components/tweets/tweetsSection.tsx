@@ -5,11 +5,11 @@ import { Session } from "next-auth";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Tweet from "./tweet";
 import { getTweetReplies, getUserTweets } from "@/services/tweets.service";
-import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { fetchTargetEnum } from "@/app/feed/page";
 import { AxiosError } from "axios";
 import PopUpMessage from "../ui/errors/popUpMessage";
 import { TweetContext } from "@/context/tweetContext";
+import { ITweet } from "@/interfaces/tweets/tweet.interface";
 
 type IProps = { 
   session: Session;
@@ -17,7 +17,8 @@ type IProps = {
   targetId: number;
 }
 
-export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
+export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {  
+  // const [tweets, setTweets] = useState<Array<ITweet>>(fetchedTweets ? fetchedTweets : useContext(TweetContext).tweets);
   const { tweets, setTweets } = useContext(TweetContext);
   const [pageOffSet, setTageOffSet] = useState<number>(5);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -38,7 +39,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
       if (err instanceof AxiosError) setApiError(err.response?.data.message)
     }
   } 
-  console.log('render')
+
   return ( 
     <div className="tweets_section">
       {tweets.length > 0 ?
