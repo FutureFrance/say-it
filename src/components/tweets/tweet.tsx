@@ -37,11 +37,11 @@ export const Tweet = ({ session, tweet }: IProps) => {
       
       <div className="tweet_content w-[100%] cursor-pointer">
         <div className="owner_content flex gap-2 items-center" onClick={e => handleUserClick(e)}>
-          <p className="font-semibold">{`${session.user.first_name}${session.user.last_name}`}</p>
+          <p className="font-semibold text-sm">{`${session.user.first_name}${session.user.last_name}`}</p>
           <p className="text-xs">{ tweet.timestamp_diff }</p>
         </div>
         <div className='mb-2'>
-          <p className="font-thin text-sm">{tweet.text_body}</p>
+          <p className="font-light text-sm">{tweet.text_body}</p>
         </div>
 
         <TweetMedia tweet={tweet} leftMedia={leftMedia} rightMedia={rightMedia}/>

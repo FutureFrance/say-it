@@ -167,7 +167,7 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
       <p className='text-sm'>Have an account ? 
         <span 
           className='text-blue-500 text-xs hover:cursor-pointer transition duration-300 hover:underline'
-          onClick={() => setOnLogin(false)}  
+          onClick={() => setOnLogin(true)}  
         >
           Log in
         </span>
@@ -177,7 +177,8 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
       <PopUpMessage 
         text={apiError} 
         setText={setApiError}
-        iconSrc="/assets/error_info.png"
+        success={false}
+        textColor='rose-400'
       /> 
     }
     </>

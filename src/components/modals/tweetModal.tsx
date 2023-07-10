@@ -18,7 +18,13 @@ const TweetModal = ({ setModalOn, session, inputId, toReply = false, tweetParent
         className="modal_container bg-[black] w-[35%] h-[35%] rounded-[30px]" //sm:w-[100%]
         onClick={(e) => e.stopPropagation()}
       >
-        <UserThoughtsInput session={session} inputId={inputId} tweetParentId={tweetParentId} toReply={toReply}/>
+        <UserThoughtsInput 
+          session={session} 
+          inputId={inputId} 
+          tweetParentId={tweetParentId} 
+          toReply={toReply} 
+          setModalOn={setModalOn}
+        />
       </div>
     </Modal>
   )

@@ -1,6 +1,7 @@
 import { fetchTargetEnum } from "@/app/feed/page";
 import Tweet from "@/components/tweets/tweet";
 import TweetsSection from "@/components/tweets/tweetsSection";
+import { TweetProvider } from "@/context/tweetContext";
 import { authOptions } from "@/lib/auth";
 import { getTweet } from "@/services/tweets.service";
 import { getServerSession } from "next-auth";
@@ -13,6 +14,7 @@ const TweetPage = async ({ params }: { params: { userId: number, tweetId: number
   const tweetInfo = await getTweet(session.accessToken, params.userId, params.tweetId);
 
   return (
+    <TweetProvider fetchedTweets={tweetInfo.tweets} >
     <section className="text-white font-thin border border-zinc-800 col-span-2 max-w-[600px]">
       <Tweet session={session} tweet={tweetInfo.parentTweet}/>
 
@@ -24,6 +26,7 @@ const TweetPage = async ({ params }: { params: { userId: number, tweetId: number
         />
       )}
     </section>
+    </TweetProvider >
   )
 }
 

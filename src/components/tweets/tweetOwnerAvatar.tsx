@@ -15,7 +15,7 @@ export const TweetOwnerAvatar = ({ user }: { user: IUser}) => {
     <img 
       onClick={e => handleUserClick(e)}
       src={user.avatar} 
-      className="w-8 h-8 rounded-full mr-4 sm: mr-2 cursor-pointer"
+      className="w-6 h-6 rounded-full mr-4 sm: mr-2 cursor-pointer"
       alt="tweet_owner_avatar" 
     />
   )

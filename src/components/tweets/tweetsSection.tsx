@@ -9,7 +9,7 @@ import { fetchTargetEnum } from "@/app/feed/page";
 import { AxiosError } from "axios";
 import PopUpMessage from "../ui/errors/popUpMessage";
 import { TweetContext } from "@/context/tweetContext";
-import { ITweet } from "@/interfaces/tweets/tweet.interface";
+import { FETCHTWEETCOUNT } from "@/constants/tweets/tweet.constants";
 
 type IProps = { 
   session: Session;
@@ -18,20 +18,19 @@ type IProps = {
 }
 
 export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {  
-  // const [tweets, setTweets] = useState<Array<ITweet>>(fetchedTweets ? fetchedTweets : useContext(TweetContext).tweets);
   const { tweets, setTweets } = useContext(TweetContext);
-  const [pageOffSet, setTageOffSet] = useState<number>(5);
+  const [pageOffSet, setTageOffSet] = useState<number>(FETCHTWEETCOUNT);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const fetchNewTweets = async () => {   
     try {
       const response = fetchTarget === fetchTargetEnum.REPLIES
-        ? await getTweetReplies(session.accessToken, targetId, pageOffSet)
-        : await getUserTweets(session.accessToken, session.user.id, pageOffSet);
+        ? await getTweetReplies(session.accessToken, targetId, pageOffSet, FETCHTWEETCOUNT)
+        : await getUserTweets(session.accessToken, session.user.id, pageOffSet, FETCHTWEETCOUNT);
   
       setTweets(prev => [...prev, ...response.tweets]);
-      setTageOffSet(prev => prev + 5);
+      setTageOffSet(prev => prev + FETCHTWEETCOUNT);
       setHasMore(response.hasMore);
   
       return [...tweets, ...response.tweets];
@@ -48,7 +47,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
             dataLength={tweets.length}
             next={fetchNewTweets}
             hasMore={hasMore}
-            loader={<p className="text-center pt-4">Loading...</p>}
+            loader={<div className="text-center"><div className="animate-spin rounded-full h-8 w-8 border-t-[4px] border-b-[4px] border-blue-500"></div></div>}
             endMessage={<p className="text-center pt-4">You reached the end :)</p>}
             style={{ maxWidth: '800px' }}
           >
@@ -56,7 +55,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
             tweets.map(tweet => {
               return (
                 <div key={tweet.id} className="tweet_section"> 
-                  <div className="border w-[100%] border-zinc-800 my-2"></div>
+                  <div className="border w-[100%] border-zinc-800 mb-2"></div>
 
                   <Tweet  
                     session={session} 
@@ -71,7 +70,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
         : <p className="text-center">No tweets :|</p>
       }  
 
-      { apiError && <PopUpMessage text={apiError} setText={setApiError} iconSrc="/assets/error_info.png"/>}
+      { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}
     </div> 
   )
 }

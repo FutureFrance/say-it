@@ -7,12 +7,12 @@ type IProps = {
   styles?: string;
 }
 
-export const MenuOption = ({ urlTarget, imgSource, optionText, styles = "hover:bg-neutral-800 hover:rounded-full p-2 flex items-center gap-4" }: IProps) => {
+export const MenuOption = ({ urlTarget, imgSource, optionText, styles = '' }: IProps) => {
   return (
     <Link href={urlTarget} className="max-w-min">
-      <div className={styles}>
-        <img className="max-w-[25px] max-h-[25px]" src={imgSource} alt="" />
-        <p>{optionText}</p>
+      <div className={`hover:bg-neutral-800 rounded-full p-2 flex items-center ${styles}`}>
+        <img className="max-w-[24px] max-h-[24px]" src={imgSource} alt="" />
+        <p className="font-normal">{optionText}</p>
       </div>
     </Link>
   )

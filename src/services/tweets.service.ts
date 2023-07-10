@@ -33,7 +33,7 @@ export const createTweet = async (
     files?: Array<any> | null
   ) => {
   return await api
-  .post<ITweet>('tweets', 
+  .post<{ tweet: ITweet, successMessage: string}>('tweets', 
       { 
         text_body: text_body, 
         parent_id,
@@ -45,7 +45,7 @@ export const createTweet = async (
       } 
     })
   .then(res => {
-    return res.data
+    return res;
   })
   .catch(err => {
     throw err;

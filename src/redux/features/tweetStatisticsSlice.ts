@@ -1,32 +1,47 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type TweetStatisticsState = {
-  isTweetLiked: boolean;
-  tweetLikeCount: number;
-  tweetCommentsCount: number;
+interface ITweetStatistics { 
+  likes_count: number, 
+  replies_count: number;
+  liked: boolean, 
+  likeId: number | undefined 
 }
 
-const initialState: TweetStatisticsState = {
-  isTweetLiked: false,
-  tweetLikeCount: 0,
-  tweetCommentsCount: 0
+interface tweetStatisticsState {
+  [tweetId: number]: ITweetStatistics;
 }
+
+const initialState: tweetStatisticsState = {};
 
 const tweetStatisticsSlice = createSlice({
   name: 'tweetStatistics',
   initialState,
   reducers: {
-    likeTweetState: (state) => {
-      state.isTweetLiked = !state.isTweetLiked;
-      state.tweetLikeCount += 1;
+    initializeLikes: (state, action: PayloadAction<{ tweetId: number, initialLikes: ITweetStatistics }>) => {
+      const { initialLikes, tweetId } = action.payload;  
+
+      state[tweetId] = initialLikes;
     },
-    unlikeTweetState: (state) => {
-      state.isTweetLiked = !state.isTweetLiked;
-      state.tweetLikeCount -= 1;
+    likeATweet: (state, action: PayloadAction<{ tweetId: number, likeId: number, likes_count: number }>) => {
+      const { tweetId, likeId, likes_count } = action.payload;  
+
+      state[tweetId].likes_count = likes_count;
+      state[tweetId].liked = !state[tweetId].liked;
+      state[tweetId].likeId = likeId;
+    },
+    unlikeATweet: (state, action: PayloadAction<{ tweetId: number }>) => {
+      const { tweetId } = action.payload;
+
+      state[tweetId].likes_count = state[tweetId].likes_count - 1;
+      state[tweetId].liked = !state[tweetId].liked;
+      state[tweetId].likeId = undefined;
+    },
+    incrementRepliesCount: (state, action: PayloadAction<{ tweetId: number }>) => {
+      state[action.payload.tweetId].replies_count += 1;
     }
-  }
+  },
 });
 
-export const { likeTweetState, unlikeTweetState } = tweetStatisticsSlice.actions;
+export const { likeATweet, unlikeATweet, initializeLikes, incrementRepliesCount } = tweetStatisticsSlice.actions;
 
 export default tweetStatisticsSlice.reducer;

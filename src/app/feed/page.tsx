@@ -1,5 +1,6 @@
 import TweetsSection from "@/components/tweets/tweetsSection";
 import UserThoughtsInput from "@/components/userThoughtsInput";
+import { FETCHTWEETCOUNT } from "@/constants/tweets/tweet.constants";
 import { TweetProvider } from "@/context/tweetContext";
 import { authOptions } from "@/lib/auth";
 import { getUserTweets } from "@/services/tweets.service";
@@ -17,7 +18,7 @@ const ServerFeed = async () => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect('/auth/?callbackUrl=/feed');
   
-  const tweets = (await getUserTweets(session.accessToken, session.user.id)).tweets;
+  const tweets = (await getUserTweets(session.accessToken, session.user.id, 0, FETCHTWEETCOUNT)).tweets;
 
   return (
     <TweetProvider fetchedTweets={tweets}>

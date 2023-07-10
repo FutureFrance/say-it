@@ -52,16 +52,13 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
         ...payload,
         callbackUrl: `/feed`,
         redirect: false,
-      });
-      console.log(authResponse)
-      if (authResponse?.error) throw authResponse?.error;
+      }); 
 
-      router.push('/feed');
+      if (!authResponse?.error) router.push('/feed');
+      else setApiError(authResponse?.error);
     } catch(err: any) {
       if (err instanceof ZodError) {
         handleValidationErrors(err);
-      } else if (err instanceof AxiosError) {
-        setApiError(err.response?.data.message);
       } 
     }
   }
@@ -113,7 +110,7 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
     <p className="text-[15px]">Don't have an account ? 
       <span 
         className='text-blue-500 text-xs hover:cursor-pointer transition duration-300 hover:underline'
-        onClick={() => setOnLogin(true)}
+        onClick={() => setOnLogin(false)}
       >
         Register
       </span>
@@ -123,7 +120,8 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
       <PopUpMessage 
         text={apiError} 
         setText={setApiError}
-        iconSrc="/assets/error_info.png"
+        textColor="rose-400"
+        success={false}
       /> 
     }
     </>

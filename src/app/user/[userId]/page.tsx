@@ -20,7 +20,6 @@ const User = async ({ params }: {params: { userId: number }}) => {
         <TweetsSection 
           session={session} 
           fetchTarget={fetchTargetEnum.TWEETS} 
-          // fetchedTweets={tweets} 
           targetId={session.user.id}
         />
       </section>

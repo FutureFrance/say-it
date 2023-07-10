@@ -1,6 +1,6 @@
 
 import { configureStore } from "@reduxjs/toolkit";
-import LikesReducer from './features/likesSlice';
+import TweetStatisticsReducer from './features/tweetStatisticsSlice';
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
 
@@ -10,7 +10,7 @@ const persistConfig = {
   storage : storage
 };
 
-const persistedReducer = persistReducer(persistConfig, LikesReducer);
+const persistedReducer = persistReducer(persistConfig, TweetStatisticsReducer);
 
 export const store = configureStore({
   reducer: { persistedReducer },
