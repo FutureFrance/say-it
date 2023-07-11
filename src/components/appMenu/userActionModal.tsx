@@ -14,12 +14,12 @@ const UserActionsModal = ({ session }: { session: Session}) => {
     >
       <img className="w-4 h-4 cursor-pointer" src="/assets/app_menu/menu_dots_icon.png" alt="" />
       { modalOn && 
-        <div className="absolute pointer-events-auto bottom-[39px] right-0 border border-zinc-800 shadow-xs shadow-white p-2 rounded-[8px]">
+        <div className="absolute cursor-pointer bottom-[39px] right-0 border border-zinc-800 shadow-xs shadow-white p-2 rounded-[8px] flex items-center">
           <p 
-            className="cursor-pointer text-xs font-medium text-slate-300 inline-block w-[120px]"
+            className="text-xs font-semibold text-slate-300 inline-block w-[105px] text-center"
             onClick={() => signOut({ callbackUrl: '/auth', redirect: true })}
           >
-            <span className="font-medium text-rose-700">
+            <span className="font-bold text-rose-700">
               Log-out 
             </span> @{session.user.first_name}
           </p>

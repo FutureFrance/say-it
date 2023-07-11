@@ -14,16 +14,15 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
   const [isModalOn, setIsModalOn] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const isTweetLiked = useAppSelector(state => state.persistedReducer[fetchedTweet.id]?.liked);
-  const tweetLikeCount = useAppSelector(state => state.persistedReducer[fetchedTweet.id]?.likes_count);
-  const tweetLikeId = useAppSelector(state => state.persistedReducer[fetchedTweet.id]?.likeId);
-  const tweetRepliesCount = useAppSelector(state => state.persistedReducer[fetchedTweet.id]?.replies_count);
+  const isTweetLiked = useAppSelector<boolean>(state => state.persistedReducer[fetchedTweet.id]?.liked);
+  const tweetLikeCount = useAppSelector<number>(state => state.persistedReducer[fetchedTweet.id]?.likes_count);
+  const tweetLikeId = useAppSelector<number | undefined>(state => state.persistedReducer[fetchedTweet.id]?.likeId);
+  const tweetRepliesCount = useAppSelector<number>(state => state.persistedReducer[fetchedTweet.id]?.replies_count);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (isTweetLiked === undefined || tweetLikeCount === undefined || tweetRepliesCount === undefined) {
-
       dispatch(initializeLikes({ 
         initialLikes: { 
           likes_count: fetchedTweet.likes_count, 

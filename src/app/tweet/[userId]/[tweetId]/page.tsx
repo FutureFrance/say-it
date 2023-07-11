@@ -15,7 +15,7 @@ const TweetPage = async ({ params }: { params: { userId: number, tweetId: number
 
   return (
     <TweetProvider fetchedTweets={tweetInfo.tweets} >
-    <section className="text-white font-thin border border-zinc-800 col-span-2 max-w-[600px]">
+    <section className="text-white font-thin border border-zinc-800 col-span-2">
       <Tweet session={session} tweet={tweetInfo.parentTweet}/>
 
       {tweetInfo.tweets.length > 0 && (

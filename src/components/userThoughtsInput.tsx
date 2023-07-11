@@ -75,9 +75,9 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
   }
 
   return (
-    <div className="flex p-2 pb-0 mb-2">
+    <div className="flex p-2 pb-0 mb-2 gap-2">
       <div 
-        className="tweet_owner_profile_photo max-w-2 max-h-2 mr-4 cursor-pointer" 
+        className="tweet_owner_profile_photo w-6 h-6 cursor-pointer" 
         onClick={() => router.push(`/user/${session.user.id}`)}
       >
         <img 
@@ -87,7 +87,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
         />
       </div>
 
-      <div className="w-[89%]">
+      <div className="w-[98%]">
         <textarea 
           className="color-black bg-[#000000] focus:outline-none max-h-16 w-[100%] resizable-textarea resize-none text-xs font-light" 
           placeholder="What's happening?!"

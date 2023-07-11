@@ -21,12 +21,18 @@ const ServerFeed = async () => {
   const tweets = (await getUserTweets(session.accessToken, session.user.id, 0, FETCHTWEETCOUNT)).tweets;
 
   return (
-    <TweetProvider fetchedTweets={tweets}>
-      <section className="text-white font-thin border border-zinc-800 col-span-2 max-w-[600px]">
-        <UserThoughtsInput session={session} inputId="feed_file_input" tweetParentId={null}/>
-        <TweetsSection session={session} fetchTarget={fetchTargetEnum.TWEETS} targetId={session.user.id}/>
+    <>
+      <section>
+        <TweetProvider fetchedTweets={tweets}>
+          <UserThoughtsInput session={session} inputId="feed_file_input" tweetParentId={null}/>
+          <TweetsSection session={session} fetchTarget={fetchTargetEnum.TWEETS} targetId={session.user.id}/>
+        </TweetProvider>
       </section>
-    </TweetProvider>
+
+      <section className="w-[100%]">
+        hello
+      </section>
+    </>
   )
 }
 

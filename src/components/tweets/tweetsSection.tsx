@@ -47,7 +47,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
             dataLength={tweets.length}
             next={fetchNewTweets}
             hasMore={hasMore}
-            loader={<div className="text-center"><div className="animate-spin rounded-full h-8 w-8 border-t-[4px] border-b-[4px] border-blue-500"></div></div>}
+            loader={<div className="w-[100%] flex justify-center mt-4"><div className="animate-spin rounded-full h-4 w-4 border-t-[2px] border-b-[px] border-blue-500"></div></div>}
             endMessage={<p className="text-center pt-4">You reached the end :)</p>}
             style={{ maxWidth: '800px' }}
           >

@@ -15,7 +15,7 @@ const User = async ({ params }: {params: { userId: number }}) => {
 
   return (
     <TweetProvider fetchedTweets={tweets} >
-      <section className="text-white font-thin border border-zinc-800 col-span-2 max-w-[600px]">
+      <section className="text-white font-thin border border-zinc-800 col-span-2">
         <UserProfileSection session={session}/>
         <TweetsSection 
           session={session} 

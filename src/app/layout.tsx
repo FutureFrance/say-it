@@ -1,7 +1,5 @@
 import { Providers } from '@/redux/providers/providers'
 import './globals.css'
-import { Provider } from 'react-redux'
-import { store } from '@/redux/store'
 
 export const metadata = {
   title: 'Create Next App',
@@ -16,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <body>
+      <body className='bg-[#000000]' >
         <Providers >
           {children}
         </Providers>

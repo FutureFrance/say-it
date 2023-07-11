@@ -6,11 +6,15 @@ export default function TweetLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-[#000000] min-h-[100vh]">
-      <div className="container grid grid-cols-4 min-h-[100vh]">
+    <div className="container min-h-[100vh] container flex min-h-[100vh] w-[100%] px-[150px]">
+      <div className="flex justify-center w-[25%]">
         <AppMenu />
+      </div>
+      <div className="text-white font-thin border border-zinc-800 max-w-[800px] w-[50%]">
         { children }
-        <div className="col-span-1"></div>
+      </div>
+      <div className="w-[25%]">
+
       </div>
     </div>
   )
