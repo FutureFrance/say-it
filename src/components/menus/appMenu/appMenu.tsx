@@ -1,9 +1,9 @@
-import MenuOption from "./appMenu/menuOption";
+import MenuOption from "./menuOption";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import AppMenuTweetButton from "./appMenuTweetButton";
-import UserActionsModal from "./appMenu/userActionModal";
+import AppMenuTweetButton from "../../buttons/appMenuTweetButton";
+import UserActionsModal from "../../modals/userActionModal";
 
 export const AppMenu = async () => {
   const session = await getServerSession(authOptions);
@@ -11,7 +11,8 @@ export const AppMenu = async () => {
 
   return (
     <>
-      <div className="fixed h-[100vh] sm:border-r border-zinc-700 pr-4">
+    {/* sm:border-r border-zinc-700 pr-4 */}
+      <div className="fixed h-[100vh] gap-2">  
         <div className="flex flex-col text-white font-thin justify-center">
           <MenuOption 
             optionText=""
@@ -46,8 +47,9 @@ export const AppMenu = async () => {
       </div>
 
       <div className="bottom-100 fixed bottom-2 justify-between transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out rounded-full p-[10px]"> 
-        <div className="flex justify-between items-center gap-4 sm:gap-0">
-          <div className="flex gap-4 sm:hidden">
+        <div className="flex justify-between items-center gap-4"> 
+        {/* sm:gap-0 sm:hidden*/}
+          <div className="flex gap-4"> 
             <img className="w-6 h-6 rounded-full cursor-pointer" src={session.user.avatar} alt="" />
             <p className="text-white text-sm">@{session.user.first_name}</p>
           </div>

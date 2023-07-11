@@ -11,7 +11,7 @@ const User = async ({ params }: {params: { userId: number }}) => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect(`/auth/?callbackUrl=/user/${params.userId}`);
 
-  const tweets = (await getUserTweets(session.accessToken, session.user.id)).tweets;
+  const tweets = (await getUserTweets(session.accessToken, params.userId)).tweets;
 
   return (
     <TweetProvider fetchedTweets={tweets} >
@@ -20,7 +20,7 @@ const User = async ({ params }: {params: { userId: number }}) => {
         <TweetsSection 
           session={session} 
           fetchTarget={fetchTargetEnum.TWEETS} 
-          targetId={session.user.id}
+          targetId={params.userId}
         />
       </section>
     </TweetProvider>

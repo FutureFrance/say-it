@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <body className='bg-[#000000]' >
+      <body className='bg-[#000000] flex justify-center' >
         <Providers >
           {children}
         </Providers>

@@ -18,7 +18,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
   const leftMedia: Array<IMedia> = [];
   const rightMedia: Array<IMedia> = [];
 
-  tweet.media?.forEach((media, index) => {
+  tweet.media.forEach((media, index) => {
     if (index % 2 === 0) {
       leftMedia.push(media);
     } else {
@@ -32,7 +32,7 @@ export const Tweet = ({ session, tweet }: IProps) => {
   }
 
   return (
-    <div className="tweet pr-8 p-2 flex cursor-pointer" onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}>
+    <div className="tweet pr-8 p-2 flex max-h-[550px] cursor-pointer" onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}>
       <TweetOwnerAvatar user={tweet.user}/>
       
       <div className="tweet_content w-[100%] cursor-pointer">
@@ -40,11 +40,12 @@ export const Tweet = ({ session, tweet }: IProps) => {
           <p className="font-semibold text-sm">{`${session.user.first_name}${session.user.last_name}`}</p>
           <p className="text-xs">{ tweet.timestamp_diff }</p>
         </div>
+
         <div className='mb-2'>
           <p className="font-light text-sm">{tweet.text_body}</p>
         </div>
 
-        <TweetMedia tweet={tweet} leftMedia={leftMedia} rightMedia={rightMedia}/>
+        {tweet.media.length > 0 && <TweetMedia tweet={tweet} leftMedia={leftMedia} rightMedia={rightMedia}/> }
         <TweetStatistics fetchedTweet={tweet} session={session}/>
       </div>
     </div>

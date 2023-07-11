@@ -1,8 +1,6 @@
 import { Session } from "next-auth";
 
 const UserProfileSection = ({ session }: { session: Session}) => {
-  console.log(session.user.avatar, `background-section ${session.user.avatar ? '' : 'bg-[gray]'} flex-1 min-h-1/2`)
-
   return (
     <div className="profile-section relative min-h-[200px] flex flex-col">
       <div className={`background-section flex-1 min-h-1/2`}>

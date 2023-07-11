@@ -4,8 +4,8 @@ import { createTweet } from "@/services/tweets.service";
 import { AxiosError } from "axios";
 import { Session } from "next-auth";
 import { Dispatch, useContext, useRef, useState } from "react";
-import TweetButton from "./buttons/tweetButton";
-import PopUpMessage from "./ui/errors/popUpMessage";
+import TweetButton from "../buttons/tweetButton";
+import PopUpMessage from "../ui/errors/popUpMessage";
 import { useRouter } from "next/navigation";
 import { TweetContext } from "@/context/tweetContext";
 import { useDispatch } from "react-redux";
@@ -98,7 +98,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
         
         {
           files && (
-            <div className="max-h-[500px] max-w-[600px] flex"> 
+            <div className="max-h-[500px] flex"> 
               {
                 Array.from(files).map((file: File) => {
                   return (
@@ -106,7 +106,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
                       <img 
                         key={file.name} 
                         src={URL.createObjectURL(file)} 
-                        className="w-full rounded-md object-cover h-[100%] cursor-pointer" 
+                        className="w-full rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
                         alt={file.name} 
                       />
                       <div 

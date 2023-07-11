@@ -62,7 +62,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
     <div className="tweet_statistics flex justify-between items-center">
        <div className="replies flex gap-1 items-center" onClick={e => handleCommentClick(e)}>
         <img
-          className="max-w-[15px] max-h-[15px] transition hover:bg-blue-500 transition-colors duration-500 ease-in-out rounded-full p-[2px]" 
+          className="max-w-[18px] max-h-[18px] transition hover:bg-blue-500 transition-colors duration-500 ease-in-out rounded-full p-[2px]" 
           src="/assets/tweet_statistics/comments_icon.png" 
           alt="stats_icon" />
         <p className="text-xs">{tweetRepliesCount}</p>
@@ -70,7 +70,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
 
       <div className={`likes flex gap-1 items-center`} onClick={(e) => handleLikeClick(e)}>
         <img
-          className={`max-w-[15px] max-h-[15px] transition hover:bg-rose-700 transition-colors duration-500 ease-in-out rounded-full p-[2px] ${isTweetLiked ? 'bg-red-700' : ''}`}
+          className={`max-w-[18px] max-h-[18px] transition hover:bg-rose-700 transition-colors duration-500 ease-in-out rounded-full p-[2px] ${isTweetLiked ? 'bg-red-700' : ''}`}
           src="/assets/tweet_statistics/heart_icon.png" 
           alt="heart_icon" />
         <p className="text-xs">{tweetLikeCount}</p>
@@ -78,7 +78,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
       
       <div className="views" onClick={(e) => e.stopPropagation()}>
         <img
-          className="max-w-[15px] max-h-[15px] gap-1 hover:bg-neutral-800 rounded-full p-[2px]" 
+          className="max-w-[18px] max-h-[18px] gap-1 hover:bg-neutral-800 rounded-full p-[2px]" 
           src="/assets/tweet_statistics/bar_chart_icon.png" 
           alt="stats_icon" />
         <p className="text-xs">{fetchedTweet.views}</p>
@@ -86,7 +86,14 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
 
       {
         isModalOn && 
-        <TweetModal session={session} setModalOn={setIsModalOn} inputId="comment_file_input" tweetParentId={fetchedTweet.id} toReply={true}/>
+        <TweetModal 
+          session={session} 
+          setModalOn={setIsModalOn} 
+          modalOn={isModalOn}
+          inputId="comment_file_input" 
+          tweetParentId={fetchedTweet.id} 
+          toReply={true}
+        />
       }
 
       {

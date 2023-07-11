@@ -16,7 +16,7 @@ const UserActionsModal = ({ session }: { session: Session}) => {
       { modalOn && 
         <div className="absolute cursor-pointer bottom-[39px] right-0 border border-zinc-800 shadow-xs shadow-white p-2 rounded-[8px] flex items-center">
           <p 
-            className="text-xs font-semibold text-slate-300 inline-block w-[105px] text-center"
+            className="text-xs font-semibold text-slate-300 inline-block w-[135px] text-center"
             onClick={() => signOut({ callbackUrl: '/auth', redirect: true })}
           >
             <span className="font-bold text-rose-700">

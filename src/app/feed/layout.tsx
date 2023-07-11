@@ -1,4 +1,6 @@
-import AppMenu from "@/components/appMenu"
+import AppMenu from "@/components/menus/appMenu/appMenu"
+import InfoMenu from "@/components/menus/infoMenu"
+import StickyTitle from "@/components/ui/errors/stickyTitle"
 
 export default function FeedLayout({
   children,
@@ -6,15 +8,17 @@ export default function FeedLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="container min-h-[100vh] container flex min-h-[100vh] w-[100%] px-[100px] sm:p-0">
+    // sm:p-0
+    <div className="container min-h-[100vh] flex min-w-screen"> 
       <div className="flex justify-center w-[25%]">
         <AppMenu />
       </div>
-      <div className="text-white font-thin border border-zinc-800 max-w-[800px] w-[50%]">
+      <div className="text-white font-thin border border-zinc-800 w-[50%]">
+        <StickyTitle title="Feed"/>
         { children }
       </div>
-      <div className="w-[25%]">
-
+      <div className="w-[25%] flex justify-center h-[100vh]">
+        <InfoMenu />
       </div>
     </div>
   )

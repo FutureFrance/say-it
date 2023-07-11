@@ -7,7 +7,7 @@ export interface ITweet {
   likes_count: number; 
   replies_count: number;
   timestamp_diff?: string;
-  media?: Array<IMedia>; 
+  media: Array<IMedia>; 
   replies?: Array<ITweet>; 
   views?: number;
   created_at: string;
