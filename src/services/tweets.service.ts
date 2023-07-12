@@ -1,11 +1,23 @@
+import { FETCH_TWEET_TAKE } from "@/constants/tweets/tweet.constants";
 import { IndividualTweet } from "@/interfaces/tweets/individualTweet.interface";
 import { IPaginatedTweets } from "@/interfaces/tweets/paginatedTweet.interface";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { api } from "@/lib/http";
 
-export const getUserTweets = async (accessToken: string, userId: number, offset = 0, count = 5) => { // get user tweets but need get feed tweets
+export const getFeedTweets = async (accessToken: string, offset = 0, take = FETCH_TWEET_TAKE) => {
+  return await api.
+    get<IPaginatedTweets>(`/tweets/feed`, { headers: { Authorization: `Bearer ${accessToken}`}})
+    .then(res => {
+      return res.data
+    })
+    .catch(err => {
+      throw err
+    })
+}
+
+export const getUserTweets = async (accessToken: string, userId: number, offset = 0, take = FETCH_TWEET_TAKE) => { 
   return await api
-    .get<IPaginatedTweets>(`/tweets/user/${userId}/?offset=${offset}&count=${count}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
+    .get<IPaginatedTweets>(`/tweets/user/${userId}/?offset=${offset}&take=${take}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
     .then(res => {
       return res.data
     })
@@ -14,9 +26,9 @@ export const getUserTweets = async (accessToken: string, userId: number, offset 
     })
 }
 
-export const getTweetReplies = async (accessToken: string, tweetId: number, offset = 0, count = 5) => { // get user tweets but need get feed tweets
+export const getTweetReplies = async (accessToken: string, tweetId: number, offset = 0, take = FETCH_TWEET_TAKE) => { 
   return await api
-    .get<IPaginatedTweets>(`/tweets/replies/${tweetId}/?offset=${offset}&count=${count}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
+    .get<IPaginatedTweets>(`/tweets/replies/${tweetId}/?offset=${offset}&take=${take}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
     .then(res => {
       return res.data
     })

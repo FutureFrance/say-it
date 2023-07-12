@@ -5,7 +5,7 @@ import { SetStateAction, createContext, useState, Dispatch } from "react";
 
 type TweetContextType = {
   tweets: ITweet[];
-  setTweets: Dispatch<SetStateAction<ITweet[]>>;
+  setTweets: Dispatch<SetStateAction<Array<ITweet>>>;
 };
 
 export const TweetContext = createContext<TweetContextType>({

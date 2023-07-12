@@ -76,7 +76,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
         <p className="text-xs">{tweetLikeCount}</p>
       </div>
       
-      <div className="views" onClick={(e) => e.stopPropagation()}>
+      <div className="views flex gap-1 items-center" onClick={(e) => e.stopPropagation()}>
         <img
           className="max-w-[18px] max-h-[18px] gap-1 hover:bg-neutral-800 rounded-full p-[2px]" 
           src="/assets/tweet_statistics/bar_chart_icon.png" 

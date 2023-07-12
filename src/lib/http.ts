@@ -9,7 +9,7 @@ api.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  (error) => { console.log(error)
     const { status } = error.response;
 
     if (status === 401) {
