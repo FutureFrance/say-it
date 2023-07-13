@@ -4,8 +4,8 @@ import { useContext, useState } from "react";
 import { Session } from "next-auth";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Tweet from "./tweet";
-import { getFeedTweets, getTweetReplies, getUserTweets } from "@/services/tweets.service";
-import { fetchTargetEnum } from "@/app/feed/page";
+import { getFeedTweets, getTweetReplies } from "@/services/tweets.service";
+import { fetchTargetEnum } from "@/app/(main)/feed/page";
 import { AxiosError } from "axios";
 import PopUpMessage from "../ui/errors/popUpMessage";
 import { TweetContext } from "@/context/tweetContext";
@@ -25,11 +25,10 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
 
   const fetchNewTweets = async () => {   
     try {
-      console.log("")
       const response = fetchTarget === fetchTargetEnum.REPLIES
         ? await getTweetReplies(session.accessToken, targetId, pageOffSet, FETCH_TWEET_TAKE)
         : await getFeedTweets(session.accessToken, pageOffSet, FETCH_TWEET_TAKE); // how will i fetch user tweets page ?
-      console.log(response)
+
       setTweets(prev => [...prev, ...response.tweets]);
       setTageOffSet(prev => prev + FETCH_TWEET_TAKE);
       setHasMore(response.hasMore);
@@ -39,7 +38,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
       if (err instanceof AxiosError) setApiError(err.response?.data.message)
     }
   } 
-  console.log(tweets)
+
   return ( 
     <div className="tweets_section">
       {tweets.length > 0 ?

@@ -1,4 +1,4 @@
-import { fetchTargetEnum } from "@/app/feed/page";
+import { fetchTargetEnum } from "@/app/(main)/feed/page";
 import TweetsSection from "@/components/tweets/tweetsSection";
 import UserProfileSection from "@/components/user/userProfileSection";
 import { TweetProvider } from "@/context/tweetContext";

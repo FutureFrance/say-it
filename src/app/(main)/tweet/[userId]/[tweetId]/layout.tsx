@@ -8,7 +8,7 @@ export default function TweetLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="container min-h-[100vh] flex min-w-screen"> 
+    <>
       <div className="flex justify-center w-[25%]">
         <AppMenu />
       </div>
@@ -19,6 +19,6 @@ export default function TweetLayout({
       <div className="w-[25%] flex justify-center h-[100vh]">
         <InfoMenu />
       </div>
-    </div>
+    </>
   )
 }

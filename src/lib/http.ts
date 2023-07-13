@@ -13,6 +13,7 @@ api.interceptors.response.use(
     const { status } = error.response;
 
     if (status === 401) {
+      console.log("UNAUTHORIZED")
       if (typeof window === 'undefined') {
         error.response.statusCode = 302;
         error.response.headers.Location = '/auth';
