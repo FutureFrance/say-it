@@ -38,7 +38,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
       if (err instanceof AxiosError) setApiError(err.response?.data.message)
     }
   } 
-
+  console.log(tweets)
   return ( 
     <div className="tweets_section">
       {tweets.length > 0 ?

@@ -41,7 +41,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
 
       setTweetMessage("");
       setFiles([]);
-      
+      console.log(response.data.tweet)
       if (fileInputRef.current) fileInputRef.current.value = '';
       if (!toReply) setTweets(prev => [...prev, response.data.tweet]);
 

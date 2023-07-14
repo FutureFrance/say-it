@@ -4,7 +4,7 @@ export default function UserPageLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-[#000000] min-h-[100vh] flex justify-center min-w-screen"> 
+    <div className="bg-[#000000] min-h-[100vh] flex justify-center min-w-screen px-[200px]"> 
       {children}
     </div>
   )
