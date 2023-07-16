@@ -4,20 +4,19 @@ import { useContext, useState } from "react";
 import { Session } from "next-auth";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Tweet from "./tweet";
-import { getFeedTweets, getTweetReplies } from "@/services/tweets.service";
-import { fetchTargetEnum } from "@/app/(main)/feed/page";
 import { AxiosError } from "axios";
 import PopUpMessage from "../ui/errors/popUpMessage";
 import { TweetContext } from "@/context/tweetContext";
 import { FETCH_TWEET_TAKE } from "@/constants/tweets/tweet.constants";
+import { IPaginatedTweets } from "@/interfaces/tweets/paginatedTweet.interface";
 
 type IProps = { 
   session: Session;
-  fetchTarget: fetchTargetEnum;
-  targetId: number;
+  fetchTweets: (...args: Array<any>) => Promise<IPaginatedTweets>;
+  funcArgs: Array<any>;
 }
 
-export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {  
+export const TweetsSection = ({ session, fetchTweets, funcArgs }: IProps) => {  
   const { tweets, setTweets } = useContext(TweetContext);
   const [pageOffSet, setTageOffSet] = useState<number>(FETCH_TWEET_TAKE);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -25,9 +24,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
 
   const fetchNewTweets = async () => {   
     try {
-      const response = fetchTarget === fetchTargetEnum.REPLIES
-        ? await getTweetReplies(session.accessToken, targetId, pageOffSet, FETCH_TWEET_TAKE)
-        : await getFeedTweets(session.accessToken, pageOffSet, FETCH_TWEET_TAKE); // how will i fetch user tweets page ?
+      const response = await fetchTweets(...funcArgs, pageOffSet, FETCH_TWEET_TAKE);
 
       setTweets(prev => [...prev, ...response.tweets]);
       setTageOffSet(prev => prev + FETCH_TWEET_TAKE);
@@ -38,7 +35,7 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
       if (err instanceof AxiosError) setApiError(err.response?.data.message)
     }
   } 
-  console.log(tweets)
+
   return ( 
     <div className="tweets_section">
       {tweets.length > 0 ?
@@ -47,14 +44,14 @@ export const TweetsSection = ({ session, fetchTarget, targetId }: IProps) => {
             dataLength={tweets.length}
             next={fetchNewTweets}
             hasMore={hasMore}
-            loader={<div className="w-[100%] flex justify-center mt-4"><div className="animate-spin rounded-full h-4 w-4 border-t-[2px] border-b-[px] border-blue-500"></div></div>}
-            endMessage={<p className="text-center pt-4">You reached the end :)</p>}
+            loader={<><div className="border w-[100%] border-zinc-800 mb-2"></div><div className="w-[100%] flex justify-center my-8"><div className="animate-spin rounded-full h-4 w-4 border-t-[2px] border-b-[px] border-blue-500"></div></div></>}
+            endMessage={<p className="text-center pt-8">You reached the end :)</p>}
             style={{ maxWidth: '800px' }}
           >
           {
             tweets.map(tweet => {
               return (
-                <div key={tweet.id} className="tweet_section"> 
+                <div key={tweet.id} className="tweet_section hover:bg-hover_tweet_gray"> 
                   <div className="border w-[100%] border-zinc-800 mb-2"></div>
 
                   <Tweet  

@@ -13,7 +13,6 @@ export default function UserPageLayout({
         <AppMenu />
       </div>
       <div className="text-white font-thin border border-zinc-800 w-[50%]">
-        <StickyTitle title="User"/>
         { children }
       </div>
       <div className="w-[25%] flex justify-center h-[100vh]">

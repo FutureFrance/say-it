@@ -24,7 +24,7 @@ export const login = async (body: Required<loginFormType>) => {
       })
 }
 
-export const getUserInfo = async (accessToken: string) => {
+export const getAuthInfo = async (accessToken: string) => {
   return await api
     .get<IUser>('/auth/info', { headers: { Authorization: `Bearer ${accessToken}` }})
     .then(res => {

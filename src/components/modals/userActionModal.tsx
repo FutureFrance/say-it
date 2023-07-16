@@ -14,7 +14,7 @@ const UserActionsModal = ({ session }: { session: Session}) => {
     >
       <img className="w-4 h-4 cursor-pointer" src="/assets/app_menu/menu_dots_icon.png" alt="" />
       { modalOn && 
-        <div className="absolute cursor-pointer bottom-[39px] right-0 border border-zinc-800 shadow-xs shadow-white p-2 rounded-[8px] flex items-center">
+        <div className="absolute border cursor-pointer top-[-120%] left-0 translate-x-[-80%] translate-y-[-50%] border-zinc-800 shadow-xs shadow-white p-[5px] rounded-[8px] flex items-center justify-center">
           <p 
             className="text-xs font-semibold text-slate-300 inline-block w-[135px] text-center"
             onClick={() => signOut({ callbackUrl: '/auth', redirect: true })}

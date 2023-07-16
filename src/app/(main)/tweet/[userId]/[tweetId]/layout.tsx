@@ -13,7 +13,6 @@ export default function TweetLayout({
         <AppMenu />
       </div>
       <div className="text-white font-thin border border-zinc-800 w-[50%]">
-        <StickyTitle title="Tweet"/>
         { children }
       </div>
       <div className="w-[25%] flex justify-center h-[100vh]">

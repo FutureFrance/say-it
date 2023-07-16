@@ -32,8 +32,15 @@ export const Tweet = ({ session, tweet }: IProps) => {
   }
 
   return (
-    <div className="tweet pr-8 p-2 flex max-h-[550px] cursor-pointer" onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}>
-      <TweetOwnerAvatar user={tweet.user}/>
+    <div 
+      className="tweet pr-8 p-2 flex max-h-[550px] cursor-pointer" 
+      onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}
+    >
+      <TweetOwnerAvatar user={tweet.user}/> 
+
+      {/* <div className="flex justify-center align-center w-[12px] h-[12px] rounded-full transition hover:bg-hover_comment_blue duration-300 ease-in">
+            <img src="/assets/app_menu/menu_dots_icon.png" className='h-[10px] w-[10px] p-[2px]' alt="" />
+          </div>  */}
       
       <div className="tweet_content w-[100%] cursor-pointer">
         <div className="owner_content flex gap-2 items-center" onClick={e => handleUserClick(e)}>

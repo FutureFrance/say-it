@@ -1,9 +1,10 @@
-import { fetchTargetEnum } from "@/app/(main)/feed/page";
 import TweetsSection from "@/components/tweets/tweetsSection";
+import StickyTitle from "@/components/ui/errors/stickyTitle";
 import UserProfileSection from "@/components/user/userProfileSection";
 import { TweetProvider } from "@/context/tweetContext";
 import { authOptions } from "@/lib/auth";
 import { getUserTweets } from "@/services/tweets.service";
+import { getUserProfileInfo } from "@/services/user.service";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -11,16 +12,23 @@ const User = async ({ params }: {params: { userId: number }}) => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect(`/auth/?callbackUrl=/user/${params.userId}`);
 
-  const tweets = (await getUserTweets(session.accessToken, params.userId)).tweets;
+  const [profileInfoResponse, tweetsResponse] = await Promise.all([
+    getUserProfileInfo(session.accessToken, params.userId),
+    getUserTweets(session.accessToken, params.userId),
+  ])
 
   return (
-    <TweetProvider fetchedTweets={tweets} >
+    <TweetProvider fetchedTweets={tweetsResponse.tweets} >
       <section className="text-white font-thin border border-zinc-800 col-span-2">
-        <UserProfileSection session={session}/>
+        <StickyTitle title={session.user.first_name}/>
+        <UserProfileSection 
+          session={session}
+          profileInfo={profileInfoResponse.data}
+        />
         <TweetsSection 
+          fetchTweets={getUserTweets}
+          funcArgs={[session.accessToken, params.userId]}
           session={session} 
-          fetchTarget={fetchTargetEnum.TWEETS} 
-          targetId={params.userId}
         />
       </section>
     </TweetProvider>

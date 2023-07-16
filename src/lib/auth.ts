@@ -1,6 +1,5 @@
-import { getUserInfo, login } from "@/services/auth.service";
+import { getAuthInfo, login } from "@/services/auth.service";
 import { loginFormType } from "@/validations/authForm";
-import { AxiosError } from "axios";
 import { CookiesOptions, NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -42,7 +41,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, user, token }) {
       //@ts-ignore
-      const data = await getUserInfo(token.accessToken); 
+      const data = await getAuthInfo(token.accessToken); 
       
       if (token && data) {
         //@ts-ignore

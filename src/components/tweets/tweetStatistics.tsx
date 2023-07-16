@@ -1,7 +1,7 @@
 'use client'
 
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import TweetModal from "../modals/tweetModal";
 import { AxiosError } from "axios";
@@ -70,8 +70,9 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
 
       <TweetsStat 
         text={tweetLikeCount}
+        isOn={isTweetLiked}
         imgSrc="/assets/tweet_statistics/heart_icon.png"
-        textHoverStyles='text-rose-400 transition-colors duration-500 ease-in-out'
+        textHoverStyles='text-rose-600 transition-colors duration-500 ease-in-out'
         imgHoverStyles='bg-hover_like_red transition-colors duration-500 ease-in-out'
         clickAction={handleLikeClick}
       />
@@ -107,13 +108,14 @@ export default TweetStatistics;
 type IStatProps = {
   clickAction?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => any;
   imgSrc: string | undefined;
+  isOn?: boolean;
   alt?: string;
   imgHoverStyles: string;
   textHoverStyles: string;
   text: string | undefined | number;
 }
 
-export const TweetsStat = ({ clickAction, imgHoverStyles, textHoverStyles, text, imgSrc, alt = '' }: IStatProps) => {
+export const TweetsStat = ({ clickAction, imgHoverStyles, textHoverStyles, text, imgSrc, alt = '', isOn = false }: IStatProps) => {
   const [isHoverOn, setIsHoverOn] = useState<boolean>(false);
   
   return (
@@ -123,7 +125,7 @@ export const TweetsStat = ({ clickAction, imgHoverStyles, textHoverStyles, text,
       onMouseLeave={() => setIsHoverOn(false)}
       onClick={e => clickAction ? clickAction(e) : null}>
       <img
-        className={`max-w-[25px] max-h-[25px] transition p-[4px] rounded-full ${isHoverOn ? imgHoverStyles : ''}`}
+        className={`max-w-[25px] max-h-[25px] transition p-[4px] rounded-full ${isHoverOn || isOn ? imgHoverStyles : ''}`}
         src={imgSrc}
         alt={alt}
       />

@@ -1,4 +1,5 @@
 import TweetsSection from "@/components/tweets/tweetsSection";
+import StickyTitle from "@/components/ui/errors/stickyTitle";
 import UserThoughtsInput from "@/components/user/userThoughtsInput";
 import { TweetProvider } from "@/context/tweetContext";
 import { authOptions } from "@/lib/auth";
@@ -7,8 +8,9 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export enum fetchTargetEnum {
-  TWEETS = 'tweets',
-  REPLIES = 'replies' 
+  FEED = 'tweets',
+  TWEET = 'tweet',
+  USER = 'user'
 }
 
 const ServerFeed = async () => {
@@ -20,8 +22,13 @@ const ServerFeed = async () => {
   return (
     <section>
       <TweetProvider fetchedTweets={fetchedTweets.tweets}>
+        <StickyTitle title="Feed"/>
         <UserThoughtsInput session={session} inputId="feed_file_input" tweetParentId={null}/>
-        <TweetsSection session={session} fetchTarget={fetchTargetEnum.TWEETS} targetId={session.user.id}/>
+        <TweetsSection 
+          session={session} 
+          fetchTweets={getFeedTweets}
+          funcArgs={[session.accessToken]}
+        />
       </TweetProvider>
     </section>
   )
