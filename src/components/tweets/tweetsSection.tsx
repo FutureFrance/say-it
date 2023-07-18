@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Session } from "next-auth";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Tweet from "./tweet";
@@ -22,10 +22,35 @@ export const TweetsSection = ({ session, fetchTweets, funcArgs }: IProps) => {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
 
+  
+  useEffect(() => {
+    document.cookie = `auth=${session.accessToken}; expires=Thu, 01 Jan 2024 00:00:00 UTC; path=/`;
+    const eventSource = new EventSource('http://localhost:7777/api/sse',{
+      withCredentials: true
+    });
+
+    eventSource.onerror = (event) => {
+      console.log(event);
+    }
+
+    eventSource.onmessage = (event) => {
+      try {
+        const eventData = JSON.parse(event.data);
+        console.log(eventData);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+
+    return () => {
+      eventSource.close();
+    }
+  }, [])
+
   const fetchNewTweets = async () => {   
     try {
       const response = await fetchTweets(...funcArgs, pageOffSet, FETCH_TWEET_TAKE);
-
+      
       setTweets(prev => [...prev, ...response.tweets]);
       setTageOffSet(prev => prev + FETCH_TWEET_TAKE);
       setHasMore(response.hasMore);

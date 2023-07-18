@@ -1,11 +1,11 @@
 'use client'
 
-import { IProfileInfo } from "@/services/user.service";
 import { Session } from "next-auth";
 import FriendshipsCount from "./friendships/friendshipsCount";
 import { FriendshipActions } from "@/types/user.interface";
 import { useState } from "react";
 import FriendshipActionButton from "../buttons/friendships/friendshipActionButton";
+import { IProfileInfo } from "@/types/frienships.interface";
 
 type IProps = { 
   session: Session, 

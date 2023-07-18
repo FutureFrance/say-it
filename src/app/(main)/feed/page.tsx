@@ -7,12 +7,6 @@ import { getFeedTweets } from "@/services/tweets.service";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export enum fetchTargetEnum {
-  FEED = 'tweets',
-  TWEET = 'tweet',
-  USER = 'user'
-}
-
 const ServerFeed = async () => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect('/auth/?callbackUrl=/feed');

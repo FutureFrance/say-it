@@ -3,7 +3,8 @@ import TweetsSection from "@/components/tweets/tweetsSection";
 import StickyTitle from "@/components/ui/errors/stickyTitle";
 import { TweetProvider } from "@/context/tweetContext";
 import { authOptions } from "@/lib/auth";
-import { getTweet, getTweetReplies } from "@/services/tweets.service";
+import { getTweet } from "@/services/tweets.client.service";
+import { getTweetReplies } from "@/services/tweets.service";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 

@@ -2,6 +2,7 @@ import { getAuthInfo, login } from "@/services/auth.service";
 import { loginFormType } from "@/validations/authForm";
 import { CookiesOptions, NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 const cookies: Partial<CookiesOptions> = {
   sessionToken: {
@@ -36,6 +37,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error(err.response.data.message);
         }
       }
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     })
   ],
   callbacks: {
@@ -59,10 +64,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     }
   },
-  secret: process.env.JWT_SECRET,
-  // jwt: {
-  //   secret: process.env.JWT_SECRET,
-  // },
   cookies,
   debug: true
 }

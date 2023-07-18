@@ -1,6 +1,6 @@
 'use client'
 
-import { createTweet } from "@/services/tweets.service";
+import { createTweet } from "@/services/tweets.client.service";
 import { AxiosError } from "axios";
 import { Session } from "next-auth";
 import { Dispatch, useContext, useRef, useState } from "react";
@@ -41,7 +41,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
 
       setTweetMessage("");
       setFiles([]);
-      console.log(response.data.tweet)
+
       if (fileInputRef.current) fileInputRef.current.value = '';
       if (!toReply) setTweets(prev => [...prev, response.data.tweet]);
 
