@@ -18,7 +18,7 @@ const User = async ({ params }: {params: { userId: number }}) => {
   ])
 
   return (
-    <TweetProvider fetchedTweets={tweetsResponse.tweets} >
+    <TweetProvider fetchedTweetsServer={tweetsResponse.tweets} >
       <section className="text-white font-thin border border-zinc-800 col-span-2">
         <StickyTitle title={session.user.first_name}/>
         <UserProfileSection 
@@ -26,7 +26,7 @@ const User = async ({ params }: {params: { userId: number }}) => {
           profileInfo={profileInfoResponse.data}
         />
         <TweetsSection 
-          fetchTweets={getUserTweets}
+          fetchNewTweets={getUserTweets}
           funcArgs={[session.accessToken, params.userId]}
           session={session} 
         />

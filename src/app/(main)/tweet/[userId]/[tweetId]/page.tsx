@@ -15,7 +15,7 @@ const TweetPage = async ({ params }: { params: { userId: number, tweetId: number
   const tweetInfo = await getTweet(session.accessToken, params.userId, params.tweetId);
 
   return (
-    <TweetProvider fetchedTweets={tweetInfo.tweets} >
+    <TweetProvider fetchedTweetsServer={tweetInfo.tweets} >
     <section className="text-white font-thin border border-zinc-800 col-span-2">
       <StickyTitle title="Tweet"/>
       <Tweet session={session} tweet={tweetInfo.parentTweet}/>
@@ -23,7 +23,7 @@ const TweetPage = async ({ params }: { params: { userId: number, tweetId: number
       {tweetInfo.tweets.length > 0 && (
         <TweetsSection 
           session={session} 
-          fetchTweets={getTweetReplies}
+          fetchNewTweets={getTweetReplies}
           funcArgs={[session.accessToken, tweetInfo.parentTweet.id]}
         />
       )}

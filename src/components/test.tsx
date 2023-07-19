@@ -1,19 +1,25 @@
 'use client'
 
-import { getFeedTweets } from "@/services/tweets.service"
-import TweetsSection from "./tweets/tweetsSection"
-import { Session } from "next-auth"
+import { useAppSelector } from "@/redux/hooks";
+import { persistor } from "@/redux/store";
+import { useEffect } from "react";
 
-export const TweetsSectionProvider = ({ session }: { session: Session}) => {
-  return (
-    <TweetsSection 
-      session={session} 
-      fetchTweets={getFeedTweets}
-      funcArgs={[session.accessToken]}
-      // fetchTarget={fetchTargetEnum.TWEETS} 
-      // targetId={session.user.id}
-    />
-  )
+const clearPersistedData = () => {
+  console.log("PURGED REDUX")
+  persistor.purge(); 
+
+};
+
+const PersistanceFlushHandler = () => {
+  useEffect(() => {
+    window.addEventListener('beforeunload', clearPersistedData); 
+
+    return () => {
+      window.removeEventListener('beforeunload', () => '')
+    }
+  }, [])
+
+  return <></>
 }
 
-export default TweetsSectionProvider;
+export default PersistanceFlushHandler;

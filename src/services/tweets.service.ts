@@ -9,10 +9,10 @@ export const getFeedTweets = async (accessToken: string, offset = 0, take = FETC
   return await api.
     get<IPaginatedTweets>(`/tweets/feed/?offset=${offset}&take=${take}`, { headers: { Authorization: `Bearer ${accessToken}`}})
     .then(res => {
-      return res.data
+      return res.data;
     })
     .catch(err => {
-      throw err
+      throw err;
     })
 }
 
@@ -21,7 +21,7 @@ export const getUserTweets = async (accessToken: string, userId: number, offset 
   return await api
     .get<IPaginatedTweets>(`/tweets/user/${userId}/?offset=${offset}&take=${take}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
     .then(res => {
-      return res.data
+      return res.data;
     })
     .catch(err => {
       throw err;
@@ -33,7 +33,7 @@ export const getTweetReplies = async (accessToken: string, tweetId: number, offs
   return await api
     .get<IPaginatedTweets>(`/tweets/replies/${tweetId}/?offset=${offset}&take=${take}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
     .then(res => {
-      return res.data
+      return res.data;
     })
     .catch(err => {
       throw err;

@@ -1,5 +1,6 @@
 import { Providers } from '@/redux/providers/providers'
 import './globals.css'
+import PersistanceFlushHandler from '@/components/test'
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,8 +18,10 @@ export default function RootLayout({
       <body className='' >
         <Providers >
           {children}
+          <PersistanceFlushHandler />
         </Providers>
       </body> 
     </html>
   )
 }
+

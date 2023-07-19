@@ -4,17 +4,19 @@ import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { SetStateAction, createContext, useState, Dispatch } from "react";
 
 type TweetContextType = {
-  tweets: ITweet[];
+  tweets: Array<ITweet>;
   setTweets: Dispatch<SetStateAction<Array<ITweet>>>;
 };
 
 export const TweetContext = createContext<TweetContextType>({
   tweets: [],
-  setTweets: () => {}
+  setTweets: () => {},
 });
 
-export const TweetProvider = ({ children, fetchedTweets } : { children: React.ReactNode, fetchedTweets: Array<ITweet>}) => {
-  const [tweets, setTweets] = useState(fetchedTweets);
+export const TweetProvider = (
+  { children, fetchedTweetsServer } : { children: React.ReactNode, fetchedTweetsServer: Array<ITweet>}
+) => {
+  const [tweets, setTweets] = useState(fetchedTweetsServer);
 
   return (
     <TweetContext.Provider value={{ tweets, setTweets }}>

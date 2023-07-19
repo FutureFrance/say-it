@@ -15,12 +15,12 @@ const ServerFeed = async () => {
 
   return (
     <section>
-      <TweetProvider fetchedTweets={fetchedTweets.tweets}>
+      <TweetProvider fetchedTweetsServer={fetchedTweets.tweets}>
         <StickyTitle title="Feed"/>
         <UserThoughtsInput session={session} inputId="feed_file_input" tweetParentId={null}/>
         <TweetsSection 
           session={session} 
-          fetchTweets={getFeedTweets}
+          fetchNewTweets={getFeedTweets}
           funcArgs={[session.accessToken]}
         />
       </TweetProvider>

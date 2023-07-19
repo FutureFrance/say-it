@@ -9,7 +9,7 @@ export const createTweet = async (
   files?: Array<any> | null
 ) => {
 return await api
-.post<{ tweet: ITweet, successMessage: string}>('tweets', 
+.post<{ tweet: ITweet, successMessage: string, requestId: string }>('tweets', 
     { 
       text_body: text_body, 
       parent_id,
