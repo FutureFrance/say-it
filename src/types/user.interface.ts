@@ -4,6 +4,8 @@ export interface IUser {
   last_name: string;
   email: string;
   avatar: string;
+  following?: Array<IUser>;
+  followed?: Array<IUser>;
   background?: string;
 }
 
