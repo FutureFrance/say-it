@@ -30,7 +30,7 @@ export const AppMenu = async () => {
 
           <MenuOption 
             optionText="Profile"
-            urlTarget="/profile"
+            urlTarget={`/user/${session.user.id}`}
             imgSource="/assets/app_menu/profile_icon.png"
             styles="transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out gap-[20px]"
           /> 
