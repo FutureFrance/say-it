@@ -9,11 +9,11 @@ export default async function UserPageLayout({
 }) {
   return (
     <div className="bg-[#000000] min-h-[100vh] flex justify-center min-w-screen px-[50px]"> 
-      <div className="flex justify-center w-[28%]">
+      <div className="flex w-[27%] justify-end pr-[3%]">
         <AppMenu />
       </div>
       {children}
-      <div className="w-[28%] flex justify-center h-[100vh]">
+      <div className="flex w-[27%] justify-start pl-[3%]">
         <InfoMenu />
       </div>
     </div>

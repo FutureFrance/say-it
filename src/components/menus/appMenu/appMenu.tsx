@@ -15,13 +15,13 @@ export const AppMenu = async () => {
     <>
     <SseConnector session={session}/>
     {/* sm:border-r border-zinc-700 pr-4 */}
-      <div className="fixed h-[100vh] gap-2">  
+      <div className="fixed top-[10px] h-[100vh] gap-2">  
         <div className="flex flex-col text-white font-thin justify-center">
           <MenuOption 
             optionText=""
             urlTarget="/feed"
             imgSource="/assets/app_menu/logo.png"
-            styles="hover:bg-neutral-900 hover:rounded-full transition-colors duration-700 p-2 flex items-center"
+            styles="hover:bg-neutral-900 hover:rounded-full transition-colors duration-700 flex items-center"
           />
 
           <MenuOption 
