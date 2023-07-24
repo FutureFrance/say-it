@@ -21,7 +21,7 @@ const OAuthGoogle = ({ text }: IProps) => {
 
   return (
     <div className='w-full inline-block text-center border-[3px] border-black-400 py-1 mb-[10px] cursor-pointer' 
-      onClick={handleAuth}  
+      onClick={() => handleAuth()}  
     >
       <div className='flex items-center'>
         <img className='ml-[7%] w-[25px] h-[25px]' src="/assets/google_logo_oauth.png" alt="google_logo" />

@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import AppMenuTweetButton from "../../buttons/appMenuTweetButton";
 import UserActionsModal from "../../modals/userActionModal";
+import SseConnector from "@/components/sseConnector";
+import { NotificationOption } from "@/components/ui/notificationMenuOption";
 
 export const AppMenu = async () => {
   const session = await getServerSession(authOptions);
@@ -11,6 +13,7 @@ export const AppMenu = async () => {
 
   return (
     <>
+    <SseConnector session={session}/>
     {/* sm:border-r border-zinc-700 pr-4 */}
       <div className="fixed h-[100vh] gap-2">  
         <div className="flex flex-col text-white font-thin justify-center">
@@ -35,12 +38,7 @@ export const AppMenu = async () => {
             styles="transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out gap-[20px]"
           /> 
 
-          <MenuOption 
-            optionText="Notifications"
-            urlTarget="/notifications"
-            imgSource="/assets/notifications_icon.png"
-            styles="transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out gap-[20px]"
-          /> 
+          <NotificationOption />
 
           <AppMenuTweetButton session={session}/>
         </div>

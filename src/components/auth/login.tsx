@@ -3,7 +3,6 @@
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { AxiosError } from "axios";
 import { ZodError } from "zod";
 import { IAuthFormProps } from "@/types/authForm.type";
 import { loginFormType, loginSchema } from "@/validations/authForm";

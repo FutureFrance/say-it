@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
       name: 'credentials',
       credentials: {},
       //@ts-ignore
-      async authorize(credentials: Required<loginFormType>, req): Promise<User | null> {
+      async authorize(credentials: Required<loginFormType>): Promise<User | null> {
         try {
           const token = await login({ 
             email: credentials.email, 
@@ -60,7 +60,6 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile }) {
       try {
         if (account?.provider === 'google') {
-
           const response = await handleOAuth({ 
             email: profile?.email as string, 
             first_name: (profile as any).name as string,
@@ -90,6 +89,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     }
   },
+  secret: process.env.JWT_SECRET,
   cookies,
   debug: true
 }

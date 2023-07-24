@@ -1,6 +1,7 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import TweetStatisticsReducer from './features/tweetStatisticsSlice';
+import UserNotificationsCountReducer from './features/userNotificationsSlice';
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
 
@@ -12,7 +13,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, TweetStatisticsReducer);
 
 export const store = configureStore({
-  reducer: { persistedReducer },
+  reducer: { persistedReducer, UserNotificationsCountReducer },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}),
 });
 

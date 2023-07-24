@@ -8,16 +8,8 @@ export default function TweetLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <div className="flex justify-center w-[25%]">
-        <AppMenu />
-      </div>
-      <div className="text-white font-thin border border-zinc-800 w-[50%]">
-        { children }
-      </div>
-      <div className="w-[25%] flex justify-center h-[100vh]">
-        <InfoMenu />
-      </div>
-    </>
+    <div className="text-white font-thin border border-zinc-800 w-[44%]">
+      { children }
+    </div>
   )
 }

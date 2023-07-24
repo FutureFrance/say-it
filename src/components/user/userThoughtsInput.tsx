@@ -75,80 +75,83 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
   }
 
   return (
-    <div className="flex p-2 pb-0 mb-2 gap-2">
+    <div className="flex p-2 pb-0 mb-2 gap-4 pt-4 h-[100%]">
       <div 
-        className="tweet_owner_profile_photo w-6 h-6 cursor-pointer" 
+        className="tweet_owner_profile_photo w-[40px] h-[40px] cursor-pointer" 
         onClick={() => router.push(`/user/${session.user.id}`)}
       >
         <img 
           src={session.user.avatar} 
-          className="rounded-full object-cover w-6 h-6" 
+          className="rounded-full object-cover w-[100%] h-[100%]" 
           alt="tweet_owner_avatar" 
         />
       </div>
 
-      <div className="w-[98%]">
-        <textarea 
-          className="color-black bg-[#000000] focus:outline-none max-h-16 w-[100%] resizable-textarea resize-none text-xs font-light" 
-          placeholder="What's happening?!"
-          value={tweetMessage}
-          onChange={(e) => setTweetMessage(e.target.value)}
-          onFocus={() => setShowDivider(true)}
-        />
-        
-        {
-          files && (
-            <div className="max-h-[500px] flex"> 
-              {
-                Array.from(files).map((file: File) => {
-                  return (
-                    <div key={file.name} className="max-w-[515px] max-h-[515px] relative">
-                      <img 
-                        key={file.name} 
-                        src={URL.createObjectURL(file)} 
-                        className="w-full rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
-                        alt={file.name} 
-                      />
-                      <div 
-                        className="absolute p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer bg-mid_black hover:bg-light_black"
-                        onClick={() => deleteImage(file.name)}
-                      >
-                        <img src="/assets/x_icon.png" className="w-[10px] h-[10px]" />
+      <div className="w-[90%] min-h-[140px] flex flex-col justify-between">
+        <div className="h-[100%]">
+          <textarea 
+            className="color-black bg-[#000000] focus:outline-none h-[100%] w-[100%] resizable-textarea resize-none text-lg font-medium" 
+            placeholder="What's happening?!"
+            value={tweetMessage}
+            onChange={(e) => setTweetMessage(e.target.value)}
+            onFocus={() => setShowDivider(true)}
+          />
+        </div>
+        <div>
+          {
+            files && (
+              <div className="max-h-[500px] flex"> 
+                {
+                  Array.from(files).map((file: File) => {
+                    return (
+                      <div key={file.name} className="max-w-[515px] max-h-[515px] relative">
+                        <img 
+                          key={file.name} 
+                          src={URL.createObjectURL(file)} 
+                          className="w-full rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
+                          alt={file.name} 
+                        />
+                        <div 
+                          className="absolute p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer bg-mid_black hover:bg-light_black"
+                          onClick={() => deleteImage(file.name)}
+                        >
+                          <img src="/assets/x_icon.png" className="w-[10px] h-[10px]" />
+                        </div>
                       </div>
-                    </div>
-                  )
-                })
-              }
-            </div>
-          )
-        }
+                    )
+                  })
+                }
+              </div>
+            )
+          }
 
-        { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> }
-        { error && <p className="text-rose-500">{error}</p>}
+          { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> }
+          { error && <p className="text-rose-500">{error}</p>}
 
-          <div className="user_actions flex justify-between items-center w-[100%]">
-            <div className="relative">
-              <label htmlFor={inputId} className="flex w-[35px]">
-                <input 
-                  id={inputId}
-                  className="opacity-0 w-[35px] h-[35px] inset-0 w-full" 
-                  type="file" 
-                  max={4}
-                  multiple 
-                  onChange={e => setFiles(e.target.files ? Array.from(e.target.files) : [])}
-                  //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
-                  ref={fileInputRef}
+            <div className="user_actions flex justify-between items-center w-[100%]">
+              <div className="relative">
+                <label htmlFor={inputId} className="flex w-[35px]">
+                  <input 
+                    id={inputId}
+                    className="opacity-0 w-[35px] h-[35px] inset-0 w-full" 
+                    type="file" 
+                    max={4}
+                    multiple 
+                    onChange={e => setFiles(e.target.files ? Array.from(e.target.files) : [])}
+                    //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
+                    ref={fileInputRef}
+                  />
+
+                <img 
+                  className="absolute top-0 left-0 cursor-pointer w-[32px] h-[32px] hover:bg-neutral-800 p-[6px] rounded-full" 
+                  src="/assets/image_icon.png" 
+                  alt="image icon" 
                 />
+              </label>
+            </div>
 
-              <img 
-                className="absolute top-0 left-0 cursor-pointer w-[35px] h-[35px] hover:bg-neutral-800 p-[8px] rounded-full" 
-                src="/assets/image_icon.png" 
-                alt="image icon" 
-              />
-            </label>
+            <TweetButton onClickAction={() => handleTweetSubmit()} />
           </div>
-
-          <TweetButton onClickAction={() => handleTweetSubmit()}/>
         </div>
       </div>
       { apiSuccessMessage && 

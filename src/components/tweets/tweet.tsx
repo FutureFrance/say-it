@@ -37,19 +37,15 @@ export const Tweet = ({ session, tweet }: IProps) => {
       onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}
     >
       <TweetOwnerAvatar user={tweet.user}/> 
-
-      {/* <div className="flex justify-center align-center w-[12px] h-[12px] rounded-full transition hover:bg-hover_comment_blue duration-300 ease-in">
-            <img src="/assets/app_menu/menu_dots_icon.png" className='h-[10px] w-[10px] p-[2px]' alt="" />
-          </div>  */}
       
       <div className="tweet_content w-[100%] cursor-pointer">
         <div className="owner_content flex gap-2 items-center" onClick={e => handleUserClick(e)}>
-          <p className="font-semibold text-sm">{`${tweet.user.first_name}${tweet.user.last_name}`}</p>
-          <p className="text-xs">{ tweet.timestamp_diff }</p>
+          <p className="font-semibold text-md">{`${tweet.user.first_name}${tweet.user.last_name}`}</p>
+          <p className="text-xs text-[rgb(113, 118, 123)]">{ tweet.timestamp_diff }</p>
         </div>
 
         <div className='mb-2'>
-          <p className="font-light text-sm">{tweet.text_body}</p>
+          <p className="font-[375] text-md">{tweet.text_body}</p>
         </div>
 
         {tweet.media.length > 0 && <TweetMedia tweet={tweet} leftMedia={leftMedia} rightMedia={rightMedia}/> }

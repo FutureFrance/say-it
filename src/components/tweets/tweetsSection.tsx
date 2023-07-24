@@ -25,7 +25,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => 
   const [apiError, setApiError] = useState<string | null>(null);
 
   const tweetsStats = useAppSelector(state => state.persistedReducer);
-  const dispatch = useAppDispatch();  console.log(tweetsStats, Object.keys(tweetsStats).length)
+  const dispatch = useAppDispatch();  
 
   useEffect(() => {
     if (tweets.length > 0 && tweetsStats[tweets[0].id] === undefined) { 
@@ -85,25 +85,3 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => 
 }
 
 export default TweetsSection;
-
-    // document.cookie = `auth=${session.accessToken}; expires=Thu, 01 Jan 2024 00:00:00 UTC; path=/`;
-    // const eventSource = new EventSource('http://localhost:7777/api/sse',{
-    //   withCredentials: true
-    // });
-
-    // eventSource.onerror = (event) => {
-    //   console.log(event);
-    // }
-
-    // eventSource.onmessage = (event) => {
-    //   try {
-    //     const eventData = JSON.parse(event.data);
-    //     console.log(eventData);
-    //   } catch(err) {
-    //     console.log(err);
-    //   }
-    // }
-
-    // return () => {
-    //   eventSource.close();
-    // }

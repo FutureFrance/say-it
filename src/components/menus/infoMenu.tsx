@@ -1,7 +1,17 @@
+import SearchPeopleInput from "../Inputs/searchPeopleInput";
+
 const InfoMenu = () => {
   return (
-    <div className="flex justify-center bg-zinc-900 w-[200px] h-[200px] rounded-[15px] fixed top-[40px]" style={{zIndex: 0}}>
-      <p className="font-bold text-md text-white">News</p>
+    <div className="fixed top-[40px] flex flex-col items-between justify-between gap-4">
+      <SearchPeopleInput />
+ 
+      <div className="flex bg-[#16181c] h-[100%] w-[100%] rounded-[15px] p-4" style={{zIndex: 0}}>
+        <p className="font-bold text-lg text-white">Trends For You</p>
+      </div>
+
+      <div className="flex bg-[#16181c] h-[100%] w-[100%] rounded-[15px] p-4" style={{zIndex: 0}}>
+        <p className="font-bold text-lg text-white">Who To follow</p>
+      </div>
     </div>
   )
 }
