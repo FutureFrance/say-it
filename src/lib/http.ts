@@ -10,6 +10,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => { 
+    console.log("ERRROR AXIOS ASDASDASASDADSD",error)
     const { status } = error.response;
 
     if (status === 401) {

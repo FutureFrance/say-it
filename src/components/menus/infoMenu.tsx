@@ -28,8 +28,8 @@ const InfoMenu = async () => {
         <div className="flex flex-col gap-4">
           { usersToFollowResponse.data.map(userToFollow => {
             return (
-              <Link href={`http://localhost:3000/user/${userToFollow.id}`}>
-                <div className="flex justify-between items-center px-4 hover:bg-hover_follow_recommend_gray">
+              <Link href={`http://localhost:3000/user/${userToFollow.id}`} key={userToFollow.id}>
+                <div className="flex justify-between items-center px-4 hover:bg-hover_follow_recommend_gray py-4">
                   <div className="flex gap-2 items-center font-bold">
                     <img 
                       src={userToFollow.avatar} 
