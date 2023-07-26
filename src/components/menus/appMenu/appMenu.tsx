@@ -14,7 +14,6 @@ export const AppMenu = async () => {
   return (
     <>
     <SseConnector session={session}/>
-    {/* sm:border-r border-zinc-700 pr-4 */}
       <div className="fixed top-[10px] h-[100vh] gap-2">  
         <div className="flex flex-col text-white font-thin justify-center">
           <MenuOption 
@@ -42,19 +41,9 @@ export const AppMenu = async () => {
 
           <AppMenuTweetButton session={session}/>
         </div>
+            
+        <UserActionsModal session={session}/>
       </div>
-
-      <div className="bottom-100 fixed bottom-2 justify-between transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out rounded-full p-[10px]"> 
-        <div className="flex justify-between items-center gap-4"> 
-        {/* sm:gap-0 sm:hidden*/}
-          <div className="flex gap-4"> 
-            <img className="w-6 h-6 rounded-full cursor-pointer" src={session.user.avatar} alt="" />
-            <p className="text-white text-sm">@{session.user.first_name}</p>
-          </div>
-          
-          <UserActionsModal session={session}/>
-        </div>
-      </div> 
     </>
   )
 }

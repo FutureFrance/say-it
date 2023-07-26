@@ -7,7 +7,7 @@ import { getFeedTweets } from "@/services/tweets.service";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const ServerFeed = async () => {
+const Feed = async () => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect('/auth/?callbackUrl=/feed');
   
@@ -28,4 +28,4 @@ const ServerFeed = async () => {
   )
 }
 
-export default ServerFeed;
+export default Feed;

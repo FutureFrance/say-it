@@ -14,10 +14,10 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
   const [isModalOn, setIsModalOn] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const isTweetLiked = useAppSelector<boolean>(state => state.persistedReducer[fetchedTweet.id]?.liked);
-  const tweetLikeCount = useAppSelector<number>(state => state.persistedReducer[fetchedTweet.id]?.likes_count);
-  const tweetLikeId = useAppSelector<number | undefined>(state => state.persistedReducer[fetchedTweet.id]?.likeId);
-  const tweetRepliesCount = useAppSelector<number>(state => state.persistedReducer[fetchedTweet.id]?.replies_count);
+  const isTweetLiked = useAppSelector<boolean>(state => state.persistedReducer.tweets[fetchedTweet.id]?.liked);
+  const tweetLikeCount = useAppSelector<number>(state => state.persistedReducer.tweets[fetchedTweet.id]?.likes_count);
+  const tweetLikeId = useAppSelector<number | undefined>(state => state.persistedReducer.tweets[fetchedTweet.id]?.likeId);
+  const tweetRepliesCount = useAppSelector<number>(state => state.persistedReducer.tweets[fetchedTweet.id]?.replies_count);
 
   const dispatch = useAppDispatch();
 

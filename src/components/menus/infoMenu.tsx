@@ -16,7 +16,7 @@ const InfoMenu = async () => {
   ])
 
   return (
-    <div className="fixed top-[10px] flex flex-col items-between justify-between gap-4 w-[22%] hidden lg:flex">
+    <div className="fixed top-[10px] flex flex-col items-between justify-between gap-4 w-[22%]">
       <SearchPeopleInput />
  
       <div className="flex bg-[#16181c] h-[100%] w-[100%] rounded-[15px] p-4" style={{zIndex: 0}}>
@@ -28,7 +28,7 @@ const InfoMenu = async () => {
         <div className="flex flex-col gap-4">
           { usersToFollowResponse.data.map(userToFollow => {
             return (
-              <Link href={`http://localhost:3000/user/${userToFollow.id}`} key={userToFollow.id}>
+              <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.id}`} key={userToFollow.id}>
                 <div className="flex justify-between items-center px-4 hover:bg-hover_follow_recommend_gray py-4">
                   <div className="flex gap-2 items-center font-bold">
                     <img 

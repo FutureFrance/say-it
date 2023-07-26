@@ -1,1 +1,1 @@
-export const FETCH_TWEET_TAKE = 7
+export const FETCH_TWEET_TAKE = 7;

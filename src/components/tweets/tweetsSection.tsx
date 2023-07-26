@@ -11,6 +11,8 @@ import { FETCH_TWEET_TAKE } from "@/constants/tweets/tweet.constants";
 import { IPaginatedTweets } from "@/interfaces/tweets/paginatedTweet.interface";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { initializeTweetsStatistics } from "@/redux/features/tweetStatisticsSlice";
+import SpinningLoader from "../ui/loaders/spinningLoader";
+import NoDataInfo from "../ui/informative/noDataInfo";
 
 type IProps = { 
   session: Session;
@@ -20,11 +22,11 @@ type IProps = {
 
 export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => {  
   const { tweets, setTweets } = useContext(TweetContext);
-  const [pageOffSet, setTageOffSet] = useState<number>(FETCH_TWEET_TAKE);
+  const [pageOffSet, setPageOffSet] = useState<number>(FETCH_TWEET_TAKE);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const tweetsStats = useAppSelector(state => state.persistedReducer);
+  const tweetsStats = useAppSelector(state => state.persistedReducer.tweets);
   const dispatch = useAppDispatch();  
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => 
       const response = await fetchNewTweets(...funcArgs, pageOffSet, FETCH_TWEET_TAKE);
 
       setTweets(prev => [...prev, ...response.tweets]);
-      setTageOffSet(prev => prev + FETCH_TWEET_TAKE);
+      setPageOffSet(prev => prev + FETCH_TWEET_TAKE);
       setHasMore(response.hasMore);
       dispatch(initializeTweetsStatistics({ initialTweetsStats: response.tweets })); 
 
@@ -49,16 +51,15 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => 
   } 
 
   return ( 
-    <div className="tweets_section">
+    <div className={`${tweets.length === 0 ? 'flex items-center justify-center h-[100vh]' : ''}`}>
       {tweets.length > 0 ?
         (
           <InfiniteScroll 
             dataLength={tweets.length}
             next={handlefFetchNewTweets}
             hasMore={hasMore}
-            loader={<><div className="border w-[100%] border-zinc-800 mb-2"></div><div className="w-[100%] flex justify-center my-8"><div className="animate-spin rounded-full h-4 w-4 border-t-[2px] border-b-[px] border-blue-500"></div></div></>}
-            endMessage={<p className="text-center pt-8">You reached the end :)</p>}
-            style={{ maxWidth: '800px' }}
+            loader={<SpinningLoader />}
+            style={{ maxWidth: '850px' }}
           >
           {
             tweets.map(tweet => {
@@ -76,7 +77,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => 
           }
           </InfiniteScroll>
         )
-        : <p className="text-center">No tweets :|</p>
+        : <NoDataInfo text="Your not following anyone, follow someone to see tweets"/>
       }  
 
       { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}

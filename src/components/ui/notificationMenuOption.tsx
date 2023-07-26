@@ -13,8 +13,7 @@ export const NotificationOption = () => {
           <img className="max-w-[24px] max-h-[24px]" src="/assets/notifications_icon.png" alt="" />
           <div className="absolute flex items-center justify-center top-0 right-0 translate-y-[-50%] p-[2px] bg-[#1d9bf0] rounded-full text-xs font-normal h-[14px] w-[14px]">{userNotificationCount}</div>
         </div>
-        <p className="font-normal text-xl">Notifications</p> 
-        {/* sm:hidden */}
+        <p className="hidden md:block font-normal md:text-md lg:text-xl">Notifications</p> 
       </div>
     </Link>
   )

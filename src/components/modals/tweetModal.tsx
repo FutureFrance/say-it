@@ -16,7 +16,7 @@ const TweetModal = ({ setModalOn, session, inputId, modalOn, toReply = false, tw
   return (
     <Modal setModalOn={setModalOn}> 
       <div 
-        className={`modal_container bg-[black] rounded-[30px] p-2 w-[100%] h-[100%] sm:max-w-[400px] sm:max-h-[400px]`} //
+        className={`modal_container bg-[black] rounded-[30px] p-2 min-w-[600px] h-[100%] sm:max-h-[300px] pb-2`} //
         onClick={(e) => e.stopPropagation()}
       >
         <UserThoughtsInput 

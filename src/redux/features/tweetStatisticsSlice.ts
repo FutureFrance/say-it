@@ -9,10 +9,12 @@ interface ITweetStatistics {
 }
 
 interface tweetStatisticsState {
-  [tweetId: number]: ITweetStatistics;
+  tweets: {
+    [tweetId: number]: ITweetStatistics;
+  }
 }
 
-const initialState: tweetStatisticsState = {};
+const initialState: tweetStatisticsState = { tweets: {} };
 
 const tweetStatisticsSlice = createSlice({
   name: 'tweetStatistics',
@@ -22,7 +24,7 @@ const tweetStatisticsSlice = createSlice({
       const { initialTweetsStats } = action.payload;  
 
       initialTweetsStats.forEach(tweet => {
-        state[tweet.id] = {
+        state.tweets[tweet.id] = {
           likes_count: tweet.likes_count, 
           liked: tweet.liked, 
           likeId: tweet.likeId,
@@ -33,19 +35,19 @@ const tweetStatisticsSlice = createSlice({
     likeATweet: (state, action: PayloadAction<{ tweetId: number, likeId: number, likes_count: number }>) => {
       const { tweetId, likeId, likes_count } = action.payload;  
 
-      state[tweetId].likes_count = likes_count;
-      state[tweetId].liked = !state[tweetId].liked;
-      state[tweetId].likeId = likeId;
+      state.tweets[tweetId].likes_count = likes_count;
+      state.tweets[tweetId].liked = !state.tweets[tweetId].liked;
+      state.tweets[tweetId].likeId = likeId;
     },
     unlikeATweet: (state, action: PayloadAction<{ tweetId: number }>) => {
       const { tweetId } = action.payload;
 
-      state[tweetId].likes_count = state[tweetId].likes_count - 1;
-      state[tweetId].liked = !state[tweetId].liked;
-      state[tweetId].likeId = undefined;
+      state.tweets[tweetId].likes_count = state.tweets[tweetId].likes_count - 1;
+      state.tweets[tweetId].liked = !state.tweets[tweetId].liked;
+      state.tweets[tweetId].likeId = undefined;
     },
     incrementRepliesCount: (state, action: PayloadAction<{ tweetId: number }>) => {
-      state[action.payload.tweetId].replies_count += 1;
+      state.tweets[action.payload.tweetId].replies_count += 1;
     },
   },
 });
