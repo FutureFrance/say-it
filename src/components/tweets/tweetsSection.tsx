@@ -59,7 +59,6 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => 
             next={handlefFetchNewTweets}
             hasMore={hasMore}
             loader={<SpinningLoader />}
-            style={{ maxWidth: '850px' }}
           >
           {
             tweets.map(tweet => {
@@ -77,7 +76,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => 
           }
           </InfiniteScroll>
         )
-        : <NoDataInfo text="Your not following anyone, follow someone to see tweets"/>
+        : <NoDataInfo text="Nothing here yet, follow someone to see tweets"/>
       }  
 
       { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}

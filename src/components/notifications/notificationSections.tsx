@@ -48,7 +48,6 @@ const NotificationsSection = ({ session, fetchedUserNotifications }: IProps) => 
             next={handlefFetchUserNotifications}
             hasMore={hasMore}
             loader={<SpinningLoader />}
-            style={{ maxWidth: '850px' }}
           >
           {
             notifications.map(notification => {

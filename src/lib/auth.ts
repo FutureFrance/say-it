@@ -91,5 +91,5 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.JWT_SECRET,
   cookies,
-  debug: true
+  // debug: true
 }

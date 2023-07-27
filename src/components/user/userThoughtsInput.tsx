@@ -87,8 +87,8 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
         />
       </div>
 
-      <div className="w-[90%] min-h-[140px] flex flex-col justify-between">
-        <div className="h-[100%]">
+      <div className="w-[90%] min-h-[120px] flex flex-col justify-between">
+        <div className="">
           <textarea 
             className="color-black bg-[#000000] focus:outline-none h-[100%] w-[100%] resizable-textarea resize-none text-lg font-medium" 
             placeholder="What's happening?!"
@@ -100,15 +100,15 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
         <div>
           {
             files && (
-              <div className="max-h-[500px] flex"> 
+              <div className="max-h-[200px] flex"> 
                 {
                   Array.from(files).map((file: File) => {
                     return (
-                      <div key={file.name} className="max-w-[515px] max-h-[515px] relative">
+                      <div key={file.name} className="w-full max-h-[515px] relative">
                         <img 
                           key={file.name} 
                           src={URL.createObjectURL(file)} 
-                          className="w-full rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
+                          className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
                           alt={file.name} 
                         />
                         <div 

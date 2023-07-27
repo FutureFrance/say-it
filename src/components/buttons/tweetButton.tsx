@@ -9,7 +9,9 @@ const TweetButton = ({ onClickAction, styles = '' }: { onClickAction: () => void
       </button>
 
       <button 
-        className={`bg-sky-500/75 block md:hidden p-2 md:py-[6px] md:px-[16px] rounded-[50px] flex-right text-lg font-semibold ${styles}`}>
+        className={`bg-sky-500/75 block md:hidden p-2 md:py-[6px] md:px-[16px] rounded-[50px] flex-right text-lg font-semibold ${styles}`}
+        onClick={onClickAction}
+      >
         <img className="h-[24px] w-[24px]" src="/assets/feather_icon.png" alt="" />
       </button>
     </div>

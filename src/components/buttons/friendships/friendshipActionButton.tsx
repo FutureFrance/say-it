@@ -10,7 +10,7 @@ type IProps = {
   accessToken: string; 
   targetUserId: number;
   action: FriendshipActions;
-  setterCount: Dispatch<SetStateAction<number>>;
+  setterCount?: Dispatch<SetStateAction<number>>;
 }
 
 export const FriendshipActionButton = ({ accessToken, targetUserId, action, setterCount}: IProps) => {
@@ -21,7 +21,7 @@ export const FriendshipActionButton = ({ accessToken, targetUserId, action, sett
     try {
       await friendshipAction(accessToken, targetUserId, modifiedAction);
       
-      setterCount(prev => modifiedAction === FriendshipActions.CREATE ? prev += 1 : prev -= 1);
+      if (setterCount !== undefined) setterCount(prev => modifiedAction === FriendshipActions.CREATE ? prev += 1 : prev -= 1);
       setModifiedAction(modifiedAction === FriendshipActions.CREATE ? FriendshipActions.DESTROY : FriendshipActions.CREATE)
     } catch(err: any) {
       if (err instanceof AxiosError) setApiError(err.response?.data.message);
@@ -31,7 +31,7 @@ export const FriendshipActionButton = ({ accessToken, targetUserId, action, sett
   return (
     <>
     <button
-      onClick={() => handleFollowSubmit()} 
+      onClick={(e) => { e.preventDefault(); handleFollowSubmit() }} 
       className={'rounded-[22px] text-black bg-white text-sm font-semibold px-8 py-2 transition hover:bg-zinc-400 duration-300 ease-in'}
     >
       {` ${modifiedAction === FriendshipActions.CREATE ? 'Follow' : 'Unfollow'}`}

@@ -9,17 +9,16 @@ const UserActionsModal = ({ session }: { session: Session}) => {
 
   return (
     <div 
-      className="cursor-pointer bottom-100 fixed bottom-2 justify-center lg:justify-between transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out rounded-full lg:p-[10px]" 
+      className="cursor-pointer bottom-100 fixed bottom-2 justify-center lg:justify-between transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out rounded-full lg:p-[10px] p-2" 
       onClick={() => setModalOn(prev => !prev)}
     > 
-      <div className="flex justify-between items-center sm:gap-4"> 
-        <div className="flex sm:gap-4"> 
+      <div className="flex justify-between items-center lg:gap-2"> 
+        <div className="flex lg:gap-2 gap-4"> 
           <img className="h-[40px] w-[40px] md:w-6 md:h-6 rounded-full" src={session.user.avatar} alt="" />
           <p className="hidden md:block text-white text-sm">@{session.user.first_name}</p>
         </div>
         <div 
           className="p-1 rounded-full transition hover:bg-neutral-900 transition-colors duration-1000 ease-in-out relative flex justify-center"
-          
         >
           <img className="hidden lg:block w-4 h-4 cursor-pointer" src="/assets/app_menu/menu_dots_icon.png" alt="" />
           { modalOn && 

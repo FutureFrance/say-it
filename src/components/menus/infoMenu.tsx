@@ -1,13 +1,14 @@
 import SearchPeopleInput from "../Inputs/searchPeopleInput";
 import { authOptions } from "@/lib/auth";
 import { getFollowingsRecomandation, getUserProfileInfo } from "@/services/user.service";
-import { Session, getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import FriendshipAction from "../user/friendships/friendshipAction";
+import { FriendshipActions } from "@/types/user.interface";
+import FriendshipActionButton from "../buttons/friendships/friendshipActionButton";
 
 const InfoMenu = async () => {
-  const session = await getServerSession(authOptions); // maybe can send from prop
+  const session = await getServerSession(authOptions); 
   if (!session) redirect('/auth')
 
   const [profileInfoResponse, usersToFollowResponse] = await Promise.all([
@@ -16,7 +17,7 @@ const InfoMenu = async () => {
   ])
 
   return (
-    <div className="fixed top-[10px] flex flex-col items-between justify-between gap-4 w-[22%]">
+    <div className="fixed top-[10px] flex flex-col items-between justify-between gap-4">
       <SearchPeopleInput />
  
       <div className="flex bg-[#16181c] h-[100%] w-[100%] rounded-[15px] p-4" style={{zIndex: 0}}>
@@ -29,7 +30,7 @@ const InfoMenu = async () => {
           { usersToFollowResponse.data.map(userToFollow => {
             return (
               <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.id}`} key={userToFollow.id}>
-                <div className="flex justify-between items-center px-4 hover:bg-hover_follow_recommend_gray py-4">
+                <div className="flex justify-between items-center p-4 hover:bg-hover_follow_recommend_gray">
                   <div className="flex gap-2 items-center font-bold">
                     <img 
                       src={userToFollow.avatar} 
@@ -39,8 +40,12 @@ const InfoMenu = async () => {
                     
                     <p className="text-white">{userToFollow.first_name}</p>
                   </div>
-       
-                  <FriendshipAction session={session} profileInfo={profileInfoResponse.data}/> 
+                
+                  <FriendshipActionButton  
+                    accessToken={session.accessToken}
+                    targetUserId={userToFollow.id}
+                    action={FriendshipActions.CREATE}
+                  />
                 </div>
               </Link>
             )
