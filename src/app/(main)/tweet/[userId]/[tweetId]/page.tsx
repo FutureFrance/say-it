@@ -11,7 +11,7 @@ import { redirect } from "next/navigation";
 const TweetPage = async ({ params }: { params: { userId: number, tweetId: number }}) => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect(`/auth?callbackUrl=/tweet/${params.userId}/${params.tweetId}`);
-
+  console.log("tweet render")
   const tweetInfo = await getTweet(session.accessToken, params.userId, params.tweetId);
 
   return (

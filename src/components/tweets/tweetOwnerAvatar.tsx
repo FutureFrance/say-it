@@ -1,6 +1,6 @@
 'use client'
 
-import { IUser } from "@/interfaces/user.interface";
+import { IUser } from "@/types/user.interface";
 import { useRouter } from "next/navigation";
 
 export const TweetOwnerAvatar = ({ user }: { user: IUser}) => {

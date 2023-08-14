@@ -11,7 +11,7 @@ import { redirect } from "next/navigation";
 const User = async ({ params }: {params: { userId: number }}) => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect(`/auth/?callbackUrl=/user/${params.userId}`);
-
+  console.log("user render")
   const [profileInfoResponse, tweetsResponse] = await Promise.all([
     getUserProfileInfo(session.accessToken, params.userId),
     getUserTweets(session.accessToken, params.userId),

@@ -1,4 +1,5 @@
-import MenuOption from "./menuOption";
+import { cache } from 'react'
+import MenuOption from "../menuOption";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -6,6 +7,7 @@ import AppMenuTweetButton from "../../buttons/appMenuTweetButton";
 import UserActionsModal from "../../modals/userActionModal";
 import SseConnector from "@/components/sseConnector";
 import { NotificationOption } from "@/components/ui/notificationMenuOption";
+
 
 export const AppMenu = async () => {
   const session = await getServerSession(authOptions);
@@ -37,7 +39,7 @@ export const AppMenu = async () => {
             styles="transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out gap-[20px]"
           /> 
 
-          <NotificationOption />
+          <NotificationOption notificationsCount={session.user.notifications_count}/>
 
           <AppMenuTweetButton session={session}/>
         </div>

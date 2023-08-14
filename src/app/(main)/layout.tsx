@@ -1,5 +1,5 @@
 import AppMenu from "@/components/menus/appMenu/appMenu";
-import InfoMenu from "@/components/menus/infoMenu";
+import InfoMenu from "@/components/menus/infoMenu/infoMenu";
 import React from "react";
 
 export default async function UserPageLayout({
@@ -9,7 +9,7 @@ export default async function UserPageLayout({
 }) {
   return (
     <div className="bg-[#000000] min-h-[100vh] flex justify-center min-w-screen lg:px-[5%]">
-      <div className="flex w-[15%] md:w-[25%] justify-center md:justify-end lg:mr-[3%]">
+      <div className="flex w-[15%] md:w-[25%] justify-center md:justify-end md:pr-[3%]">
         <AppMenu />
       </div> 
 

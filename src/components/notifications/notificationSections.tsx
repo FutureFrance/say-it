@@ -22,9 +22,7 @@ const NotificationsSection = ({ session, fetchedUserNotifications }: IProps) => 
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_NOTIFICATIONS_TAKE);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
-
-  console.log(notifications)
-
+  // set in redux the notifs to zero ???
   const handlefFetchUserNotifications = async () => {   
     try {
       const response = await getUserNotifications(session.accessToken, pageOffSet, FETCH_NOTIFICATIONS_TAKE);

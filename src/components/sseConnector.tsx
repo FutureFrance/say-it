@@ -22,9 +22,7 @@ const SseConnector = ({ session }: { session: Session }) => {
 
     eventSource.onmessage = (event) => {
       try {
-        const eventData = JSON.parse(event.data);
         dispatch(incrementNotificationsCount());
-        console.log("EVENT DATA", eventData);
       } catch(err) {
         console.log(err);
       }

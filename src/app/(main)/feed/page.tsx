@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 const Feed = async () => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect('/auth/?callbackUrl=/feed');
-  
+  console.log("feed render")
   const fetchedTweets = await getFeedTweets(session.accessToken);
 
   return (

@@ -1,11 +1,11 @@
-import SearchPeopleInput from "../Inputs/searchPeopleInput";
+import SearchPeopleInput from "@/components/inputs/searchPeopleInput";
 import { authOptions } from "@/lib/auth";
 import { getFollowingsRecomandation, getUserProfileInfo } from "@/services/user.service";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FriendshipActions } from "@/types/user.interface";
-import FriendshipActionButton from "../buttons/friendships/friendshipActionButton";
+import FriendshipActionButton from "@/components/buttons/friendships/friendshipActionButton";
 
 const InfoMenu = async () => {
   const session = await getServerSession(authOptions); 
@@ -27,7 +27,7 @@ const InfoMenu = async () => {
       <div className="bg-[#16181c] h-[100%] w-[100%] rounded-[15px] py-4" style={{zIndex: 0}}>
         <p className="font-bold text-lg text-white mb-4 pl-4">Who To follow</p>
         <div className="flex flex-col gap-4">
-          { usersToFollowResponse.data.map(userToFollow => {
+          { usersToFollowResponse.data.length > 0 ? usersToFollowResponse.data.map(userToFollow => {
             return (
               <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.id}`} key={userToFollow.id}>
                 <div className="flex justify-between items-center p-4 hover:bg-hover_follow_recommend_gray">
@@ -50,6 +50,7 @@ const InfoMenu = async () => {
               </Link>
             )
             })
+            : <p className="pl-4 text-white">No Recomandations :(</p>
           }
         </div>
       </div>

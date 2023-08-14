@@ -7,13 +7,11 @@ import { redirect } from "next/navigation";
 const Notifications = async () => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect('/auth/?callbackUrl=/notifications');
-  
+  console.log("RENDERED /notifications")
   const fetchedTweets = await getUserNotifications(session.accessToken);
 
   return (
-    <>
-      <NotificationsSection session={session} fetchedUserNotifications={fetchedTweets.data.notifications}/>
-    </>
+    <NotificationsSection session={session} fetchedUserNotifications={fetchedTweets.data.notifications}/>
   )
 }
 

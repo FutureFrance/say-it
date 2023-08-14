@@ -1,5 +1,5 @@
-import { IUser } from "@/interfaces/user.interface";
 import { api } from "@/lib/http";
+import { IUser } from "@/types/user.interface";
 import { loginFormType, registerFormType } from "@/validations/authForm";
 
 export const register = async (body: Required<Omit<registerFormType, 'confirm_password'>>) => {

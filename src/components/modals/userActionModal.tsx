@@ -9,7 +9,7 @@ const UserActionsModal = ({ session }: { session: Session}) => {
 
   return (
     <div 
-      className="cursor-pointer bottom-100 fixed bottom-2 justify-center lg:justify-between transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out rounded-full lg:p-[10px] p-2" 
+      className="cursor-pointer bottom-100 fixed bottom-2 justify-center lg:justify-between transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out rounded-full lg:p-[10px] sm:p-2" 
       onClick={() => setModalOn(prev => !prev)}
     > 
       <div className="flex justify-between items-center lg:gap-2"> 

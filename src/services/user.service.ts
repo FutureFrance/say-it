@@ -26,7 +26,7 @@ export const getFollowingsRecomandation = async (accessToken: string) => {
     })
 }
 
-export const getUserNotifications = async (accessToken: string, offset = 0, take = FETCH_NOTIFICATIONS_TAKE) => { // create fetch notifs take should be higher
+export const getUserNotifications = async (accessToken: string, offset = 0, take = FETCH_NOTIFICATIONS_TAKE) => { 
   return await api
     .get<INotificationResponse>(`/notifications/?offset=${offset}&take=${take}`, { headers: { Authorization: `Bearer ${accessToken}`}})
     .then(res => {
