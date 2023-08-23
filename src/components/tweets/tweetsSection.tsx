@@ -14,13 +14,13 @@ import { initializeTweetsStatistics } from "@/redux/features/tweetStatisticsSlic
 import SpinningLoader from "../ui/loaders/spinningLoader";
 import NoDataInfo from "../ui/informative/noDataInfo";
 
-type IProps = { 
+type Props = { 
   session: Session;
   fetchNewTweets: (...args: Array<any>) => Promise<IPaginatedTweets>;
   funcArgs: Array<any>;
 }
 
-export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: IProps) => {  
+export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {  
   const { tweets, setTweets } = useContext(TweetContext);
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_TWEET_TAKE);
   const [hasMore, setHasMore] = useState<boolean>(true);

@@ -3,7 +3,7 @@ import Modal from "./modal";
 import UserThoughtsInput from "../user/userThoughtsInput";
 import { Session } from "next-auth";
 
-type IProps = { 
+type Props = { 
   setModalOn: Dispatch<boolean>, 
   session: Session; 
   inputId: string;
@@ -12,7 +12,7 @@ type IProps = {
   toReply?: boolean;
 }
 
-const TweetModal = ({ setModalOn, session, inputId, modalOn, toReply = false, tweetParentId = null }: IProps) => {
+const TweetModal = ({ setModalOn, session, inputId, modalOn, toReply = false, tweetParentId = null }: Props) => {
   return (
     <Modal setModalOn={setModalOn}> 
       <div 

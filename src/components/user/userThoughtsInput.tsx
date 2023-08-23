@@ -11,7 +11,7 @@ import { TweetContext } from "@/context/tweetContext";
 import { useDispatch } from "react-redux";
 import { incrementRepliesCount } from "@/redux/features/tweetStatisticsSlice";
 
-type IProps = { 
+type Props = { 
   session: Session; 
   inputId: string;
   tweetParentId: number | null; 
@@ -19,7 +19,7 @@ type IProps = {
   setModalOn?: Dispatch<boolean>;
 }
 
-export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = false, setModalOn }: IProps) => {
+export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = false, setModalOn }: Props) => {
   const { setTweets } = useContext(TweetContext); 
   const [tweetMessage, setTweetMessage] = useState<string>("");
   const [files, setFiles] = useState<Array<File>>([]);
@@ -142,16 +142,16 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
                     ref={fileInputRef}
                   />
 
-                <img 
-                  className="absolute top-0 left-0 cursor-pointer w-[32px] h-[32px] hover:bg-neutral-800 p-[6px] rounded-full" 
-                  src="/assets/image_icon.png" 
-                  alt="image icon" 
-                />
-              </label>
-            </div>
+                  <img 
+                    className="absolute top-0 left-0 cursor-pointer w-[32px] h-[32px] hover:bg-neutral-800 p-[6px] rounded-full" 
+                    src="/assets/image_icon.png" 
+                    alt="image icon" 
+                  />
+                </label>
+              </div>
 
-            <TweetButton onClickAction={() => handleTweetSubmit()} />
-          </div>
+              <TweetButton onClickAction={() => handleTweetSubmit()} />
+            </div>
         </div>
       </div>
       { apiSuccessMessage && 

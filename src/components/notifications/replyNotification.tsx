@@ -5,12 +5,12 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-type IProps = {
+type Props = {
   session: Session;
   notification: INotification;
 }
 
-const ReplyNotification = ({ session, notification }: IProps) => {
+const ReplyNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
@@ -26,15 +26,15 @@ const ReplyNotification = ({ session, notification }: IProps) => {
         </div>
 
         <div className="mb-2">
-          <p className="font-bold">{notification.action_user.first_name}</p>
+          <p className="font-bold">{notification.action_user.name}</p>
           <p className="text-zinc-500 font-normal mb-2">
-            Replying to 
+            Replying to &nbsp;
 
             <span 
               className="text-[#1d9bf0] hover:underline" 
               onClick={(e) => { e.preventDefault(); router.push(`/user/${session.user.id}`)}}
             >
-               @{session.user.first_name}
+               @{session.user.username}
             </span>
           </p>
           <p className="font-normal">{notification.text}</p>

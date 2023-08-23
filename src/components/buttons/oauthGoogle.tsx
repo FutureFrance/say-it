@@ -4,11 +4,11 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import PopUpMessage from "../ui/errors/popUpMessage";
 
-type IProps = {
+type Props = {
   text: string;
 }
 
-const OAuthGoogle = ({ text }: IProps) => {
+const OAuthGoogle = ({ text }: Props) => {
   const [apiError, setApiError] = useState<string | null>(null);
 
   const handleAuth = async () => {

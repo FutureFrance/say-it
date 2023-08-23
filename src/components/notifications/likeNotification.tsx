@@ -7,12 +7,12 @@ import Tweet from "../tweets/tweet";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { useRouter } from "next/navigation";
 
-type IProps = {
+type Props = {
   session: Session;
   notification: INotification;
 }
 
-const LikeNotification = ({ session, notification }: IProps) => {
+const LikeNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
@@ -33,8 +33,8 @@ const LikeNotification = ({ session, notification }: IProps) => {
             alt="profile-image" 
           />
           <p className="mb-2">
-            <span className="font-semibold">{notification.action_user.first_name} </span>
-            liked your Tweet
+            <span className="font-semibold">{notification.action_user.name} </span>
+            liked your post
           </p>
 
           <p className="font-normal">{notification.tweet?.text_body}</p>

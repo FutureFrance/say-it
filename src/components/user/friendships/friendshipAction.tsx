@@ -4,12 +4,12 @@ import FriendshipActionButton from "@/components/buttons/friendships/friendshipA
 import { FriendshipActions, IUser } from "@/types/user.interface";
 import { Session } from "next-auth";
 
-type IProps = { 
+type Props = { 
   profileInfo: IUser;
   session: Session;
 }
 
-const FriendshipAction = ({ profileInfo, session }: IProps) => {
+const FriendshipAction = ({ profileInfo, session }: Props) => {
   return (
     <div>
       { (profileInfo as any).amIfollowing

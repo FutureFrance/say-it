@@ -1,4 +1,3 @@
-import { cache } from 'react'
 import MenuOption from "../menuOption";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -16,7 +15,7 @@ export const AppMenu = async () => {
   return (
     <>
     <SseConnector session={session}/>
-      <div className="fixed top-[10px] h-[100vh] gap-2">  
+      <div className="fixed select-none top-[10px] h-[100vh] gap-2">  
         <div className="flex flex-col text-white font-thin justify-center">
           <MenuOption 
             optionText=""

@@ -6,5 +6,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_API_URL: string;
     NEXT_PUBLIC_URL: string;
     JWT_SECRET: string;
+    NEXT_PUBLIC_DEFAULT_BACKGROUND_IMAGE: string;
   }
 }

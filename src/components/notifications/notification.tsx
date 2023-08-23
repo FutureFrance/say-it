@@ -4,12 +4,12 @@ import FollowNotification from "./followNotification";
 import LikeNotification from "./likeNotification";
 import ReplyNotification from "./replyNotification";
 
-type IProps = {
+type Props = {
   session: Session;
   notification: INotification;
 }
 
-const Notification = ({ session, notification }: IProps) => {
+const Notification = ({ session, notification }: Props) => {
   switch(notification.type) {
     case NotificationTypes.FOLLOW:
       return <FollowNotification session={session} notification={notification}/>

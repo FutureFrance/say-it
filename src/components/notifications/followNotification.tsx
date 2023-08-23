@@ -3,12 +3,12 @@ import { Session } from "next-auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-type IProps = {
+type Props = {
   session: Session;
   notification: INotification;
 }
 
-const FollowNotification = ({ session, notification }: IProps) => {
+const FollowNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
@@ -29,7 +29,7 @@ const FollowNotification = ({ session, notification }: IProps) => {
             alt="profile-image" 
           />
           <p>
-            <span className="font-semibold">{notification.action_user.first_name} </span>
+            <span className="font-semibold">{notification.action_user.name} </span>
             followed you
           </p>
         </div>
