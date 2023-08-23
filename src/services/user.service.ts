@@ -36,3 +36,29 @@ export const getUserNotifications = async (accessToken: string, offset = 0, take
       throw err;
     });
 }
+
+export const updateUserProfile = async (accessToken: string, userId: number, body: IUpdateUserProfileBody) => {
+  return await api
+    .put<{ avatar: string, background: string, name: string, bio: string }>(
+      `/users/${userId}`, 
+      body, { 
+        headers: { 
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": 'multipart/form-data' 
+        }
+      }
+    )
+    .then(res => {
+      return res;
+    }).catch(err => {
+      throw err;
+    })
+}
+
+interface IUpdateUserProfileBody {
+  name?: string;
+  bio?: string;
+  newAvatar: File | null;
+  newBackground: File | null;
+  defaultBackground: boolean;
+}

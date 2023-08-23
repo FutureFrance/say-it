@@ -6,14 +6,14 @@ import { FriendshipActions } from "@/types/user.interface";
 import { AxiosError } from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
 
-type IProps = { 
+type Props = { 
   accessToken: string; 
   targetUserId: number;
   action: FriendshipActions;
   setterCount?: Dispatch<SetStateAction<number>>;
 }
 
-export const FriendshipActionButton = ({ accessToken, targetUserId, action, setterCount}: IProps) => {
+export const FriendshipActionButton = ({ accessToken, targetUserId, action, setterCount}: Props) => {
   const [apiError, setApiError] = useState<string |null>(null); 
   const [modifiedAction, setModifiedAction] = useState<any>(action);
 

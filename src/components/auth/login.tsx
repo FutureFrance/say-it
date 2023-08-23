@@ -104,9 +104,9 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
       <button type="submit" className='bg-[#2563aa] text-xs text-white font-semibold text-sm py-3 mx-max'>Log in</button>
     </form>
 
-    <OAuthGoogle text='Sign up with google'/>
+    <OAuthGoogle text='Sign in with google'/>
 
-    <p className="text-[15px]">Don't have an account ? 
+    <p className="text-[15px]">Don't have an account ? &nbsp;
       <span 
         className='text-blue-500 text-xs hover:cursor-pointer transition duration-300 hover:underline'
         onClick={() => setOnLogin(false)}

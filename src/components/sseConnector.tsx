@@ -10,7 +10,7 @@ const SseConnector = ({ session }: { session: Session }) => {
 
   useEffect(() => {
     document.cookie = `auth=${session.accessToken}; expires=Thu, 01 Jan 2024 00:00:00 UTC; path=/`;
-    const eventSource = new EventSource(`http://localhost:7777/api/notifications/sse`,{
+    const eventSource = new EventSource(`${process.env.NEXT_PUBLIC_API_URL}/notifications/sse`,{ 
       withCredentials: true
     });
     

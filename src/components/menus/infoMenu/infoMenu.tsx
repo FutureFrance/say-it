@@ -17,7 +17,7 @@ const InfoMenu = async () => {
   ])
 
   return (
-    <div className="fixed top-[10px] flex flex-col items-between justify-between gap-4">
+    <div className="top-[10px] flex flex-col items-between justify-between gap-4">
       <SearchPeopleInput />
  
       <div className="flex bg-[#16181c] h-[100%] w-[100%] rounded-[15px] p-4" style={{zIndex: 0}}>
@@ -38,7 +38,7 @@ const InfoMenu = async () => {
                       alt="tweet_owner_avatar" 
                     />
                     
-                    <p className="text-white">{userToFollow.first_name}</p>
+                    <p className="text-white">{userToFollow.name}</p>
                   </div>
                 
                   <FriendshipActionButton  

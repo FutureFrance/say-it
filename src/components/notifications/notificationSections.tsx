@@ -12,12 +12,12 @@ import { INotification } from "@/types/notification.interface";
 import { getUserNotifications } from "@/services/user.service";
 import { FETCH_NOTIFICATIONS_TAKE } from "@/constants/tweets/notification.constants";
 
-type IProps = { 
+type Props = { 
   session: Session;
   fetchedUserNotifications: Array<INotification>;
 }
 
-const NotificationsSection = ({ session, fetchedUserNotifications }: IProps) => {
+const NotificationsSection = ({ session, fetchedUserNotifications }: Props) => {
   const [notifications, setNotifications] = useState<Array<INotification>>(fetchedUserNotifications);
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_NOTIFICATIONS_TAKE);
   const [hasMore, setHasMore] = useState<boolean>(true);

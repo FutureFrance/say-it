@@ -15,7 +15,7 @@ const UserActionsModal = ({ session }: { session: Session}) => {
       <div className="flex justify-between items-center lg:gap-2"> 
         <div className="flex lg:gap-2 gap-4"> 
           <img className="h-[40px] w-[40px] md:w-6 md:h-6 rounded-full" src={session.user.avatar} alt="" />
-          <p className="hidden md:block text-white text-sm">@{session.user.first_name}</p>
+          <p className="hidden md:block text-white text-sm">@{session.user.name}</p>
         </div>
         <div 
           className="p-1 rounded-full transition hover:bg-neutral-900 transition-colors duration-1000 ease-in-out relative flex justify-center"
@@ -29,7 +29,7 @@ const UserActionsModal = ({ session }: { session: Session}) => {
               >
                 <span className="font-bold text-rose-700">
                   Log-out 
-                </span> @{session.user.first_name}
+                </span> @{session.user.username}
               </p>
             </div>
           }

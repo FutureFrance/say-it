@@ -7,12 +7,12 @@ import TweetStatistics from "./tweetStatistics";
 import TweetMedia from "./media/tweetMedia";
 import { useRouter } from "next/navigation";
 
-type IProps = {
+type Props = {
   session: Session;
   tweet: ITweet;
 }
 
-export const Tweet = ({ session, tweet }: IProps) => {
+export const Tweet = ({ session, tweet }: Props) => {
   const router = useRouter();
 
   const leftMedia: Array<IMedia> = [];
@@ -40,7 +40,13 @@ export const Tweet = ({ session, tweet }: IProps) => {
       
       <div className="tweet_content w-[100%] cursor-pointer">
         <div className="owner_content flex gap-2 items-center max-w-fit" onClick={e => handleUserClick(e)}>
-          <p className="font-semibold text-md">{`${tweet.user.first_name}${tweet.user.last_name}`}</p>
+          <p className="font-semibold text-md">{tweet.user.name}
+            &nbsp; 
+          </p>
+  
+          <p className="text-md text-zinc-300">@{tweet.user.username}</p>
+          <div className="bg-[gray] rounded-full h-[2px] w-[2px]"></div>
+      
           <p className="text-sm text-zinc-300">{ tweet.timestamp_diff }</p>
         </div>
 
