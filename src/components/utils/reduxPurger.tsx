@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 const clearPersistedData = () => {
   persistor.purge(); 
-
 };
 
 const PersistanceFlushHandler = () => {

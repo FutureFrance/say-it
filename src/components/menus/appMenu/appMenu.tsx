@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import AppMenuTweetButton from "../../buttons/appMenuTweetButton";
 import UserActionsModal from "../../modals/userActionModal";
-import SseConnector from "@/components/sseConnector";
+import SseConnector from "@/components/utils/sseConnector";
 import { NotificationOption } from "@/components/ui/notificationMenuOption";
 
 
@@ -21,7 +21,7 @@ export const AppMenu = async () => {
             optionText=""
             urlTarget="/feed"
             imgSource="/assets/app_menu/logo.png"
-            styles="hover:bg-neutral-900 hover:rounded-full transition-colors duration-700 flex items-center"
+            styles="transition hover:bg-neutral-900 hover:rounded-full transition-colors duration-700"
           />
 
           <MenuOption 

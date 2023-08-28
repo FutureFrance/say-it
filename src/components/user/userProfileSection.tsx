@@ -54,7 +54,7 @@ const UserProfileSection = ({ session, profileInfo }: Props) => {
         </div>
         
         <p className="text-lg font-bold">{currentName}</p>
-        <p className="text-md mb-2 text-zinc-400">@{profileInfo.user.username}</p>
+        <p className="text-md mb-2 text-zinc-500">@{profileInfo.user.username}</p>
 
         <p className="mb-2 font-normal text-sm break-words">{currentBio}</p>
 

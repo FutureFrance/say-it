@@ -5,7 +5,7 @@ const NoDataInfo = ({ text }: { text: string }) => {
         <img src="/assets/no-data_icon.png"/>
       </div>
 
-        <p className="font-normal text-sm lg:text-md">{text}</p>
+      <p className="font-normal text-sm lg:text-md">{text}</p>
     </div>
   )
 }

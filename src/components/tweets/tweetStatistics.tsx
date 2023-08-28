@@ -45,7 +45,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
   }
 
   return (
-    <div className="tweet_statistics flex justify-between items-center">
+    <div className="tweet_statistics flex justify-between items-center select-none">
       <TweetsStat 
         text={tweetRepliesCount}
         imgSrc="/assets/tweet_statistics/comments_icon.png"

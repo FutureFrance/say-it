@@ -51,6 +51,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
         if(setModalOn) setModalOn(false);
       }
       setApiSuccessMessage(response.data.successMessage); 
+      setError("");
     } catch(err: any) {
       if (err instanceof AxiosError) {
         setError(err.response?.data.message);

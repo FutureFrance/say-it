@@ -76,7 +76,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {
           }
           </InfiniteScroll>
         )
-        : <NoDataInfo text="Nothing here yet, follow someone to see tweets"/>
+        : <NoDataInfo text="Oops, nothing here yet"/>
       }  
 
       { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}

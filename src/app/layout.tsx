@@ -1,6 +1,6 @@
 import { Providers } from '@/redux/providers/providers'
 import './globals.css'
-import PersistanceFlushHandler from '@/components/reduxPurger'
+import PersistanceFlushHandler from '@/components/utils/reduxPurger'
 
 export const metadata = {
   title: 'Create Next App',
