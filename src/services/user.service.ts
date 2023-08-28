@@ -50,7 +50,19 @@ export const updateUserProfile = async (accessToken: string, userId: number, bod
     )
     .then(res => {
       return res;
-    }).catch(err => {
+    })
+    .catch(err => {
+      throw err;
+    })
+}
+
+export const searchUsers = async (accessToken: string, query: string) => {
+  return await api
+    .get<SearchUsersResponse>(`/users/search-users?query=${query}`, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
       throw err;
     })
 }
@@ -62,3 +74,12 @@ interface IUpdateUserProfileBody {
   newBackground: File | null;
   defaultBackground: boolean;
 }
+
+export interface ISearchUsersResponse { 
+  id: number, 
+  username: string, 
+  avatar: string, 
+  name: string 
+}
+
+export type SearchUsersResponse = Array<Pick<IUser, "avatar" | "id" | "username" | "background" | "name">>;

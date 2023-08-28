@@ -22,7 +22,7 @@ const UserActionsModal = ({ session }: { session: Session}) => {
         >
           <img className="hidden lg:block w-4 h-4 cursor-pointer" src="/assets/app_menu/menu_dots_icon.png" alt="" />
           { modalOn && 
-            <div className="absolute border cursor-pointer top-[-120%] left-0 translate-x-[0%] translate-y-[-50%] border-zinc-800 shadow-xs shadow-white p-[5px] rounded-[8px] flex items-center justify-center">
+            <div className="absolute bg-[black] border cursor-pointer top-[-120%] left-0 translate-x-[0%] translate-y-[-50%] border-zinc-800 shadow-xs shadow-white p-[5px] rounded-[8px] flex items-center justify-center">
               <p 
                 className="text-[11px] font-semibold text-slate-300 inline-block w-[155px] text-center"
                 onClick={() => signOut({ callbackUrl: '/auth', redirect: true })}

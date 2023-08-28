@@ -13,7 +13,9 @@ module.exports = {
         hover_view_gray: 'rgba(38, 38, 38, 0.8)',
         hover_tweet_gray: 'rgba(59, 68, 75, 0.09)',
         hover_follow_recommend_gray: 'rgba(255, 255, 255, 0.03)',
-        light_blue: 'rgb(102, 178, 255)'
+        hover_search_user: 'rgba(255, 255, 255, 0.07)',
+        light_blue: 'rgb(102, 178, 255)',
+        white_text: 'rgb(231, 233, 234)'
       }
     }
   },

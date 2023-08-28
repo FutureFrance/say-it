@@ -8,7 +8,7 @@ export default async function UserPageLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-[#000000] min-h-[100vh] flex justify-center min-w-screen lg:px-[5%]">
+    <div className="bg-[#000000] min-h-[100vh] flex justify-center lg:px-[12%]">
       <div className="flex w-[15%] md:w-[25%] justify-center md:justify-end md:pr-[3%]">
         <AppMenu />
       </div> 
@@ -17,7 +17,7 @@ export default async function UserPageLayout({
         {children}
       </div>
 
-      <div className="flex justify-start hidden lg:block lg:w-[25%] lg:ml-[3%] lg:mr-[5%]">
+      <div className="flex justify-start hidden lg:block lg:w-[25%] lg:ml-[3%]">
         <InfoMenu />
       </div>
     </div>
