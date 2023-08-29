@@ -8,7 +8,7 @@ export const TweetOwnerAvatar = ({ user }: { user: IUser}) => {
 
   const handleUserClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    router.push(`/user/${user.id}`);
+    router.push(`/user/${user.username}`);
   }
 
   return (

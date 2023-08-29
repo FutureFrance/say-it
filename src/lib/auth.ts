@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
     }, 
     async signIn({ user, account, profile }) {
       try {
+        console.log(account, profile)
         if (account?.provider === 'google') {
           const response = await handleOAuth({ 
             email: profile?.email as string, 

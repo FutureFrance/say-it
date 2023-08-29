@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import { ZodError } from 'zod';
@@ -9,10 +9,10 @@ import { IAuthFormProps } from '@/types/authForm.type';
 import ErrorTimeout from '@/components/ui/errors/errorTimeout';
 import Input from '@/components/inputs/input';
 import InputLabel from '@/components/inputs/label';
-import { register } from '@/services/auth.service';
-import OAuthGoogle from '@/components/buttons/oauthGoogle';
+import { checkUsernameAvailability, register } from '@/services/auth.service';
 import { signIn } from 'next-auth/react';
 import PopUpMessage from '../ui/errors/popUpMessage';
+import { useDebounce } from '@/hooks/useDebounce';
 
 const initialFormState = {
   name: undefined, username: undefined, email: undefined, password: undefined, confirm_password: undefined
@@ -27,10 +27,29 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirm_password, setConfirmPassword] = useState<string>("");
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState<boolean>(true);
   const [errors, setErrors] = useState<registerFormType>({});
   const [apiError, setApiError] = useState<string | null>(null);
 
+  const debouncedValue = useDebounce(username);
+
   const router = useRouter();
+
+  useEffect(() => {
+    usernameAvailability();
+  }, [debouncedValue]);
+
+  const usernameAvailability = async () => {
+    try {
+      if (username.length === 0) return;
+
+      const response = await checkUsernameAvailability(username);
+
+      setIsUsernameAvailable(response.data.available);
+    } catch(err) {
+      if (err instanceof AxiosError) setApiError(err.response?.data.message);
+    }
+  } 
 
   const handleValidationErrors = (err: ZodError) => {
     const placeholder: registerFormType = { ...initialFormState };
@@ -45,8 +64,10 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
   }
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
+    e.preventDefault();
+    
     try {
-      e.preventDefault();
+      if (!isUsernameAvailable) return;
 
       const payload = {
         name, 
@@ -74,6 +95,14 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
     }
   } 
 
+  const handleOAuthGoogle = async () => {
+    try {
+      await signIn('google', { callbackUrl: '/feed' }); 
+    } catch(err: any) {
+      setApiError(err);
+    }
+  }
+
   return (
     <>
       <p className='text-3xl font-black leading-tight tracking-tight md:text-2xl dark:text-black mb-8'>Register an account</p>
@@ -98,9 +127,9 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
         <div className='w-72'>
           <InputLabel 
             htmlFor='username'
-            labelText='Username'
+            labelText='Username:'
             styles={labelStyles}
-          />
+          /> 
           <Input 
             id='username' 
             type='text' 
@@ -108,6 +137,22 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
             setPlaceholder={setUsername}
             styles={inputStyles}
           />
+          { username.length > 0 &&
+            <>
+              {
+                !isUsernameAvailable 
+                  ? <div className='flex gap-2 items-center mt-2'>
+                      <img 
+                        className='w-[10px] h-[10px]' 
+                        src="/assets/error_info.png" 
+                        alt="err_icon"
+                      /> 
+                      <p className='text-[red] text-xs'>This username is taken</p> 
+                    </div>
+                  : <p className='text-[blue] text-xs mt-2'>This username is available</p> 
+              }
+            </>
+          }
           { errors?.username && <ErrorTimeout timeout={9000} error={errors.username} setError={setErrors} /> }
         </div>
         
@@ -162,7 +207,16 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
         <button type='submit' className='bg-[#2563aa] text-xs text-white font-semibold text-sm py-3 mx-max'>Register an account</button>
       </form>
       
-      <OAuthGoogle text='Sign up with google'/>
+      <div className='w-full inline-block text-center border-[3px] border-black-400 py-1 mb-[10px] cursor-pointer' 
+        onClick={handleOAuthGoogle}  
+      >
+        <div className='flex items-center'>
+          <img className='ml-[7%] w-[25px] h-[25px]' src="/assets/google_logo_oauth.png" alt="google_logo" />
+          <div className='w-[100%] flex justify-center'>
+            <p className='max-w-max max-h-min p-0 text-sm font-medium text-slate-700'>Sign up with google</p>
+          </div>
+        </div>
+      </div>
 
       <p className='text-sm'>Have an account ? &nbsp;
         <span 

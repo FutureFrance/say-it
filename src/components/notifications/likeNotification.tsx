@@ -16,7 +16,7 @@ const LikeNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
-    <Link href={`/tweet/${notification.action_user.id}/${notification.tweet?.id}`}>
+    <Link href={`/tweet/${notification.action_user.username}/${notification.tweet?.id}`}>
       <div className="flex cursor-pointer">
         <div className="mr-4 flex justify-center">
           <img 
@@ -27,7 +27,7 @@ const LikeNotification = ({ session, notification }: Props) => {
         </div>
         <div className="mb-2">
           <img 
-            onClick={(e) => { e.preventDefault(); router.push(`/user/${notification.action_user.id}`)}} 
+            onClick={(e) => { e.preventDefault(); router.push(`/user/${notification.action_user.username}`)}} 
             src={notification.action_user.avatar} 
             className="w-[32px] h-[32px] rounded-full mb-4"
             alt="profile-image" 

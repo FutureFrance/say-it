@@ -79,7 +79,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
     <div className="flex p-2 pb-0 mb-2 gap-4 pt-4 h-[100%]">
       <div 
         className="tweet_owner_profile_photo w-[40px] h-[40px] cursor-pointer" 
-        onClick={() => router.push(`/user/${session.user.id}`)}
+        onClick={() => router.push(`/user/${session.user.username}`)}
       >
         <img 
           src={session.user.avatar} 

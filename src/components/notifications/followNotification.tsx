@@ -12,7 +12,7 @@ const FollowNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
-    <Link href={`/user/${notification.action_user.id}`}>
+    <Link href={`/user/${notification.action_user.username}`}>
       <div className="flex cursor-pointer">
         <div className="mr-4">
           <img 
@@ -23,7 +23,7 @@ const FollowNotification = ({ session, notification }: Props) => {
         </div>
         <div className="mb-2">
           <img 
-            onClick={(e) => { e.preventDefault(); router.push(`/user/${notification.action_user.id}`)}} 
+            onClick={(e) => { e.preventDefault(); router.push(`/user/${notification.action_user.username}`)}} 
             src={notification.action_user.avatar} 
             className="w-[32px] h-[32px] rounded-full mb-4"
             alt="profile-image" 

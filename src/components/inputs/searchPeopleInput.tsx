@@ -14,6 +14,7 @@ const SearchPeopleInput = ({ session }: { session: Session }) => {
   const [showSearchModal, setShowSearchModal] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
+
   const debouncedValue = useDebounce(query, 500);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const SearchPeopleInput = ({ session }: { session: Session }) => {
   }
 
   const handleSearchBoxTyping = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 25 ) setQuery(e.target.value)
+    if (e.target.value.length <= 25 ) setQuery(e.target.value);
   }
 
   return (

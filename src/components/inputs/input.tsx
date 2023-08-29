@@ -16,6 +16,7 @@ const Input = ({ id, type, placeholder, setPlaceholder, styles }: Input<any>) =>
       value={placeholder} 
       onChange={e => setPlaceholder(e.target.value)}
       className={styles}
+      autoComplete="disabled"
     >
     </input>
   )

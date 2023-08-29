@@ -34,7 +34,7 @@ export const Tweet = ({ session, tweet }: Props) => {
   return (
     <div 
       className="tweet pr-8 p-2 flex max-h-[550px] cursor-pointer" 
-      onClick={() => router.push(`/tweet/${session.user.id}/${tweet.id}`)}
+      onClick={() => router.push(`/tweet/${session.user.username}/${tweet.id}`)}
     >
       <TweetOwnerAvatar user={tweet.user}/> 
       

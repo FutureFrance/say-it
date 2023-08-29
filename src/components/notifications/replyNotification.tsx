@@ -14,12 +14,12 @@ const ReplyNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
-    <Link href={`/tweet/${notification.action_user.id}/${notification.tweet?.id}`}>
+    <Link href={`/tweet/${notification.action_user.username}/${notification.tweet?.id}`}>
       <div className="flex cursor-pointer">
         <div className="mr-4">
           <img 
             src={notification.action_user.avatar}
-            onClick={(e) => { e.preventDefault(); router.push(`/user/${notification.action_user.id}`)}} 
+            onClick={(e) => { e.preventDefault(); router.push(`/user/${notification.action_user.username}`)}} 
             className="w-[30px] h-[30px] mx-2 rounded-full"
             alt="person_icon" 
           />
@@ -32,7 +32,7 @@ const ReplyNotification = ({ session, notification }: Props) => {
 
             <span 
               className="text-[#1d9bf0] hover:underline" 
-              onClick={(e) => { e.preventDefault(); router.push(`/user/${session.user.id}`)}}
+              onClick={(e) => { e.preventDefault(); router.push(`/user/${session.user.username}`)}}
             >
                @{session.user.username}
             </span>
