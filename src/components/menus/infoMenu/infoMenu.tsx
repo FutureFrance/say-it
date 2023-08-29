@@ -12,7 +12,7 @@ const InfoMenu = async () => {
   if (!session) redirect('/auth')
 
   const [profileInfoResponse, usersToFollowResponse] = await Promise.all([
-    getUserProfileInfo(session.accessToken, session.user.id),  // wrong i must have the profileInfo about each user not mine
+    getUserProfileInfo(session.accessToken, session.user.username),  // wrong i must have the profileInfo about each user not mine
     getFollowingsRecomandation(session.accessToken),
   ])
 
@@ -30,7 +30,7 @@ const InfoMenu = async () => {
           { usersToFollowResponse.data.length > 0 
             ? usersToFollowResponse.data.map(userToFollow => {
               return (
-                <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.id}`} key={userToFollow.id}>
+                <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.username}`} key={userToFollow.username}>
                   <div className="flex justify-between items-center p-4 hover:bg-hover_follow_recommend_gray">
                     <div className="flex gap-2 items-center font-bold">
                       <img 

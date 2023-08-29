@@ -16,10 +16,10 @@ export const getFeedTweets = async (accessToken: string, offset = 0, take = FETC
     })
 }
 
-export const getUserTweets = async (accessToken: string, userId: number, offset = 0, take = FETCH_TWEET_TAKE) => { 
+export const getUserTweets = async (accessToken: string, username: string, offset = 0, take = FETCH_TWEET_TAKE) => { 
   "use server"
   return await api
-    .get<IPaginatedTweets>(`/tweets/user/${userId}/?offset=${offset}&take=${take}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
+    .get<IPaginatedTweets>(`/tweets/user/${username}/?offset=${offset}&take=${take}`, { headers: {  Authorization: `Bearer ${accessToken}` } })
     .then(res => {
       return res.data;
     })

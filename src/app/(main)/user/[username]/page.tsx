@@ -8,13 +8,13 @@ import { getUserProfileInfo } from "@/services/user.service";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-const User = async ({ params }: {params: { userId: number }}) => {
+const User = async ({ params }: {params: { username: string }}) => {
   const session = await getServerSession(authOptions); 
-  if(!session) redirect(`/auth/?callbackUrl=/user/${params.userId}`);
+  if(!session) redirect(`/auth/?callbackUrl=/user/${params.username}`);
   console.log("user render")
   const [profileInfoResponse, tweetsResponse] = await Promise.all([
-    getUserProfileInfo(session.accessToken, params.userId),
-    getUserTweets(session.accessToken, params.userId),
+    getUserProfileInfo(session.accessToken, params.username),
+    getUserTweets(session.accessToken, params.username),
   ])
 
   return (
@@ -29,7 +29,7 @@ const User = async ({ params }: {params: { userId: number }}) => {
         
         <TweetsSection 
           fetchNewTweets={getUserTweets}
-          funcArgs={[session.accessToken, params.userId]}
+          funcArgs={[session.accessToken, params.username]}
           session={session} 
         />
       </section>

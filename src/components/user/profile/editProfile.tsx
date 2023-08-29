@@ -48,8 +48,7 @@ const EditProfile = ({
         }
 
         const response = await updateUserProfile(
-          session.accessToken, 
-          session.user.id, 
+          session.accessToken,  
           { ...requestData, defaultBackground }
         );
         

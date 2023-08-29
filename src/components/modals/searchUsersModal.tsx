@@ -63,7 +63,7 @@ const SearchUsersModal = ({ query, searchResults, setShowSearchModal, setQuery, 
                 searchResults.length > 0 
                   ? searchResults.map(result => {
                       return (
-                        <Link href={`/user/${result.id}`} prefetch={false} key={result.username}>
+                        <Link href={`/user/${result.username}`} prefetch={false} key={result.username}>
                           <div className="flex p-4 gap-2 items-center max-h-24 hover:bg-hover_search_user">
                             {
                             <>

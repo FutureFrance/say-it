@@ -28,9 +28,9 @@ return await api
 })
 }
 
-export const getTweet = async (accessToken: string, userId: number, tweetId: number) => {
+export const getTweet = async (accessToken: string, username: string, tweetId: number) => {
 return await api
-  .get<IndividualTweet>(`tweets/user/${userId}/${tweetId}`, { headers: { Authorization: `Bearer ${accessToken}` } })
+  .get<IndividualTweet>(`tweets/user/${username}/${tweetId}`, { headers: { Authorization: `Bearer ${accessToken}` } })
   .then(res => {
     return res.data
   })

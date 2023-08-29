@@ -8,8 +8,8 @@ export const register = async (body: Required<Omit<registerFormType, 'confirm_pa
       .then(res => {
         return res?.data;
       })
-      .catch(e => {
-        throw e;
+      .catch(err => {
+        throw err;
       });
 }
 
@@ -19,8 +19,8 @@ export const login = async (body: Required<loginFormType>) => {
       .then(res => {
         return res?.data;
       })
-      .catch(e => {
-        throw e;
+      .catch(err => {
+        throw err;
       })
 }
 
@@ -41,7 +41,18 @@ export const getAuthInfo = async (accessToken: string) => {
     .then(res => {
       return res?.data;
     })
-    .catch(e => {
-      throw e;
+    .catch(err => {
+      throw err;
     })
+}
+
+export const checkUsernameAvailability = async (username: string) => {
+  return await api
+  .get<{ available: boolean }>(`/auth/available/username?username=${username}`)
+  .then(res => {
+    return res;
+  })
+  .catch(err => {
+    throw err;
+  })
 }

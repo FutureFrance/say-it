@@ -4,9 +4,9 @@ import { IProfileInfo } from "@/types/frienships.interface";
 import { INotificationResponse } from "@/types/notification.interface";
 import { IUser } from "@/types/user.interface";
 
-export const getUserProfileInfo = async (accessToken: string, targetUserId: number) => {
+export const getUserProfileInfo = async (accessToken: string, targetUserUsername: string) => {
   return await api
-    .get<IProfileInfo>(`/users/${targetUserId}`, { headers: { Authorization: `Bearer ${accessToken}`}})
+    .get<IProfileInfo>(`/users/${targetUserUsername}`, { headers: { Authorization: `Bearer ${accessToken}`}})
     .then(res => {
       return res;
     })
@@ -37,10 +37,10 @@ export const getUserNotifications = async (accessToken: string, offset = 0, take
     });
 }
 
-export const updateUserProfile = async (accessToken: string, userId: number, body: IUpdateUserProfileBody) => {
+export const updateUserProfile = async (accessToken: string, body: IUpdateUserProfileBody) => {
   return await api
     .put<{ avatar: string, background: string, name: string, bio: string }>(
-      `/users/${userId}`, 
+      '/users', 
       body, { 
         headers: { 
           Authorization: `Bearer ${accessToken}`,

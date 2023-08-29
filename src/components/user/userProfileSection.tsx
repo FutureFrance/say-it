@@ -22,11 +22,11 @@ const UserProfileSection = ({ session, profileInfo }: Props) => {
   const [currentName, setCurrentName] = useState<string>(profileInfo.user.name);
  
   return (
-    <div className="profile-section min-h-[250px] flex flex-col">
+    <div className="min-h-[250px] flex flex-col">
       <div className={`background-section flex-1 h-1/2 select-none ${!currentBackgroundImage ? 'bg-hover_view_gray' : ''}`}>
         { currentBackgroundImage && <img className="w-full h-[200px] object-cover" src={currentBackgroundImage} alt="avatar_photo" /> }
       </div>
-      <div className="profile-info relative p-4">
+      <div className="relative p-4">
         <div className="h-[50px] flex justify-end items-center">
           {profileInfo.amIfollowing === undefined
             ? <button 
@@ -54,8 +54,7 @@ const UserProfileSection = ({ session, profileInfo }: Props) => {
         </div>
         
         <p className="text-lg font-bold">{currentName}</p>
-        <p className="text-md mb-2 text-zinc-500">@{profileInfo.user.username}</p>
-
+        <p className="mb-2 text-zinc-500">@{profileInfo.user.username}</p>
         <p className="mb-2 font-normal text-sm break-words">{currentBio}</p>
 
         <FriendshipsCount followersCount={followersCount} followingsCount={profileInfo.followingsCount}/>
