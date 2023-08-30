@@ -10,16 +10,16 @@ import EditProfile from "./profile/editProfile";
 
 type Props = { 
   session: Session, 
-  profileInfo: IProfileInfo
+  targetProfileInfo: IProfileInfo
 }
 
-const UserProfileSection = ({ session, profileInfo }: Props) => {
-  const [followersCount, setFollowersCount] = useState<number>(profileInfo.followersCount);
+const UserProfileSection = ({ session, targetProfileInfo }: Props) => {
+  const [followersCount, setFollowersCount] = useState<number>(targetProfileInfo.followersCount);
   const [editProfileOn, setEditProfileOn] = useState<boolean>(false);
-  const [currentProfileImage, setCurrentProfileImage] = useState<string>(profileInfo.user.avatar);
-  const [currentBackgroundImage, setCurrentBackgroundImage] = useState<string>(profileInfo.user.background);
-  const [currentBio, setCurrentBio] = useState<string>(profileInfo.user.bio);
-  const [currentName, setCurrentName] = useState<string>(profileInfo.user.name);
+  const [currentProfileImage, setCurrentProfileImage] = useState<string>(targetProfileInfo.user.avatar);
+  const [currentBackgroundImage, setCurrentBackgroundImage] = useState<string>(targetProfileInfo.user.background);
+  const [currentBio, setCurrentBio] = useState<string>(targetProfileInfo.user.bio);
+  const [currentName, setCurrentName] = useState<string>(targetProfileInfo.user.name);
  
   return (
     <div className="min-h-[250px] flex flex-col">
@@ -28,25 +28,25 @@ const UserProfileSection = ({ session, profileInfo }: Props) => {
       </div>
       <div className="relative p-4">
         <div className="h-[50px] flex justify-end items-center">
-          {profileInfo.amIfollowing === undefined
+          {targetProfileInfo.amIfollowing === undefined
             ? <button 
                 className="rounded-[22px] border-[2px] border-zinc-400/100 text-sm font-semibold px-4 py-2 transition hover:bg-zinc-900 duration-300 ease-in"
                 onClick={() => setEditProfileOn(true)}
               >
                 Edit profile
               </button>
-            : profileInfo.amIfollowing
+            : targetProfileInfo.amIfollowing
               ?
                 <FriendshipActionButton  
                   accessToken={session.accessToken}
-                  targetUserId={profileInfo.user.id}
+                  targetUserId={targetProfileInfo.user.id}
                   action={FriendshipActions.DESTROY}
                   setterCount={setFollowersCount}
                 />
               : 
                 <FriendshipActionButton  
                   accessToken={session.accessToken}
-                  targetUserId={profileInfo.user.id}
+                  targetUserId={targetProfileInfo.user.id}
                   action={FriendshipActions.CREATE}
                   setterCount={setFollowersCount}
                 />
@@ -54,10 +54,14 @@ const UserProfileSection = ({ session, profileInfo }: Props) => {
         </div>
         
         <p className="text-lg font-bold">{currentName}</p>
-        <p className="mb-2 text-zinc-500">@{profileInfo.user.username}</p>
-        <p className="mb-2 font-normal text-sm break-words">{currentBio}</p>
+        <p className="mb-2 text-zinc-500 text-base font-normal">@{targetProfileInfo.user.username}</p>
+        <p className="mb-2 font-normal text-[15px] break-words">{currentBio}</p>
 
-        <FriendshipsCount followersCount={followersCount} followingsCount={profileInfo.followingsCount}/>
+        <FriendshipsCount
+          targetProfileInfo={targetProfileInfo} 
+          followersCount={followersCount} 
+          followingsCount={targetProfileInfo.followingsCount}
+        />
 
         <div className="absolute top-0 left-4 h-[112px] w-[112px] translate-y-[-50%]" >
           <img 

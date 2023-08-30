@@ -67,6 +67,21 @@ export const searchUsers = async (accessToken: string, query: string) => {
     })
 }
 
+export const getFollowers = async (accessToken: string, targetUsername: string, offset?: number, take?: number) => {
+  const url = offset && take
+    ? `/users/${targetUsername}/followers?offset=${offset}&take=${take}`
+    : `/users/${targetUsername}/followers`
+
+  return await api
+    .get<GetFollowersResponse>(url, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      throw err;
+    })
+}
+
 interface IUpdateUserProfileBody {
   name?: string;
   bio?: string;
@@ -83,3 +98,8 @@ export interface ISearchUsersResponse {
 }
 
 export type SearchUsersResponse = Array<Pick<IUser, "avatar" | "id" | "username" | "background" | "name">>;
+export type GetFollower = Pick<IUser, "avatar" | "username" | "name" | "bio" | "id"> & { amIfollowing: boolean };
+export type GetFollowersResponse = { 
+  followers: Array<GetFollower>; 
+  hasMore: boolean;
+};

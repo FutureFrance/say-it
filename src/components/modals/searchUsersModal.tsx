@@ -54,8 +54,8 @@ const SearchUsersModal = ({ query, searchResults, setShowSearchModal, setQuery, 
         ? <p className="text-center text-[15px] text-[#5A5A5A] mt-4">Try searching for people, lists, or keywords</p> 
         : (
           <>
-            <div className="flex items-center pl-4 break-word h-12 text-[15px] border-b-2 border-zinc-800 text-white_text transition duration-200 ease-in hover:bg-hover_search_user">
-              <p className="break-word">Search for "{query}"</p> 
+            <div className="flex items-center pl-4 break-words h-12 text-[15px] border-b-2 border-zinc-800 text-white_text transition duration-200 ease-in hover:bg-hover_search_user">
+              <p className="break-words">Search for "{query}"</p> 
             </div>
 
             <div className="h-[90%]">

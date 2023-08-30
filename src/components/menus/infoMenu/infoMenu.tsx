@@ -38,15 +38,20 @@ const InfoMenu = async () => {
                         className="w-[40px] h-[40px] rounded-full cursor-pointer"
                         alt="tweet_owner_avatar" 
                       />
-                      
-                      <p className="text-white">{userToFollow.name}</p>
+                      <div className="truncate overflow-hidden">
+                        <p className="text-white truncate">{userToFollow.name}</p>
+                        <p className="text-zinc-500 text-base font-normal truncate">@{userToFollow.username}</p>
+                      </div>
                     </div>
-                  
-                    <FriendshipActionButton  
-                      accessToken={session.accessToken}
-                      targetUserId={userToFollow.id}
-                      action={FriendshipActions.CREATE}
-                    />
+
+                    <div className="ml-[12px]">
+                      <FriendshipActionButton  
+                        accessToken={session.accessToken}
+                        targetUserId={userToFollow.id}
+                        action={FriendshipActions.CREATE}
+                        btnStyles='px-4'
+                      />
+                    </div>
                   </div>
                 </Link>
               )

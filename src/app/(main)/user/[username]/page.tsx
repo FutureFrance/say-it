@@ -12,7 +12,7 @@ const User = async ({ params }: {params: { username: string }}) => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect(`/auth/?callbackUrl=/user/${params.username}`);
   console.log("user render")
-  const [profileInfoResponse, tweetsResponse] = await Promise.all([
+  const [targetProfileInfoResponse, tweetsResponse] = await Promise.all([
     getUserProfileInfo(session.accessToken, params.username),
     getUserTweets(session.accessToken, params.username),
   ])
@@ -20,11 +20,11 @@ const User = async ({ params }: {params: { username: string }}) => {
   return (
     <TweetProvider fetchedTweetsServer={tweetsResponse.tweets} >
       <section className="text-white font-thin border border-zinc-800 col-span-2">
-        <StickyTitle title={profileInfoResponse.data.user.name}/>
+        <StickyTitle title={targetProfileInfoResponse.data.user.name}/>
 
         <UserProfileSection 
           session={session}
-          profileInfo={profileInfoResponse.data}
+          targetProfileInfo={targetProfileInfoResponse.data}
         />
         
         <TweetsSection 
