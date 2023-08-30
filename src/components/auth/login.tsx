@@ -108,7 +108,7 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
 
     <p className="text-[15px]">Don't have an account ? &nbsp;
       <span 
-        className='text-blue-500 text-xs hover:cursor-pointer transition duration-300 hover:underline'
+        className='text-blue-500 text-xs cursor-pointer transition duration-300 hover:underline'
         onClick={() => setOnLogin(false)}
       >
         Register

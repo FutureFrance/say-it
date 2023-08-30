@@ -220,7 +220,7 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
 
       <p className='text-sm'>Have an account ? &nbsp;
         <span 
-          className='text-blue-500 text-xs hover:cursor-pointer transition duration-300 hover:underline'
+          className='text-blue-500 text-xs cursor-pointer transition duration-300 hover:underline'
           onClick={() => setOnLogin(true)}  
         >
           Log in

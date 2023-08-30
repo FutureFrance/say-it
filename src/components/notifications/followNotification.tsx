@@ -12,7 +12,7 @@ const FollowNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
-    <Link href={`/user/${notification.action_user.username}`}>
+    <Link href={`/user/${notification.action_user.username}`} prefetch={false}>
       <div className="flex cursor-pointer">
         <div className="mr-4">
           <img 

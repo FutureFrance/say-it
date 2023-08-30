@@ -73,7 +73,22 @@ export const getFollowers = async (accessToken: string, targetUsername: string, 
     : `/users/${targetUsername}/followers`
 
   return await api
-    .get<GetFollowersResponse>(url, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .get<GetConnectionsResponse>(url, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      throw err;
+    })
+}
+
+export const getFollowings = async (accessToken: string, targetUsername: string, offset?: number, take?: number) => {
+  const url = offset && take
+    ? `/users/${targetUsername}/followings?offset=${offset}&take=${take}`
+    : `/users/${targetUsername}/followings`
+
+  return await api
+    .get<GetConnectionsResponse>(url, { headers: { Authorization: `Bearer ${accessToken}` }})
     .then(res => {
       return res;
     })
@@ -98,8 +113,16 @@ export interface ISearchUsersResponse {
 }
 
 export type SearchUsersResponse = Array<Pick<IUser, "avatar" | "id" | "username" | "background" | "name">>;
-export type GetFollower = Pick<IUser, "avatar" | "username" | "name" | "bio" | "id"> & { amIfollowing: boolean };
-export type GetFollowersResponse = { 
-  followers: Array<GetFollower>; 
+export type GetConnection = Pick<IUser, "avatar" | "username" | "name" | "bio" | "id"> & { amIfollowing: boolean };
+export type GetConnectionsResponse = { 
+  followers: Array<GetConnection>; 
+  hasMore: boolean ;
+} & {
+  followings: Array<GetConnection>; 
+  hasMore: boolean ;
+} 
+
+export type GetFollowingsResponse = { 
+  followings: Array<GetConnection>; 
   hasMore: boolean;
 };

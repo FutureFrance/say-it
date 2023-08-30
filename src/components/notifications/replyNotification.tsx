@@ -14,7 +14,7 @@ const ReplyNotification = ({ session, notification }: Props) => {
   const router = useRouter();
 
   return (
-    <Link href={`/tweet/${notification.action_user.username}/${notification.tweet?.id}`}>
+    <Link href={`/tweet/${notification.action_user.username}/${notification.tweet?.id}`} prefetch={false}>
       <div className="flex cursor-pointer">
         <div className="mr-4">
           <img 
