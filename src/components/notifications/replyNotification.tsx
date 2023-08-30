@@ -26,7 +26,7 @@ const ReplyNotification = ({ session, notification }: Props) => {
         </div>
 
         <div className="mb-2">
-          <p className="font-bold">{notification.action_user.name}</p>
+          <p className="font-bold hover:underline">{notification.action_user.name}</p>
           <p className="text-zinc-500 font-normal mb-2">
             Replying to &nbsp;
 

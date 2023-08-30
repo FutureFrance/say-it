@@ -5,23 +5,23 @@ import { FriendshipActions, IUser } from "@/types/user.interface";
 import { Session } from "next-auth";
 
 type Props = { 
-  profileInfo: IUser;
+  targetProfileInfo: IUser;
   session: Session;
 }
 
-const FriendshipAction = ({ profileInfo, session }: Props) => {
+const FriendshipAction = ({ targetProfileInfo, session }: Props) => {
   return (
     <div>
-      { (profileInfo as any).amIfollowing
+      { (targetProfileInfo as any).amIfollowing
         ? <FriendshipActionButton  
             accessToken={session.accessToken}
-            targetUserId={profileInfo.id}
+            targetUserId={targetProfileInfo.id}
             action={FriendshipActions.DESTROY}
           />
         : 
           <FriendshipActionButton  
             accessToken={session.accessToken}
-            targetUserId={profileInfo.id}
+            targetUserId={targetProfileInfo.id}
             action={FriendshipActions.CREATE}
           />
       }

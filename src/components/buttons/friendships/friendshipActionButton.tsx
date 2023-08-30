@@ -11,11 +11,20 @@ type Props = {
   targetUserId: number;
   action: FriendshipActions;
   setterCount?: Dispatch<SetStateAction<number>>;
+  btnStyles?: BUTTONPADDINGSIZE | string; 
 }
 
-export const FriendshipActionButton = ({ accessToken, targetUserId, action, setterCount}: Props) => {
+export enum BUTTONPADDINGSIZE {
+  LOW = 'px-4',
+  HIGH = 'px-8'
+}
+
+const followButtonStyles = 'rounded-[22px] text-black bg-white text-sm font-semibold py-2 transition hover:bg-zinc-400 duration-300 ease-in';
+const unFollowButtonStyles = 'border border-gray-500 rounded-[22px] text-white_text py-2 text-sm font-semibold hover:bg-neutral-900 transition-colors duration-700 cursor-pointer';
+
+export const FriendshipActionButton = ({ accessToken, targetUserId, action, setterCount, btnStyles = BUTTONPADDINGSIZE.HIGH }: Props) => {
   const [apiError, setApiError] = useState<string |null>(null); 
-  const [modifiedAction, setModifiedAction] = useState<any>(action);
+  const [modifiedAction, setModifiedAction] = useState<FriendshipActions>(action);
 
   const handleFollowSubmit = async () => {
     try {
@@ -30,12 +39,13 @@ export const FriendshipActionButton = ({ accessToken, targetUserId, action, sett
 
   return (
     <>
-    <button
-      onClick={(e) => { e.preventDefault(); handleFollowSubmit() }} 
-      className={'rounded-[22px] text-black bg-white text-sm font-semibold px-8 py-2 transition hover:bg-zinc-400 duration-300 ease-in'}
-    >
-      {` ${modifiedAction === FriendshipActions.CREATE ? 'Follow' : 'Unfollow'}`}
-    </button>
+      <button
+        onClick={(e) => { e.preventDefault(); handleFollowSubmit() }} 
+        // className={`rounded-[22px] text-black bg-white text-sm font-semibold py-2 transition hover:bg-zinc-400 duration-300 ease-in ${btnStyles}`}
+        className={modifiedAction === FriendshipActions.CREATE ? `${followButtonStyles} ${btnStyles}` :`${unFollowButtonStyles} ${btnStyles}` }
+      >
+        {`${modifiedAction === FriendshipActions.CREATE ? 'Follow' : 'Unfollow'}`}
+      </button>
 
     { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}
     </>

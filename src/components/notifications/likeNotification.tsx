@@ -3,8 +3,6 @@
 import { INotification } from "@/types/notification.interface";
 import { Session } from "next-auth";
 import Link from "next/link";
-import Tweet from "../tweets/tweet";
-import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -33,7 +31,7 @@ const LikeNotification = ({ session, notification }: Props) => {
             alt="profile-image" 
           />
           <p className="mb-2">
-            <span className="font-semibold">{notification.action_user.name} </span>
+            <span className="font-semibold hover:underline">{notification.action_user.name} </span>
             liked your post
           </p>
 

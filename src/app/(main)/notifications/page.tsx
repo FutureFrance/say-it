@@ -11,7 +11,10 @@ const Notifications = async () => {
   const fetchedTweets = await getUserNotifications(session.accessToken);
 
   return (
-    <NotificationsSection session={session} fetchedUserNotifications={fetchedTweets.data.notifications}/>
+    <NotificationsSection 
+      session={session} 
+      fetchedUserNotifications={fetchedTweets.data.notifications}
+    />
   )
 }
 

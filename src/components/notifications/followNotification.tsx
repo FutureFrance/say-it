@@ -29,7 +29,7 @@ const FollowNotification = ({ session, notification }: Props) => {
             alt="profile-image" 
           />
           <p>
-            <span className="font-semibold">{notification.action_user.name} </span>
+            <span className="font-semibold hover:underline">{notification.action_user.name} </span>
             followed you
           </p>
         </div>
