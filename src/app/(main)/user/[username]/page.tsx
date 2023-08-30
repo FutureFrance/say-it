@@ -15,7 +15,7 @@ const User = async ({ params }: {params: { username: string }}) => {
   const [targetProfileInfoResponse, tweetsResponse] = await Promise.all([
     getUserProfileInfo(session.accessToken, params.username),
     getUserTweets(session.accessToken, params.username),
-  ])
+  ]);
 
   return (
     <TweetProvider fetchedTweetsServer={tweetsResponse.tweets} >

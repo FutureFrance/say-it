@@ -30,7 +30,7 @@ const InfoMenu = async () => {
           { usersToFollowResponse.data.length > 0 
             ? usersToFollowResponse.data.map(userToFollow => {
               return (
-                <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.username}`} key={userToFollow.username}>
+                <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.username}`} key={userToFollow.username} prefetch={false}>
                   <div className="flex justify-between items-center p-4 hover:bg-hover_follow_recommend_gray">
                     <div className="flex gap-2 items-center font-bold">
                       <img 
