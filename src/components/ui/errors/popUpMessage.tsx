@@ -20,7 +20,7 @@ const PopUpMessage = ({ timeout = 10000, text, setText, textColor = "white", bgC
   }, []);
 
   return (
-    <div className={`flex items-center justify-center overlay select-none fixed bottom-12 left-70 z-50 bg-${bgColor} p-[10px] rounded-[8px]`}>
+    <div className={`flex items-center justify-center overlay select-none fixed bottom-12 left-70 z-50 bg-${bgColor} p-[10px] rounded-mds`}>
       <p className={`ml-[3%] text-${textColor} text-sm font-medium`}>{text}!</p>    
     </div>
   )
