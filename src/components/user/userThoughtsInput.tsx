@@ -61,7 +61,6 @@ export const UserThoughtsInput = ({
       }
 
       setNotificationMessage(response.data.successMessage); 
-      setNotificationMessage("");
     } catch(err: any) {
       if (err instanceof AxiosError) {
         setNotificationMessage(err.response?.data.message);

@@ -21,6 +21,7 @@ const TweetPage = async ({ params }: { params: { username: string, tweetId: numb
         <Tweet 
           session={session} 
           tweet={tweetInfo.parentTweet}
+          // setTweets={[]}
         />
 
         <UserThoughtsInput 

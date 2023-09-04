@@ -59,7 +59,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {
             next={handlefFetchNewTweets}
             hasMore={hasMore}
             loader={<SpinningLoader />}
-          >
+          > 
           {
             tweets.map(tweet => {
               return (
@@ -69,6 +69,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {
                   <Tweet  
                     session={session} 
                     tweet={tweet}
+                    setTweets={setTweets}
                   />
                 </div>
               ) 

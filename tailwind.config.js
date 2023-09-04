@@ -15,7 +15,8 @@ module.exports = {
         hover_follow_recommend_gray: 'rgba(255, 255, 255, 0.03)',
         hover_search_user: 'rgba(255, 255, 255, 0.07)',
         light_blue: 'rgb(102, 178, 255)',
-        white_text: 'rgb(231, 233, 234)'
+        white_text: 'rgb(231, 233, 234)',
+        warning_red: 'rgb(244, 33, 46)'
       }
     }
   },

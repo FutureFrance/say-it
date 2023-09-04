@@ -26,12 +26,12 @@ const InfoMenu = async () => {
 
       <div className="bg-[#16181c] h-[100%] w-[100%] rounded-[15px] pt-4" style={{zIndex: 0}}>
         <p className="font-bold text-lg text-white mb-4 pl-4">Who to follow</p>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           { usersToFollowResponse.data.length > 0 
             ? usersToFollowResponse.data.map(userToFollow => {
               return (
                 <Link href={`${process.env.NEXT_PUBLIC_URL}/user/${userToFollow.username}`} key={userToFollow.username} prefetch={false}>
-                  <div className="flex justify-between items-center p-4 hover:bg-hover_follow_recommend_gray">
+                  <div className="flex justify-between items-center px-4 py-[12px] hover:bg-hover_follow_recommend_gray">
                     <div className="flex gap-2 items-center font-bold">
                       <img 
                         src={userToFollow.avatar} 
@@ -39,7 +39,7 @@ const InfoMenu = async () => {
                         alt="tweet_owner_avatar" 
                       />
                       <div className="truncate overflow-hidden">
-                        <p className="text-white truncate">{userToFollow.name}</p>
+                        <p className="text-white truncate hover:underline">{userToFollow.name}</p>
                         <p className="text-zinc-500 text-base font-normal truncate">@{userToFollow.username}</p>
                       </div>
                     </div>
