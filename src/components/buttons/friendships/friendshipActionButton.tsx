@@ -47,7 +47,7 @@ export const FriendshipActionButton = ({ accessToken, targetUserId, action, sett
         {`${modifiedAction === FriendshipActions.CREATE ? 'Follow' : 'Unfollow'}`}
       </button>
 
-    { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}
+    { apiError && <PopUpMessage text={apiError} setText={setApiError} />}
     </>
   )
 }

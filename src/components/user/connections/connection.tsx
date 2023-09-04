@@ -19,15 +19,17 @@ const Connection = ({ connection, session }: Props) => {
 
         <div className="w-full">
           <div className="flex justify-between items-center">
-            <div>
-              <p className="text-white_text font-semibold hover:underline">{connection.name}</p>
-              <p className="text-base text-zinc-500 font-normal">@{connection.username}</p> 
+
+            <div className="overflow-hidden">
+              <p className="text-white_text font-semibold hover:underline truncate">{connection.name}</p>
+              <p className="text-base text-zinc-500 font-normal truncate">@{connection.username}</p> 
             </div>
+
             { session.user.username !== connection.username &&
               <>
                 { connection.amIfollowing
                     ? 
-                      <div onClick={e => e.preventDefault()}>
+                      <div onClick={e => e.preventDefault()} className="ml-4">
                         <FriendshipActionButton  
                           accessToken={session.accessToken}
                           targetUserId={connection.id}
@@ -36,7 +38,7 @@ const Connection = ({ connection, session }: Props) => {
                         />
                       </div>
                     : 
-                      <div onClick={e => e.preventDefault()}>
+                      <div onClick={e => e.preventDefault()} className="ml-4">
                         <FriendshipActionButton  
                           accessToken={session.accessToken}
                           targetUserId={connection.id}

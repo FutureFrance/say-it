@@ -1,23 +1,15 @@
-'use client'
-
 import { IUser } from "@/types/user.interface";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const TweetOwnerAvatar = ({ user }: { user: IUser}) => {
-  const router = useRouter();
-
-  const handleUserClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    router.push(`/user/${user.username}`);
-  }
-
   return (
-    <img 
-      onClick={e => handleUserClick(e)}
-      src={user.avatar} 
-      className="w-[40px] h-[40px] rounded-full mr-4 sm: mr-2 cursor-pointer select-none"
-      alt="tweet_owner_avatar" 
-    />
+    <Link href={`/user/${user.username}`} prefetch={false} >
+      <img 
+        src={user.avatar} 
+        className="w-[40px] h-[40px] rounded-full mr-4 sm: mr-2 cursor-pointer select-none"
+        alt="tweet_owner_avatar" 
+      />
+    </Link>
   )
 }
 

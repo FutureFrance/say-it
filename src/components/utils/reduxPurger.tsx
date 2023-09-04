@@ -1,20 +1,23 @@
 'use client'
 
 import { persistor } from "@/redux/store";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
-const clearPersistedData = () => {
-  persistor.purge(); 
-};
 
 const PersistanceFlushHandler = () => {
+  const clearPersistedData = () => {
+    persistor.purge(); 
+  };
+  
+  const memoizedCleaner = useCallback(clearPersistedData, []);
+
   useEffect(() => {
-    window.addEventListener('beforeunload', clearPersistedData); 
+    window.addEventListener('beforeunload', memoizedCleaner); 
 
     return () => {
-      window.removeEventListener('beforeunload', () => '')
+      window.removeEventListener('beforeunload', memoizedCleaner);
     }
-  }, [])
+  }, []);
 
   return <></>
 }

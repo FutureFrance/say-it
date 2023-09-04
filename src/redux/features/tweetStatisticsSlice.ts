@@ -32,18 +32,18 @@ const tweetStatisticsSlice = createSlice({
         }
       });
     },
-    likeATweet: (state, action: PayloadAction<{ tweetId: number, likeId: number, likes_count: number }>) => {
-      const { tweetId, likeId, likes_count } = action.payload;  
+    likeATweet: (state, action: PayloadAction<{ tweetId: number, likeId: number }>) => {
+      const { tweetId, likeId } = action.payload;  
 
-      state.tweets[tweetId].likes_count = likes_count;
-      state.tweets[tweetId].liked = !state.tweets[tweetId].liked;
+      state.tweets[tweetId].likes_count += 1;
+      state.tweets[tweetId].liked = true;
       state.tweets[tweetId].likeId = likeId;
     },
     unlikeATweet: (state, action: PayloadAction<{ tweetId: number }>) => {
       const { tweetId } = action.payload;
 
-      state.tweets[tweetId].likes_count = state.tweets[tweetId].likes_count - 1;
-      state.tweets[tweetId].liked = !state.tweets[tweetId].liked;
+      state.tweets[tweetId].likes_count -= 1;
+      state.tweets[tweetId].liked = false;
       state.tweets[tweetId].likeId = undefined;
     },
     incrementRepliesCount: (state, action: PayloadAction<{ tweetId: number }>) => {

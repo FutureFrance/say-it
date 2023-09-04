@@ -119,8 +119,6 @@ export const AuthLogin = ({ setOnLogin }: IAuthFormProps) => {
       <PopUpMessage 
         text={apiError} 
         setText={setApiError}
-        textColor="rose-400"
-        success={false}
       /> 
     }
     </>

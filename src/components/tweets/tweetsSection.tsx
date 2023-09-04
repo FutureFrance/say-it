@@ -79,7 +79,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {
         : <NoDataInfo text="Oops, nothing here yet"/>
       }  
 
-      { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}
+      { apiError && <PopUpMessage text={apiError} setText={setApiError} />}
     </div> 
   )
 }

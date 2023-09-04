@@ -2,6 +2,7 @@
 
 import Modal from "@/components/modals/modal";
 import PopUpMessage from "@/components/ui/errors/popUpMessage";
+import { videoExtensionsWhitelist } from "@/constants/global.constants";
 import { updateUserProfile } from "@/services/user.service";
 import { Session } from "next-auth";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
@@ -15,6 +16,8 @@ type Props = {
   setCurrentProfileImage: Dispatch<SetStateAction<string>>;
   setCurrentName: Dispatch<SetStateAction<string>>;
   setCurrentBio: Dispatch<SetStateAction<string>>;
+  currentName: string;
+  currentBio: string;
 }
 
 const defaultBackgroundImageUrl = process.env.NEXT_PUBLIC_DEFAULT_BACKGROUND_IMAGE;
@@ -27,10 +30,12 @@ const EditProfile = ({
   setCurrentProfileImage, 
   setCurrentBackgroundImage, 
   setCurrentName,
-  setCurrentBio
+  setCurrentBio,
+  currentName,
+  currentBio
 }: Props) => {
-  const [name, setName] = useState<string>("");
-  const [bio, setBio] = useState<string>("");
+  const [name, setName] = useState<string>(currentName);
+  const [bio, setBio] = useState<string>(currentBio);
   const [apiError, setApiError] = useState<null | string>(null);
   const [newBackground, setNewBackground] = useState<File | null>(null);
   const [newAvatar, setNewAvatar] = useState<File | null>(null);
@@ -67,12 +72,24 @@ const EditProfile = ({
     }
   }
 
-  const handleNewBackground = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) { 
-      setNewBackground(e.target.files[0]); 
-      setDefaultBackground(false) 
-    }
-    else {
+  const handleAddMedia = (e: ChangeEvent<HTMLInputElement>, isBackground = false) => {
+    if (e.target.files) {
+      const individualFile = e.target.files[0];
+
+      const placeholder = individualFile.name.split('.');
+      const fileExtenstion = placeholder[placeholder?.length - 1];
+
+      if (videoExtensionsWhitelist.includes(fileExtenstion)) {
+        return setApiError(`Only photos can be uploaded`);
+      }
+
+      if (!isBackground) return setNewAvatar(e.target.files[0]);
+
+      if (e.target.files) { 
+        setNewBackground(e.target.files[0]); 
+        setDefaultBackground(false);
+      }
+    } else if (isBackground) {
       setNewBackground(null);
       setDefaultBackground(true);
     }
@@ -94,7 +111,7 @@ const EditProfile = ({
   return (
     <Modal setModalOn={setEditProfileOn}>
       <div 
-        className="overflow-y-auto bg-[#000000] rounded-2xl w-[600px] h-[520px] mt-2"
+        className="overflow-y-auto bg-[#000000] sm:rounded-2xl w-full h-full sm:w-[600px] sm:h-[520px]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between sticky top-0 z-10 bg-[black] bg-opacity-50 backdrop-blur-[20px] items-center px-2">
@@ -134,7 +151,7 @@ const EditProfile = ({
                   id="background_image"
                   className="opacity-0 w-[40px] h-[40px] inset-0 w-full" 
                   type="file" 
-                  onChange={e => handleNewBackground(e)}
+                  onChange={e => handleAddMedia(e, true)}
                   //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
                 />
 
@@ -166,7 +183,7 @@ const EditProfile = ({
                 id="profile_image"
                 className="opacity-0 h-[32px] w-[32px] inset-0 w-full cursor-pointer" 
                 type="file" 
-                onChange={e => setNewAvatar(e.target.files ? e.target.files[0] : null)}
+                onChange={e => handleAddMedia(e)}
                 //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
               />
 
@@ -226,8 +243,6 @@ const EditProfile = ({
         <PopUpMessage 
           text={apiError} 
           setText={setApiError}
-          textColor="rose-400"
-          success={false}
         /> 
       }
     </Modal>
