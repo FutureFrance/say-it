@@ -66,7 +66,7 @@ const NotificationsSection = ({ session, fetchedUserNotifications }: Props) => {
         : <NoDataInfo text="Oops, Nothing yet to see here yet"/>
       }  
 
-      { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}
+      { apiError && <PopUpMessage text={apiError} setText={setApiError} />}
     </div> 
   )
 }

@@ -34,8 +34,6 @@ const OAuthGoogle = ({ text }: Props) => {
       <PopUpMessage 
         text={apiError} 
         setText={setApiError}
-        textColor="rose-400"
-        success={false}
       /> 
     }
     </div>

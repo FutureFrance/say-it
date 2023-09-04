@@ -27,7 +27,6 @@ const SearchUsersModal = ({ query, searchResults, setShowSearchModal, setQuery, 
     document.addEventListener('click', memoizeDocumentClick);
 
     return () => {
-      console.log(deleteSearchQuery)
       modal?.removeEventListener('click', memoizedModalClick);
       searchInputArea?.removeEventListener('click', memoizedModalClick);
       deleteSearchQuery?.removeEventListener('click', memoizedDeleteSearchResultClick);

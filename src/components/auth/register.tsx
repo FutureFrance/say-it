@@ -231,8 +231,6 @@ export const AuthRegister = ({ setOnLogin }: IAuthFormProps ) => {
       <PopUpMessage 
         text={apiError} 
         setText={setApiError}
-        success={false}
-        textColor='rose-400'
       /> 
     }
     </>

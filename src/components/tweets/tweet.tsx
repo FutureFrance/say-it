@@ -28,7 +28,7 @@ export const Tweet = ({ session, tweet }: Props) => {
 
   const handleUserClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    router.push(`/user/${session.user.id}`);
+    router.push(`/user/${session.user.username}`);
   }
 
   return (

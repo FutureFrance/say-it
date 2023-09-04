@@ -22,6 +22,7 @@ const SseConnector = ({ session }: { session: Session }) => {
 
     eventSource.onmessage = (event) => {
       try {
+        console.log("got event", event)
         dispatch(incrementNotificationsCount());
       } catch(err) {
         console.log(err);

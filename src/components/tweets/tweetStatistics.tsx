@@ -18,7 +18,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
   const tweetLikeCount = useAppSelector<number>(state => state.persistedReducer.tweets[fetchedTweet.id]?.likes_count);
   const tweetLikeId = useAppSelector<number | undefined>(state => state.persistedReducer.tweets[fetchedTweet.id]?.likeId);
   const tweetRepliesCount = useAppSelector<number>(state => state.persistedReducer.tweets[fetchedTweet.id]?.replies_count);
-
+  
   const dispatch = useAppDispatch();
 
   const handleCommentClick = async (e: React.MouseEvent<HTMLDivElement | MouseEvent>) => {
@@ -27,7 +27,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
   }
 
   const handleLikeClick = async (e: React.MouseEvent<HTMLDivElement | MouseEvent>) => {
-    e.stopPropagation();
+    e.preventDefault();
 
     try {
       if (isTweetLiked) {
@@ -35,9 +35,9 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
 
         dispatch(unlikeATweet({ tweetId: fetchedTweet.id}));
       } else {
-        const likedTweet = await likeTweet(session.accessToken, fetchedTweet.id);
-        
-        dispatch(likeATweet({ tweetId: likedTweet.id, likeId: likedTweet.likeId as number, likes_count: likedTweet.likes_count}));
+        const likedTweetResponse = await likeTweet(session.accessToken, fetchedTweet.id);
+
+        dispatch(likeATweet({ tweetId: likedTweetResponse.id, likeId: likedTweetResponse.likeId as number }));
       }
     } catch (err: any) {
       if (err instanceof AxiosError) setApiError(err.response?.data.message);
@@ -83,7 +83,7 @@ export const TweetStatistics = ({ fetchedTweet, session } : { fetchedTweet: ITwe
       }
 
       {
-        apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>
+        apiError && <PopUpMessage text={apiError} setText={setApiError} />
       }
     </div>
   )

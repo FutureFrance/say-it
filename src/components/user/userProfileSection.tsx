@@ -82,6 +82,8 @@ const UserProfileSection = ({ session, targetProfileInfo }: Props) => {
           currentBackgroundImage={currentBackgroundImage}
           setCurrentName={setCurrentName}
           setCurrentBio={setCurrentBio}
+          currentBio={currentBio}
+          currentName={currentName}
         /> 
       } 
     </div>

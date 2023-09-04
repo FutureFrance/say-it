@@ -1,30 +1,40 @@
 'use client'
 
-import { createTweet } from "@/services/tweets.client.service";
-import { AxiosError } from "axios";
+import { ChangeEvent, Dispatch, useContext, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Session } from "next-auth";
-import { Dispatch, useContext, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
+import { createTweet } from "@/services/tweets.client.service";
 import TweetButton from "../buttons/tweetButton";
 import PopUpMessage from "../ui/errors/popUpMessage";
-import { useRouter } from "next/navigation";
 import { TweetContext } from "@/context/tweetContext";
-import { useDispatch } from "react-redux";
 import { incrementRepliesCount } from "@/redux/features/tweetStatisticsSlice";
+import { imagesExtensionsWhitelist, videoExtensionsWhitelist } from "@/constants/global.constants";
 
 type Props = { 
   session: Session; 
   inputId: string;
   tweetParentId: number | null; 
+  inputPlaceholder?: string;
+  buttonText?: string;
   toReply?: boolean;
   setModalOn?: Dispatch<boolean>;
 }
 
-export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = false, setModalOn }: Props) => {
+export const UserThoughtsInput = ({ 
+  session, 
+  inputId, 
+  tweetParentId, 
+  inputPlaceholder = "What's happening?!", 
+  buttonText,
+  toReply = false,
+  setModalOn 
+}: Props) => {
   const { setTweets } = useContext(TweetContext); 
   const [tweetMessage, setTweetMessage] = useState<string>("");
   const [files, setFiles] = useState<Array<File>>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [apiSuccessMessage, setApiSuccessMessage] = useState<string | null>(null);
+  const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
   const [showDivider, setShowDivider] = useState<boolean>(false);
 
   const dispatch = useDispatch();
@@ -34,8 +44,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
 
   const handleTweetSubmit = async () => {
     try {
-      if (files.length < 1 && tweetMessage === "") return setError("Tweet length must be at least 1 or at least one file");
-      if (files && files?.length > 4) return setError("Too many files, max 4"); 
+      if (files.length < 1 && tweetMessage === "") return setNotificationMessage("Tweet length must be at least 1 or at least one file");
 
       const response = await createTweet(session.accessToken, tweetMessage, tweetParentId, files);
 
@@ -50,13 +59,38 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
 
         if(setModalOn) setModalOn(false);
       }
-      setApiSuccessMessage(response.data.successMessage); 
-      setError("");
+
+      setNotificationMessage(response.data.successMessage); 
+      setNotificationMessage("");
     } catch(err: any) {
       if (err instanceof AxiosError) {
-        setError(err.response?.data.message);
+        setNotificationMessage(err.response?.data.message);
       }
     }
+  }
+
+  const handleAddMedia = (e: ChangeEvent<HTMLInputElement>) => {
+    let numberOfVideoFiles = 0;
+
+    if (e.target.files) {
+      if (e.target.files.length > 4) return setNotificationMessage("Too many files, max 4 photos or 1 video");
+
+      for (let i = 0; i < e.target.files.length; i++) {
+        const individualFile = e.target.files.item(i);
+
+        if (individualFile) {
+          const placeholder = individualFile.name.split('.');
+          const fileExtenstion = placeholder[placeholder?.length - 1];
+
+          if (videoExtensionsWhitelist.includes(fileExtenstion)) numberOfVideoFiles += 1;
+        }
+      }
+
+      if (numberOfVideoFiles > 1 && e.target.files.length > 1) return setNotificationMessage("Please choose only 1 video or 4 photos for upload");
+    } 
+    
+    setFiles(e.target.files ? Array.from(e.target.files) : []);
+    setNotificationMessage(null); 
   }
 
   const deleteImage = (fileName: string) => {
@@ -91,8 +125,8 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
       <div className="w-[90%] min-h-[120px] flex flex-col justify-between">
         <div className="">
           <textarea 
-            className="color-black bg-[#000000] focus:outline-none h-[100%] w-[100%] resizable-textarea resize-none text-lg font-medium" 
-            placeholder="What's happening?!"
+            className="color-black bg-[#000000] focus:outline-none h-[100%] w-[100%] resizable-textarea resize-none text-lg font-normal" 
+            placeholder={inputPlaceholder}
             value={tweetMessage}
             onChange={(e) => setTweetMessage(e.target.value)}
             onFocus={() => setShowDivider(true)}
@@ -105,13 +139,28 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
                 {
                   Array.from(files).map((file: File) => {
                     return (
+                    
                       <div key={file.name} className="w-full max-h-[515px] relative">
-                        <img 
-                          key={file.name} 
-                          src={URL.createObjectURL(file)} 
-                          className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
-                          alt={file.name} 
-                        />
+                        { imagesExtensionsWhitelist.includes(file.name.split('.')[file.name.split('.').length - 1])
+                          ? 
+                            <img 
+                              key={file.name} 
+                              src={URL.createObjectURL(file)} 
+                              className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
+                              alt={file.name} 
+                            />
+                          : videoExtensionsWhitelist.includes(file.name.split('.')[file.name.split('.').length - 1])
+                            ? <video 
+                                key={file.name} 
+                                src={URL.createObjectURL(file)} 
+                                width={'200px'}
+                                height={'200px'}
+                                className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
+                                controls
+                              />
+                            : <></>
+                        }
+
                         <div 
                           className="absolute p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer bg-mid_black hover:bg-light_black"
                           onClick={() => deleteImage(file.name)}
@@ -127,8 +176,6 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
           }
 
           { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> }
-          { error && <p className="text-rose-500">{error}</p>}
-
             <div className="user_actions flex justify-between items-center w-[100%]">
               <div className="relative">
                 <label htmlFor={inputId} className="flex w-[35px]">
@@ -138,7 +185,7 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
                     type="file" 
                     max={4}
                     multiple 
-                    onChange={e => setFiles(e.target.files ? Array.from(e.target.files) : [])}
+                    onChange={e => handleAddMedia(e)}
                     //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
                     ref={fileInputRef}
                   />
@@ -151,17 +198,20 @@ export const UserThoughtsInput = ({ session, inputId, tweetParentId, toReply = f
                 </label>
               </div>
 
-              <TweetButton onClickAction={() => handleTweetSubmit()} />
+              <TweetButton 
+                buttonText={buttonText}
+                message={tweetMessage}
+                numbersOfFiles={files.length}
+                onClickAction={() => handleTweetSubmit()} 
+              />
             </div>
         </div>
       </div>
-      { apiSuccessMessage && 
+      { notificationMessage && 
         <PopUpMessage 
-          text={apiSuccessMessage} 
-          setText={setApiSuccessMessage}
-          success={true}
-          textColor="white"
-          bgColor="cyan-600"
+          text={notificationMessage} 
+          setText={setNotificationMessage}
+          bgColor="[#1d9bf0]"
         /> 
       }
     </div>

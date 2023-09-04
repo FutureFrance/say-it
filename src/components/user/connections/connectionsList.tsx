@@ -25,8 +25,6 @@ const ConnectionsList = ({ session, targetUsername, fetchedConnections, connecti
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_CONNECTION_TAKE);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  console.log("render")
-
   const handleConnections = async () => {
     try {
       const response = connectionType === CONNECTIONS_TYPE.FOLLOWERS
@@ -69,7 +67,7 @@ const ConnectionsList = ({ session, targetUsername, fetchedConnections, connecti
           <div className="flex justify-center mt-28 font-bold text-xl"><p> Nothing here yet :/ </p></div>
       }
 
-      { apiError && <PopUpMessage text={apiError} setText={setApiError} success={false} textColor="rose-400"/>}
+      { apiError && <PopUpMessage text={apiError} setText={setApiError} />}
     </>
   )
 }
