@@ -9,7 +9,7 @@ export interface ITweet {
   timestamp_diff?: string;
   media: Array<IMedia>; 
   replies?: Array<ITweet>; 
-  views?: number;
+  views_count: number;
   created_at: string;
   liked: boolean;
   likeId?: number | undefined;

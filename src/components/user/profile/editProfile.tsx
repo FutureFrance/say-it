@@ -1,5 +1,6 @@
 'use client'
 
+import ActionWarningModal from "@/components/modals/actionWarningModal";
 import Modal from "@/components/modals/modal";
 import PopUpMessage from "@/components/ui/errors/popUpMessage";
 import { videoExtensionsWhitelist } from "@/constants/global.constants";
@@ -36,14 +37,16 @@ const EditProfile = ({
 }: Props) => {
   const [name, setName] = useState<string>(currentName);
   const [bio, setBio] = useState<string>(currentBio);
-  const [apiError, setApiError] = useState<null | string>(null);
   const [newBackground, setNewBackground] = useState<File | null>(null);
   const [newAvatar, setNewAvatar] = useState<File | null>(null);
   const [defaultBackground, setDefaultBackground] = useState<boolean>(defaultBackgroundImageUrl === currentBackgroundImage);
 
+  const [apiError, setApiError] = useState<null | string>(null);
+  const [warningModal, setWarningModal] = useState<boolean>(false);
+
   const handleUpdateProfile = async () => {
     try {
-      if(name.length > 0 || bio.length > 0 || newBackground || newAvatar || defaultBackground) {
+      if (name.length > 0 || bio.length > 0 || newBackground || newAvatar || defaultBackground) {
         const requestData = { name, bio, newAvatar, newBackground };
     
         for (const key of Object.keys(requestData)) {
@@ -108,8 +111,17 @@ const EditProfile = ({
     if (e.target.value.length <= 32) setName(e.target.value);
   }
 
+  const handleDiscardEditProfile = () => {
+    if (name !== currentName || bio !== currentBio || newBackground || newAvatar) setWarningModal(true);
+    else setEditProfileOn(false);
+  }
+
   return (
-    <Modal setModalOn={setEditProfileOn}>
+    <Modal 
+      setModalOn={setEditProfileOn} 
+      customOnClickAction={() => handleDiscardEditProfile()}
+      closeOnOutsideClick={false}
+    >
       <div 
         className="overflow-y-auto bg-[#000000] sm:rounded-2xl w-full h-full sm:w-[600px] sm:h-[520px]"
         onClick={(e) => e.stopPropagation()}
@@ -118,7 +130,7 @@ const EditProfile = ({
           <div className="flex justify-between gap-4 items-center">
             <div 
               className="rounded-full w-8 h-8 hover:bg-neutral-900 transition-colors duration-700 cursor-pointer"
-              onClick={() => setEditProfileOn(false)}
+              onClick={() => handleDiscardEditProfile()}
             >
               <img className="font-medium text-sm p-2 rounded-full" src="/assets/x_icon.png" alt="x_icon"/>
             </div>
@@ -244,6 +256,16 @@ const EditProfile = ({
           text={apiError} 
           setText={setApiError}
         /> 
+      }
+
+      { warningModal &&
+        <ActionWarningModal 
+          mainWarningText="Discard changes?"
+          warningText="This can't be undone and you'll lose your changes."
+          actionText="Discard"
+          setWarningModal={setWarningModal}
+          onClickAction={() => setEditProfileOn(false)}
+        />
       }
     </Modal>
   )

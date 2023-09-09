@@ -1,7 +1,9 @@
 'use client'
 
+import { incrementLikesCount, incrementRepliesCount, incrementViewsCount } from "@/redux/features/tweetStatisticsSlice";
 import { incrementNotificationsCount } from "@/redux/features/userNotificationsSlice";
 import { useAppDispatch } from "@/redux/hooks";
+import { NotificationTypes } from "@/types/notification.interface";
 import { Session } from "next-auth";
 import { useEffect } from "react";
 
@@ -13,16 +15,21 @@ const SseConnector = ({ session }: { session: Session }) => {
     const eventSource = new EventSource(`${process.env.NEXT_PUBLIC_API_URL}/notifications/sse`,{ 
       withCredentials: true
     });
-    
-    console.log('Established connection', eventSource);
-
+    console.log("connection established", eventSource)
     eventSource.onerror = (event) => {
       console.log("EVENT ERROR", event);
     }
 
     eventSource.onmessage = (event) => {
       try {
-        console.log("got event", event)
+        const data = JSON.parse(event.data);
+
+        if (data.event === NotificationTypes.REPLY) dispatch(incrementRepliesCount({ tweetId: data.tweetId }));
+        else if (data.event === NotificationTypes.LIKE) dispatch(incrementLikesCount({ tweetId: data.tweetId }));
+        else if (data.event === NotificationTypes.VIEW) {
+          return dispatch(incrementViewsCount({ tweetId: data.tweetId }));
+        }
+
         dispatch(incrementNotificationsCount());
       } catch(err) {
         console.log(err);

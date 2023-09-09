@@ -18,5 +18,6 @@ export interface INotificationResponse {
 export enum NotificationTypes {
   LIKE = 'like',
   REPLY = 'reply',
-  FOLLOW = 'follow'
+  FOLLOW = 'follow',
+  VIEW = 'view'
 }

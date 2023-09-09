@@ -63,7 +63,7 @@ const UserProfileSection = ({ session, targetProfileInfo }: Props) => {
           followingsCount={targetProfileInfo.followingsCount}
         />
 
-        <div className="absolute top-0 left-4 h-[112px] w-[112px] translate-y-[-50%]" >
+        <div className="absolute top-0 h-[112px] w-[112px] translate-y-[-50%]" >
           <img 
             className="h-[100%] rounded-full object-cover border-4 border-[black] transition duration-300 ease-in-out transform hover:grayscale-[25%]"
             src={currentProfileImage} 

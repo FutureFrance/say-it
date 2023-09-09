@@ -25,7 +25,7 @@ export const createTweet = async (
     })
     .catch(err => {
       throw err;
-    })
+    });
 }
 
 export const deleteTweet = async(accessToken: string, tweetId: number) => {
@@ -36,7 +36,7 @@ export const deleteTweet = async(accessToken: string, tweetId: number) => {
     })
     .catch(err => {
       throw err;
-    })
+    });
 }
 
 export const getTweet = async (accessToken: string, username: string, tweetId: number) => {
@@ -47,5 +47,16 @@ export const getTweet = async (accessToken: string, username: string, tweetId: n
     })
     .catch(err => {
       throw err;
+    });
+}
+
+export const addViewTweet = async (accessToken: string, tweetId: number) => {
+  return await api
+    .post('/tweets/view', { tweetId }, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res.data
     })
+    .catch(err => {
+      throw err;
+    });
 }

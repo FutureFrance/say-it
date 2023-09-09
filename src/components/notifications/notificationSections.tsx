@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PopUpMessage from "../ui/errors/popUpMessage";
 import Notification from "./notification";
 import NoDataInfo from "../ui/informative/noDataInfo";
@@ -11,6 +11,8 @@ import { Session } from "next-auth";
 import { INotification } from "@/types/notification.interface";
 import { getUserNotifications } from "@/services/user.service";
 import { FETCH_NOTIFICATIONS_TAKE } from "@/constants/tweets/notification.constants";
+import { setInitialNotificationsCount } from "@/redux/features/userNotificationsSlice";
+import { useDispatch } from "react-redux";
 
 type Props = { 
   session: Session;
@@ -22,7 +24,13 @@ const NotificationsSection = ({ session, fetchedUserNotifications }: Props) => {
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_NOTIFICATIONS_TAKE);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
-  // set in redux the notifs to zero ???
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setInitialNotificationsCount({ initState: 0 }));
+  }, []);
+
   const handlefFetchUserNotifications = async () => {   
     try {
       const response = await getUserNotifications(session.accessToken, pageOffSet, FETCH_NOTIFICATIONS_TAKE);
@@ -51,12 +59,12 @@ const NotificationsSection = ({ session, fetchedUserNotifications }: Props) => {
             notifications.map(notification => {
               return (
                 <div key={notification.id} className="tweet_section hover:bg-hover_tweet_gray"> 
-                  <div className="border w-[100%] border-zinc-800 mb-2"></div>
-
                   <Notification  
                     session={session} 
                     notification={notification}
                   />
+
+                  <div className="border w-[100%] border-zinc-800 mb-2"></div>
                 </div>
               ) 
             })

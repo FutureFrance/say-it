@@ -24,5 +24,6 @@ export default async function ConnectionsLayout({
       />
       { children }
     </>
+    // implement bit different, url changes way before the data gets fetched on first load
   )
 }
