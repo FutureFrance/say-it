@@ -5,14 +5,14 @@ import { FriendshipActions, IUser } from "@/types/user.interface";
 import { Session } from "next-auth";
 
 type Props = { 
-  targetProfileInfo: IUser;
+  targetProfileInfo: IUser & { amIfollowing: boolean };
   session: Session;
 }
 
 const FriendshipAction = ({ targetProfileInfo, session }: Props) => {
   return (
     <div>
-      { (targetProfileInfo as any).amIfollowing
+      { targetProfileInfo.amIfollowing
         ? <FriendshipActionButton  
             accessToken={session.accessToken}
             targetUserId={targetProfileInfo.id}

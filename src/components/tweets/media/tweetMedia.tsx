@@ -5,14 +5,23 @@ import Modal from "@/components/modals/modal";
 import { IMedia, ITweet, MediaTypes } from "@/interfaces/tweets/tweet.interface";
 
 type Props = { 
-  tweet: ITweet, 
-  leftMedia: Array<IMedia>, 
-  rightMedia: Array<IMedia> 
+  tweet: ITweet;
 }
 
-const TweetMedia = ({ tweet, leftMedia, rightMedia }: Props) => {
+const TweetMedia = ({ tweet }: Props) => {
   const [isModalOn, setIsModalOn] = useState<boolean>(false);
   const [selectedImageSource, setSelectedImageSource] = useState<IMedia>();
+
+  const leftMedia: Array<IMedia> = [];
+  const rightMedia: Array<IMedia> = [];
+
+  tweet.media.forEach((media, index) => {
+    if (index % 2 === 0) {
+      leftMedia.push(media);
+    } else {
+      rightMedia.push(media);
+    }
+  });
 
   const handleImageClick = (media: IMedia) => {
     setSelectedImageSource(media); 

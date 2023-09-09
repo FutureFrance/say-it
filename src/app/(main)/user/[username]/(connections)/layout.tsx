@@ -10,20 +10,15 @@ export default async function ConnectionsLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions); 
-  const headersList = headers();
-  const pathnameParts = headersList.get("x-invoke-path")?.split('/');
-
-  if (!pathnameParts || !session) redirect('/auth?callbackUrl=/feed');
+  if (!session) redirect('/auth?callbackUrl=/feed');
 
   return (
     <>
       <ConnectionMenu 
         targetUsername={ session.user.username }
         session={session}
-        pathname={pathnameParts[pathnameParts.length - 1]}
       />
       { children }
     </>
-    // implement bit different, url changes way before the data gets fetched on first load
   )
 }

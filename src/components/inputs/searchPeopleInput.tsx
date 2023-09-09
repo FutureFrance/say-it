@@ -81,10 +81,8 @@ const SearchPeopleInput = ({ session }: { session: Session }) => {
 
       { apiError && 
         <PopUpMessage 
-          success={true}
           text={apiError} 
           setText={setApiError}       
-          textColor="rose-400"
         />
       }
     </div>

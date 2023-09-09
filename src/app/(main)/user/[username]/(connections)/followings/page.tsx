@@ -1,9 +1,9 @@
 import ConnectionList from "@/components/user/connections/connectionsList";
+import { CONNECTIONS_TYPE } from "@/constants/connections";
 import { authOptions } from "@/lib/auth";
 import { getFollowings } from "@/services/user.service";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { CONNECTIONS_TYPE } from "../followers/page";
 
 const Followings = async ({ params }: { params: { username: string }}) => {
   const session = await getServerSession(authOptions); 

@@ -2,18 +2,15 @@
 
 import { Session } from "next-auth";
 import TweetOwnerAvatar from "./tweetOwnerAvatar";
-import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
-import React, { useCallback, useState } from "react";
+import { ITweet } from "@/interfaces/tweets/tweet.interface";
+import React, { useCallback, useContext } from "react";
 import TweetMedia from "./media/tweetMedia";
 import TweetStatistics from "./tweetStatistics";
-import ActionWarningModal from "../modals/actionWarningModal";
-import { deleteTweet } from "@/services/tweets.client.service";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import TweetSettings from "./tweetSettings";
 import UserThoughtsInput from "../user/userThoughtsInput";
 import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
+import { TweetContext } from "@/context/tweetContext";
 
 type Props = {
   session: Session;
@@ -21,38 +18,11 @@ type Props = {
 }
 
 const TweetView = ({ session, tweet }: Props) => {
-  const [warningModal, setWarningModal] = useState<boolean>(false);
+  const { setTweets } = useContext(TweetContext);
 
   const tweetLikeCount = useAppSelector<number>(state => state.persistedReducer.tweets[tweet.id]?.likes_count || tweet.likes_count);
   const tweetRepliesCount = useAppSelector<number>(state => state.persistedReducer.tweets[tweet.id]?.replies_count || tweet.replies_count);
   const tweetViewsCount = useAppSelector<number>(state => state.persistedReducer.tweets[tweet.id]?.replies_count || tweet.views_count);
-
-
-  const router = useRouter();
-
-  const leftMedia: Array<IMedia> = [];
-  const rightMedia: Array<IMedia> = [];
-
-  tweet.media.forEach((media, index) => {
-    if (index % 2 === 0) {
-      leftMedia.push(media);
-    } else {
-      rightMedia.push(media);
-    }
-  });
-
-  const handleDeleteTweet = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-
-    try {
-      await deleteTweet(session.accessToken, tweet.id);
-      // routes back if i delete replies too not only on main tweet
-      router.back();
-    } catch(err) {
-      if (err instanceof AxiosError) console.log("deleted")
-      // setApiMessage("Could not delete this tweet, please try again later");
-    }
-  }
 
   const formatDate = useCallback((inputDate: Date): string => {
     const timeString = inputDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -80,7 +50,7 @@ const TweetView = ({ session, tweet }: Props) => {
         <TweetSettings 
           session={session}
           tweet={tweet}
-          setWarningModal={setWarningModal}
+          setTweets={setTweets}
         />
       </div>
 
@@ -90,11 +60,7 @@ const TweetView = ({ session, tweet }: Props) => {
 
       <div className="mb-[12px]">
         {tweet.media.length > 0 && 
-          <TweetMedia 
-            tweet={tweet} 
-            leftMedia={leftMedia} 
-            rightMedia={rightMedia}
-          /> 
+          <TweetMedia tweet={tweet} /> 
         }
       </div>
 
@@ -146,16 +112,6 @@ const TweetView = ({ session, tweet }: Props) => {
         buttonText="Reply"
         inputPlaceholder="Post a Reply"
       />
-
-      {warningModal && 
-        <ActionWarningModal 
-          setWarningModal={setWarningModal}
-          mainWarningText="Delete post ?"
-          warningText="This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results."
-          actionText="Delete"
-          onClickAction={handleDeleteTweet}
-        />
-      }
     </article>
   )
 }
