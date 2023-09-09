@@ -8,7 +8,7 @@ import { Session } from "next-auth";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Connection from "./connection";
-import { CONNECTIONS_TYPE } from "@/app/(main)/user/[username]/(connections)/followers/page";
+import { CONNECTIONS_TYPE } from "@/constants/connections";
 
 const FETCH_CONNECTION_TAKE = 50;
 

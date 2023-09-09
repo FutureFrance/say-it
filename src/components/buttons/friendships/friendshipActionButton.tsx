@@ -31,7 +31,7 @@ export const FriendshipActionButton = ({ accessToken, targetUserId, action, sett
       await friendshipAction(accessToken, targetUserId, modifiedAction);
       
       if (setterCount !== undefined) setterCount(prev => modifiedAction === FriendshipActions.CREATE ? prev += 1 : prev -= 1);
-      setModifiedAction(modifiedAction === FriendshipActions.CREATE ? FriendshipActions.DESTROY : FriendshipActions.CREATE)
+      setModifiedAction(modifiedAction === FriendshipActions.CREATE ? FriendshipActions.DESTROY : FriendshipActions.CREATE);
     } catch(err: any) {
       if (err instanceof AxiosError) setApiError(err.response?.data.message);
     }
@@ -41,7 +41,6 @@ export const FriendshipActionButton = ({ accessToken, targetUserId, action, sett
     <>
       <button
         onClick={(e) => { e.preventDefault(); handleFollowSubmit() }} 
-        // className={`rounded-[22px] text-black bg-white text-sm font-semibold py-2 transition hover:bg-zinc-400 duration-300 ease-in ${btnStyles}`}
         className={modifiedAction === FriendshipActions.CREATE ? `${followButtonStyles} ${btnStyles}` :`${unFollowButtonStyles} ${btnStyles}` }
       >
         {`${modifiedAction === FriendshipActions.CREATE ? 'Follow' : 'Unfollow'}`}

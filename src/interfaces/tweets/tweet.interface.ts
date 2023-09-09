@@ -13,6 +13,7 @@ export interface ITweet {
   created_at: string;
   liked: boolean;
   likeId?: number | undefined;
+  amIfollowingTweetOwner: boolean;
 }
 
 export interface IMedia {

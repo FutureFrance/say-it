@@ -77,7 +77,7 @@ export const TweetStatistics = ({ fetchedTweet, session, showStatsNumbers = true
       />
 
       <TweetsStat 
-        text={fetchedTweet.views_count}
+        text={tweetViewsCount}
         imgSrc="/assets/tweet_statistics/bar_chart_icon.png" 
         textHoverStyles='text-neutral-400 transition-colors duration-300 ease-in-out'
         imgHoverStyles='bg-hover_view_gray transition-colors duration-300 ease-in-out'

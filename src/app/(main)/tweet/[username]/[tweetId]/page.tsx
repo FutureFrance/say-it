@@ -1,8 +1,6 @@
-import Tweet from "@/components/tweets/tweet";
 import TweetView from "@/components/tweets/tweetView";
 import TweetsSection from "@/components/tweets/tweetsSection";
 import StickyTitle from "@/components/ui/errors/stickyTitle";
-import UserThoughtsInput from "@/components/user/userThoughtsInput";
 import { TweetProvider } from "@/context/tweetContext";
 import { authOptions } from "@/lib/auth";
 import { getTweet } from "@/services/tweets.client.service";
@@ -15,6 +13,7 @@ const TweetPage = async ({ params }: { params: { username: string, tweetId: numb
   if(!session) redirect(`/auth?callbackUrl=/tweet/${params.username}/${params.tweetId}`);
 
   const tweetInfo = await getTweet(session.accessToken, params.username, params.tweetId);
+
   return (
     <TweetProvider fetchedTweetsServer={tweetInfo.tweets} >
       <section className="text-white font-thin border border-zinc-800 col-span-2">

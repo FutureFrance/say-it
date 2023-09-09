@@ -1,13 +1,18 @@
+'use client'
+
+import { WARNING_MODALS } from "@/constants/global.constants";
 import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 type Props = {
+  setWarningModalType: Dispatch<SetStateAction<WARNING_MODALS>>;
   setWarningModal: Dispatch<SetStateAction<boolean>>;
 }
 
-const DeleteOption = ({ setWarningModal }: Props) => {
+const DeleteOption = ({ setWarningModalType, setWarningModal }: Props) => {
   const deleteOptionClick = useCallback((e: MouseEvent) => { 
     e.stopPropagation();
-    setWarningModal(true); 
+    setWarningModalType(WARNING_MODALS.VIEW_TWEET_DELETE); 
+    setWarningModal(true);
   }, []);
 
   useEffect(() => {

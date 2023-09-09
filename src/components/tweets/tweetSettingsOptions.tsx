@@ -1,24 +1,32 @@
+'use client'
+
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import DeleteOption from "./tweetSettingsOptions/ownTweetsOptions/deleteOption";
 import ConnectionActionOption from "./tweetSettingsOptions/othersTweetsOptions/connectionAction";
+import { WARNING_MODALS } from "@/constants/global.constants";
+import { Session } from "next-auth";
 
 type Props = {
   showMyTweetSettings: boolean;
   showForeignTweetSettings: boolean;
   setShowForeignTweetSettings: Dispatch<SetStateAction<boolean>>;
   setShowMyTweetSettings: Dispatch<SetStateAction<boolean>>;
-  setWarningModal: Dispatch<SetStateAction<boolean>>;
+  setWarningModalType: Dispatch<SetStateAction<WARNING_MODALS>>;
+  setWarningModal:  Dispatch<SetStateAction<boolean>>;
   tweet: ITweet;
+  session: Session;
 }
 
 const TweetSettingsOptions = ({ 
   showMyTweetSettings, 
   showForeignTweetSettings, 
-  setWarningModal, 
-  tweet, 
   setShowMyTweetSettings,
-  setShowForeignTweetSettings
+  setShowForeignTweetSettings,
+  setWarningModal,
+  setWarningModalType,
+  tweet, 
+  session,
 }: Props) => {
   const onOutsideClick = useCallback((e: MouseEvent) => {
     e.stopImmediatePropagation();
@@ -42,13 +50,18 @@ const TweetSettingsOptions = ({
       id="settings_options"
     >
       { showMyTweetSettings && 
-        <DeleteOption setWarningModal={setWarningModal}/> 
+        <DeleteOption 
+          setWarningModal={setWarningModal}
+          setWarningModalType={setWarningModalType}
+        /> 
       }
       { showForeignTweetSettings &&
         <ConnectionActionOption 
-          tweet={tweet}
+          session={session}
+          tweet={tweet} 
+          setShowForeignTweetSettings={setShowForeignTweetSettings}
         />
-      }
+      } 
     </div>
   )
 }
