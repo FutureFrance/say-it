@@ -4,6 +4,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface ITweetStatistics { 
   likes_count: number;
   replies_count: number;
+  views_count: number;
   liked: boolean;
   likeId: number | undefined;
 }
@@ -28,6 +29,7 @@ const tweetStatisticsSlice = createSlice({
           likes_count: tweet.likes_count, 
           liked: tweet.liked, 
           likeId: tweet.likeId,
+          views_count: tweet.views_count,
           replies_count: tweet.replies_count
         }
       });
@@ -49,6 +51,13 @@ const tweetStatisticsSlice = createSlice({
     incrementRepliesCount: (state, action: PayloadAction<{ tweetId: number }>) => {
       state.tweets[action.payload.tweetId].replies_count += 1;
     },
+    incrementLikesCount: (state, action: PayloadAction<{ tweetId: number }>) => {
+      state.tweets[action.payload.tweetId].likes_count += 1;
+    },
+    incrementViewsCount: (state, action: PayloadAction<{ tweetId: number }>) => {
+      console.log("incrementing")
+      state.tweets[action.payload.tweetId].views_count += 1;
+    },
   },
 });
 
@@ -57,6 +66,8 @@ export const {
   unlikeATweet, 
   initializeTweetsStatistics, 
   incrementRepliesCount,
+  incrementLikesCount,
+  incrementViewsCount
 } = tweetStatisticsSlice.actions;
 
 export default tweetStatisticsSlice.reducer;

@@ -16,8 +16,13 @@ module.exports = {
         hover_search_user: 'rgba(255, 255, 255, 0.07)',
         light_blue: 'rgb(102, 178, 255)',
         white_text: 'rgb(231, 233, 234)',
-        warning_red: 'rgb(244, 33, 46)'
-      }
+        warning_red: 'rgb(244, 33, 46)',
+        tweet_like: 'rgb(249, 24, 128)',
+        hover_tweet_settings: 'rgba(22, 113, 174, 0.4)'
+      },
+      boxShadow: {
+        'tweet_settings_hover': '10px 10px 12px 10px rgba(22, 113, 174, 0.4)',
+      },
     }
   },
   plugins: [],

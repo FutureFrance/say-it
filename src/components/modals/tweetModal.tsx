@@ -2,27 +2,28 @@ import { Dispatch } from "react";
 import Modal from "./modal";
 import UserThoughtsInput from "../user/userThoughtsInput";
 import { Session } from "next-auth";
+import { ITweet } from "@/interfaces/tweets/tweet.interface";
 
 type Props = { 
   setModalOn: Dispatch<boolean>, 
   session: Session; 
   inputId: string;
   modalOn: boolean;
-  tweetParentId: number | null; 
+  parentTweet: ITweet | null; 
   toReply?: boolean;
 }
 
-const TweetModal = ({ setModalOn, session, inputId, modalOn, toReply = false, tweetParentId = null }: Props) => {
+const TweetModal = ({ setModalOn, session, inputId, modalOn, toReply = false, parentTweet = null }: Props) => {
   return (
     <Modal setModalOn={setModalOn}> 
       <div 
-        className={`modal_container bg-[black] rounded-[30px] p-2 sm:w-[600px] pb-2`} 
+        className={`bg-[black] rounded-[30px] p-4 sm:w-[700px] min-h-[200px]`} 
         onClick={(e) => e.stopPropagation()}
       >
         <UserThoughtsInput 
           session={session} 
           inputId={inputId} 
-          tweetParentId={tweetParentId} 
+          parentTweet={parentTweet} 
           toReply={toReply} 
           setModalOn={setModalOn}
         />

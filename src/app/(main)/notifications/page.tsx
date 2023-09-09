@@ -1,4 +1,5 @@
 import NotificationsSection from "@/components/notifications/notificationSections";
+import StickyTitle from "@/components/ui/errors/stickyTitle";
 import { authOptions } from "@/lib/auth";
 import { getUserNotifications } from "@/services/user.service";
 import { getServerSession } from "next-auth";
@@ -8,13 +9,16 @@ const Notifications = async () => {
   const session = await getServerSession(authOptions); 
   if(!session) redirect('/auth/?callbackUrl=/notifications');
   console.log("RENDERED /notifications")
-  const fetchedTweets = await getUserNotifications(session.accessToken);
+  const fetchedNotifications = await getUserNotifications(session.accessToken);
 
   return (
-    <NotificationsSection 
-      session={session} 
-      fetchedUserNotifications={fetchedTweets.data.notifications}
-    />
+    <>
+      <StickyTitle title="Notifications"/>
+      <NotificationsSection 
+        session={session} 
+        fetchedUserNotifications={fetchedNotifications.data.notifications}
+      />
+    </>
   )
 }
 

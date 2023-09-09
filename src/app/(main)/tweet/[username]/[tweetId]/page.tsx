@@ -1,4 +1,5 @@
 import Tweet from "@/components/tweets/tweet";
+import TweetView from "@/components/tweets/tweetView";
 import TweetsSection from "@/components/tweets/tweetsSection";
 import StickyTitle from "@/components/ui/errors/stickyTitle";
 import UserThoughtsInput from "@/components/user/userThoughtsInput";
@@ -18,20 +19,11 @@ const TweetPage = async ({ params }: { params: { username: string, tweetId: numb
     <TweetProvider fetchedTweetsServer={tweetInfo.tweets} >
       <section className="text-white font-thin border border-zinc-800 col-span-2">
         <StickyTitle title="Tweet"/>
-        <Tweet 
+        <TweetView 
           session={session} 
           tweet={tweetInfo.parentTweet}
-          // setTweets={[]}
         />
-
-        <UserThoughtsInput 
-          session={session} 
-          inputId="reply_file_input" 
-          tweetParentId={tweetInfo.parentTweet.id} 
-          buttonText="Reply"
-          inputPlaceholder="Post your reply!"
-        />
-
+        
         {tweetInfo.tweets.length > 0 && (
           <TweetsSection 
             session={session} 

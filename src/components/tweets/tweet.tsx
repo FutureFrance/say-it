@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Session } from "next-auth"
 import { AxiosError } from "axios";
 import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
@@ -9,8 +9,9 @@ import TweetStatistics from "./tweetStatistics";
 import TweetMedia from "./media/tweetMedia";
 import { usePathname, useRouter } from "next/navigation";
 import PopUpMessage from "../ui/errors/popUpMessage";
-import { deleteTweet } from "@/services/tweets.client.service";
+import { addViewTweet, deleteTweet } from "@/services/tweets.client.service";
 import ActionWarningModal from "../modals/actionWarningModal";
+import TweetSettings from "./tweetSettings";
 
 type Props = {
   session: Session;
@@ -19,16 +20,50 @@ type Props = {
 }
 
 export const Tweet = ({ session, tweet, setTweets }: Props) => {
-  const [showMyTweetSettings, setShowMyTweetSettings] = useState<boolean>(false);
-  const [showForeignTweetSettings, setShowForeignTweetSettings] = useState<boolean>(false);
   const [apiMessage, setApiMessage] = useState<null | string>(null);
   const [warningModal, setWarningModal] = useState<boolean>(false);
+  const [prefetched, setPrefetched] = useState(false);
 
   const router = useRouter();
   const pathname = usePathname();
+  const tweetRef = useRef(null);
 
   const leftMedia: Array<IMedia> = [];
   const rightMedia: Array<IMedia> = [];
+
+  const addViewTweetRequest = (entries: Array<IntersectionObserverEntry>) => {
+    entries.forEach(async (entry: IntersectionObserverEntry) => {
+      if (entry.isIntersecting && !prefetched) {
+        try {
+          await addViewTweet(session.accessToken, tweet.id);
+          setPrefetched(true);
+        }
+        catch(err) {
+          console.log(err);
+        }
+      }
+    })
+  }
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5, 
+    };
+
+    const observer = new IntersectionObserver(addViewTweetRequest, options);
+
+    if (tweetRef.current) {
+      observer.observe(tweetRef.current);
+    }
+
+    return () => {
+      if (tweetRef.current) {
+        observer.unobserve(tweetRef.current);
+      }
+    };
+  }, [prefetched, tweet.id]);
 
   tweet.media.forEach((media, index) => {
     if (index % 2 === 0) {
@@ -41,13 +76,6 @@ export const Tweet = ({ session, tweet, setTweets }: Props) => {
   const handleUserClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     router.push(`/user/${session.user.username}`);
-  }
-
-  const handleTweetSettingsClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-
-    if (tweet.user.username === session.user.username) setShowMyTweetSettings(true);
-    else setShowForeignTweetSettings(true);
   }
 
   const handleDeleteTweet = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -68,78 +96,58 @@ export const Tweet = ({ session, tweet, setTweets }: Props) => {
 
   return (
     <div 
-      className="tweet pr-8 p-2 flex max-h-[550px] cursor-pointer" 
+      className="py-2 px-4 flex cursor-pointer" 
       onClick={() => router.push(`/tweet/${session.user.username}/${tweet.id}`)}
+      ref={tweetRef}
     >
       <TweetOwnerAvatar user={tweet.user}/> 
       
-      <div className="tweet_content w-[100%] cursor-pointer">
-        <div className="flex justify-between items-center">
-          <div className="owner_content flex gap-2 items-center max-w-fit" onClick={e => handleUserClick(e)}>
-            <p className="font-semibold text-md">{tweet.user.name} &nbsp;</p>
-    
-            <p className="text-md text-zinc-300">@{tweet.user.username}</p>
-            <div className="bg-[gray] rounded-full h-[2px] w-[2px]"></div>
-        
-            <p className="text-sm text-zinc-300">{tweet.timestamp_diff}</p>
+      <div className="w-[100%] cursor-pointer">
+        <div className="flex justify-between">
+          <div className="flex leading-5 text-[15px] max-w-fit" onClick={e => handleUserClick(e)}>
+            <span className="font-semibold">{tweet.user.name} &nbsp;</span>
+            <span className="text-zinc-500">@{tweet.user.username} ·&nbsp;</span>
+            <span className="text-sm text-zinc-400">{tweet.timestamp_diff}</span>
           </div>
-          <div className="relative">
-            <img
-              onClick={handleTweetSettingsClick} 
-              className="w-4 h-4" 
-              src="/assets/app_menu/menu_dots_icon.png" 
-              alt="" 
-            />
 
-            { (showMyTweetSettings || showForeignTweetSettings) && 
-              <div className="absolute bg-[black] top-0 right-0 rounded-lg w-64 z-20" style={{ boxShadow: "0 0 12px rgba(175, 175, 175, 0.5)" }}>
-                { showMyTweetSettings && 
-                  <div 
-                    className="flex gap-4 items-center px-4 py-2 hover:bg-hover_tweet_gray"
-                    onClick={(e) => { setWarningModal(true); e.preventDefault(); e.stopPropagation()}}
-                  >
-                    <img className="h-[18px]" src="/assets/trash_icon.png" alt="" />
-                    <span className="text-warning_red text-[15px] font-medium">Delete</span>
-                  </div>
-                }
-                {
-                  showForeignTweetSettings &&
-                  <div>
-                    {/* foreign tweet settings */}
-                  </div>
-                }
-              </div>
-            }
-          </div>
+          <TweetSettings 
+            session={session}
+            tweet={tweet}
+            setWarningModal={setWarningModal}
+          />
         </div>
 
         <div className='mb-2'>
           <p className="font-[375] text-md">{tweet.text_body}</p>
         </div>
+        
+        <div className="mb-[12px] pr-2">
+          {tweet.media.length > 0 && 
+            <TweetMedia 
+              tweet={tweet} 
+              leftMedia={leftMedia} 
+              rightMedia={rightMedia}
+            /> 
+          }
+        </div>
 
-        {tweet.media.length > 0 && 
-          <TweetMedia 
-            tweet={tweet} 
-            leftMedia={leftMedia} 
-            rightMedia={rightMedia}
-          /> 
-        }
         <TweetStatistics fetchedTweet={tweet} session={session}/>
       </div>
+      
+      {warningModal && 
+        <ActionWarningModal 
+          setWarningModal={setWarningModal}
+          mainWarningText="Delete post ?"
+          warningText="This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results."
+          actionText="Delete"
+          onClickAction={handleDeleteTweet}
+        />
+      }
+
       { apiMessage && 
         <PopUpMessage 
           text={apiMessage}
           setText={setApiMessage}
-        />
-      }
-
-      {warningModal && 
-        <ActionWarningModal 
-          setWarningModal={setWarningModal}
-          mainWarningText="Delete post?"
-          warningText="This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results."
-          actionText="Delete"
-          onClickAction={handleDeleteTweet}
         />
       }
     </div>

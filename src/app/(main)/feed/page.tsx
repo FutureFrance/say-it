@@ -12,12 +12,19 @@ const Feed = async () => {
   if(!session) redirect('/auth/?callbackUrl=/feed');
   console.log("feed render")
   const fetchedTweets = await getFeedTweets(session.accessToken);
-
+  
   return (
     <section>
       <TweetProvider fetchedTweetsServer={fetchedTweets.tweets}>
         <StickyTitle title="Feed"/>
-        <UserThoughtsInput session={session} inputId="feed_file_input" tweetParentId={null}/>
+        <div className="px-4 mt-2">
+          <UserThoughtsInput 
+            session={session} 
+            inputId="feed_file_input" 
+            parentTweet={null}
+            focused={true}
+          />
+        </div>
         <TweetsSection 
           session={session} 
           fetchNewTweets={getFeedTweets}

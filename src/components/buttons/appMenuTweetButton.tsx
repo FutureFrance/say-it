@@ -10,7 +10,15 @@ const AppMenuTweetButton = ({ session }: { session: Session}) => {
 
   return (
     <>
-      { modalOn && <TweetModal setModalOn={setModalOn} modalOn={modalOn} session={session} inputId="appMenu_file_input" tweetParentId={null}/> }
+      { modalOn && 
+        <TweetModal 
+          setModalOn={setModalOn} 
+          modalOn={modalOn} 
+          session={session} 
+          inputId="appMenu_file_input" 
+          parentTweet={null}
+        /> 
+      }
       <TweetButton
         onClickAction={() => setModalOn(true) } 
         styles="mt-4 p-0 w-full"

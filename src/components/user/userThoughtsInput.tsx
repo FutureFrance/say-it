@@ -3,7 +3,6 @@
 import { ChangeEvent, Dispatch, useContext, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Session } from "next-auth";
-import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import { createTweet } from "@/services/tweets.client.service";
 import TweetButton from "../buttons/tweetButton";
@@ -11,42 +10,45 @@ import PopUpMessage from "../ui/errors/popUpMessage";
 import { TweetContext } from "@/context/tweetContext";
 import { incrementRepliesCount } from "@/redux/features/tweetStatisticsSlice";
 import { imagesExtensionsWhitelist, videoExtensionsWhitelist } from "@/constants/global.constants";
+import { ITweet } from "@/interfaces/tweets/tweet.interface";
+import Link from "next/link";
 
 type Props = { 
   session: Session; 
   inputId: string;
-  tweetParentId: number | null; 
+  parentTweet: ITweet | null; 
   inputPlaceholder?: string;
   buttonText?: string;
   toReply?: boolean;
   setModalOn?: Dispatch<boolean>;
+  focused?: boolean;
 }
 
 export const UserThoughtsInput = ({ 
   session, 
   inputId, 
-  tweetParentId, 
+  parentTweet, 
   inputPlaceholder = "What's happening?!", 
   buttonText,
+  setModalOn, 
   toReply = false,
-  setModalOn 
+  focused = false
 }: Props) => {
   const { setTweets } = useContext(TweetContext); 
   const [tweetMessage, setTweetMessage] = useState<string>("");
   const [files, setFiles] = useState<Array<File>>([]);
   const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
-  const [showDivider, setShowDivider] = useState<boolean>(false);
+  const [showDivider, setShowDivider] = useState<boolean>(focused);
 
   const dispatch = useDispatch();
 
-  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleTweetSubmit = async () => {
     try {
       if (files.length < 1 && tweetMessage === "") return setNotificationMessage("Tweet length must be at least 1 or at least one file");
 
-      const response = await createTweet(session.accessToken, tweetMessage, tweetParentId, files);
+      const response = await createTweet(session.accessToken, tweetMessage, parentTweet?.id, files);
 
       setTweetMessage("");
       setFiles([]);
@@ -54,8 +56,8 @@ export const UserThoughtsInput = ({
       if (fileInputRef.current) fileInputRef.current.value = '';
       if (!toReply) setTweets(prev => [...prev, response.data.tweet]);
 
-      if(tweetParentId) {
-        dispatch(incrementRepliesCount({ tweetId: tweetParentId }));
+      if (parentTweet?.id) {
+        dispatch(incrementRepliesCount({ tweetId: parentTweet.id }));
 
         if(setModalOn) setModalOn(false);
       }
@@ -85,7 +87,9 @@ export const UserThoughtsInput = ({
         }
       }
 
-      if (numberOfVideoFiles > 1 && e.target.files.length > 1) return setNotificationMessage("Please choose only 1 video or 4 photos for upload");
+      if (numberOfVideoFiles > 1 && e.target.files.length > 1) {
+        return setNotificationMessage("Please choose only 1 video or 4 photos for upload");
+      }
     } 
     
     setFiles(e.target.files ? Array.from(e.target.files) : []);
@@ -109,111 +113,134 @@ export const UserThoughtsInput = ({
   }
 
   return (
-    <div className="flex p-2 pb-0 mb-2 gap-4 pt-4 h-[100%]">
-      <div 
-        className="tweet_owner_profile_photo w-[40px] h-[40px] cursor-pointer" 
-        onClick={() => router.push(`/user/${session.user.username}`)}
-      >
-        <img 
-          src={session.user.avatar} 
-          className="rounded-full object-cover w-[100%] h-[100%]" 
-          alt="tweet_owner_avatar" 
-        />
-      </div>
-
-      <div className="w-[90%] min-h-[120px] flex flex-col justify-between">
-        <div className="">
-          <textarea 
-            className="color-black bg-[#000000] focus:outline-none h-[100%] w-[100%] resizable-textarea resize-none text-lg font-normal" 
-            placeholder={inputPlaceholder}
-            value={tweetMessage}
-            onChange={(e) => setTweetMessage(e.target.value)}
-            onFocus={() => setShowDivider(true)}
-          />
+    <>
+      { (parentTweet && showDivider) &&
+        <div className="flex text-15">
+          <div className="w-[40px]"></div>
+          
+          <p className="mb-2 ml-4 text-zinc-500 font-normal">Replying to&nbsp;
+            <Link href={`/user/${parentTweet.user.username}`}>
+              <span className="text-sky-400">@{parentTweet.user.username}</span>
+            </Link>
+          </p> 
         </div>
-        <div>
-          {
-            files && (
-              <div className="max-h-[200px] flex"> 
-                {
-                  Array.from(files).map((file: File) => {
-                    return (
-                    
-                      <div key={file.name} className="w-full max-h-[515px] relative">
-                        { imagesExtensionsWhitelist.includes(file.name.split('.')[file.name.split('.').length - 1])
-                          ? 
-                            <img 
-                              key={file.name} 
-                              src={URL.createObjectURL(file)} 
-                              className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
-                              alt={file.name} 
-                            />
-                          : videoExtensionsWhitelist.includes(file.name.split('.')[file.name.split('.').length - 1])
-                            ? <video 
-                                key={file.name} 
-                                src={URL.createObjectURL(file)} 
-                                width={'200px'}
-                                height={'200px'}
-                                className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
-                                controls
-                              />
-                            : <></>
-                        }
+      }
+      
+      <div className={`flex pb-0 mb-2 gap-4 h-[100%] ${showDivider ? '' : 'items-center'}`}>
+        <Link href={`/user/${session.user.username}`}>
+          <div className="h-[40px] w-[40px] cursor-pointer">
+            <img 
+              src={session.user.avatar} 
+              className="h-full w-full rounded-full object-cover" 
+              alt="tweet_owner_avatar" 
+            />
+          </div>
+        </Link>
 
-                        <div 
-                          className="absolute p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer bg-mid_black hover:bg-light_black"
-                          onClick={() => deleteImage(file.name)}
-                        >
-                          <img src="/assets/x_icon.png" className="w-[10px] h-[10px]" />
-                        </div>
-                      </div>
-                    )
-                  })
-                }
-              </div>
-            )
-          }
-
-          { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> }
-            <div className="user_actions flex justify-between items-center w-[100%]">
-              <div className="relative">
-                <label htmlFor={inputId} className="flex w-[35px]">
-                  <input 
-                    id={inputId}
-                    className="opacity-0 w-[35px] h-[35px] inset-0 w-full" 
-                    type="file" 
-                    max={4}
-                    multiple 
-                    onChange={e => handleAddMedia(e)}
-                    //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
-                    ref={fileInputRef}
-                  />
-
-                  <img 
-                    className="absolute top-0 left-0 cursor-pointer w-[32px] h-[32px] hover:bg-neutral-800 p-[6px] rounded-full" 
-                    src="/assets/image_icon.png" 
-                    alt="image icon" 
-                  />
-                </label>
-              </div>
-
+        <div className="w-full min-h-[60px] flex flex-col justify-center">
+          <div className="flex items-center">
+            <textarea 
+              className="bg-[black] h-[40px] w-full focus:outline-none resizable-textarea resize-none placeholder:text-zinc-500 placeholder:opacity-80 text-lg font-normal" 
+              placeholder={inputPlaceholder}
+              value={tweetMessage}
+              onChange={(e) => setTweetMessage(e.target.value)}
+              onFocus={() => setShowDivider(true)}
+            />
+            { !showDivider && 
               <TweetButton 
                 buttonText={buttonText}
                 message={tweetMessage}
                 numbersOfFiles={files.length}
                 onClickAction={() => handleTweetSubmit()} 
               />
-            </div>
+            }
+          </div>
+          <div className="">
+            {
+              files && (
+                <div className="max-h-[200px] flex"> 
+                  {
+                    Array.from(files).map((file: File) => {
+                      return (
+                      
+                        <div key={file.name} className="w-full max-h-[515px] relative">
+                          { imagesExtensionsWhitelist.includes(file.name.split('.')[file.name.split('.').length - 1])
+                            ? 
+                              <img 
+                                key={file.name} 
+                                src={URL.createObjectURL(file)} 
+                                className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
+                                alt={file.name} 
+                              />
+                            : videoExtensionsWhitelist.includes(file.name.split('.')[file.name.split('.').length - 1])
+                              ? <video 
+                                  key={file.name} 
+                                  src={URL.createObjectURL(file)} 
+                                  width={'200px'}
+                                  height={'200px'}
+                                  className="rounded-md object-cover cursor-pointer h-[100%] w-[100%]" 
+                                  controls
+                                />
+                              : <></>
+                          }
+
+                          <div 
+                            className="absolute p-2 top-2 right-2 opacity-70 rounded-full cursor-pointer bg-mid_black hover:bg-light_black"
+                            onClick={() => deleteImage(file.name)}
+                          >
+                            <img src="/assets/x_icon.png" className="w-[10px] h-[10px]" />
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+              )
+            }
+          </div>
+            {/* { showDivider && <div className="border w-[100%] border-zinc-800 my-2"></div> } */}
+            { showDivider && 
+              <div className="user_actions flex justify-between items-center w-[100%] mt-[24px]">
+                <div className="relative">
+                  <label htmlFor={inputId} className="flex w-[35px]">
+                    <input 
+                      id={inputId}
+                      className="opacity-0 w-[35px] h-[35px] inset-0 w-full" 
+                      type="file" 
+                      max={4}
+                      multiple 
+                      onChange={e => handleAddMedia(e)}
+                      //accept=".jpeg,.png.,.jpg,.mp4,.mp3,.svg"
+                      ref={fileInputRef}
+                    />
+
+                    <img 
+                      className="absolute top-0 left-0 cursor-pointer w-[32px] h-[32px] hover:bg-neutral-800 p-[6px] rounded-full" 
+                      src="/assets/image_icon.png" 
+                      alt="image icon" 
+                    />
+                  </label>
+                </div>
+
+                <TweetButton 
+                  buttonText={buttonText}
+                  message={tweetMessage}
+                  numbersOfFiles={files.length}
+                  onClickAction={() => handleTweetSubmit()} 
+                />
+              </div>
+            }
+
         </div>
+        { notificationMessage && 
+          <PopUpMessage 
+            text={notificationMessage} 
+            setText={setNotificationMessage}
+            bgColor="[#1d9bf0]"
+          /> 
+        }
       </div>
-      { notificationMessage && 
-        <PopUpMessage 
-          text={notificationMessage} 
-          setText={setNotificationMessage}
-          bgColor="[#1d9bf0]"
-        /> 
-      }
-    </div>
+    </>
   )
 }
 

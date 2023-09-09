@@ -8,12 +8,12 @@ export default async function UserPageLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-[#000000] min-h-[100vh] flex justify-center lg:px-[12%]">
+    <div className="bg-[#000000] h-full flex justify-center lg:px-[5%]">
       <div className="flex w-[15%] md:w-[25%] justify-center md:justify-end md:pr-[3%]">
         <AppMenu />
       </div> 
 
-      <div className="text-white font-thin border border-zinc-800 w-[85%] lg:w-[50%] md:w-[80%] max-w-[900px]">
+      <div className="min-h-[100vh] text-white font-thin border border-b-0 border-zinc-800 w-[85%] lg:w-[50%] md:w-[80%] max-w-[900px]">
         {children}
       </div>
 

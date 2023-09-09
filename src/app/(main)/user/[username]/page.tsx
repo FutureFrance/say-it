@@ -19,7 +19,7 @@ const User = async ({ params }: {params: { username: string }}) => {
 
   return (
     <TweetProvider fetchedTweetsServer={tweetsResponse.tweets} >
-      <section className="text-white font-thin border border-zinc-800 col-span-2">
+      <section className="text-white col-span-2">
         <StickyTitle title={targetProfileInfoResponse.data.user.name}/>
 
         <UserProfileSection 

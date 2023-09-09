@@ -51,7 +51,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {
   } 
 
   return ( 
-    <div className={`${tweets.length === 0 ? 'flex items-center justify-center h-[100vh]' : ''}`}>
+    <div className={`${tweets.length === 0 ? 'flex items-center justify-center border-t pt-8 border-zinc-800' : ''}`}>
       {tweets.length > 0 ?
         (
           <InfiniteScroll 
@@ -63,7 +63,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {
           {
             tweets.map(tweet => {
               return (
-                <div key={tweet.id} className="tweet_section hover:bg-hover_tweet_gray"> 
+                <div key={tweet.id} className="hover:bg-hover_tweet_gray"> 
                   <div className="border w-[100%] border-zinc-800 mb-2"></div>
 
                   <Tweet  
