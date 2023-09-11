@@ -53,9 +53,9 @@ const UserProfileSection = ({ session, targetProfileInfo }: Props) => {
           }
         </div>
         
-        <p className="text-lg font-bold">{currentName}</p>
-        <p className="mb-2 text-zinc-500 text-base font-normal">@{targetProfileInfo.user.username}</p>
-        <p className="mb-2 font-normal text-[15px] break-words">{currentBio}</p>
+        <p className="text-lg font-bold leading-6">{currentName}</p>
+        <p className="mb-2 text-zinc-500 text-base font-normal leading-4 mb-[20px]">@{targetProfileInfo.user.username}</p>
+        <p className="mb-2 font-normal text-[15px] break-words leading-4">{currentBio}</p>
 
         <FriendshipsCount
           targetProfileInfo={targetProfileInfo} 

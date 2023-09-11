@@ -10,7 +10,7 @@ type Props = {
 
 const TweetButton = ({ message, onClickAction, styles = '', buttonText = 'Tweet', numbersOfFiles = 0 }: Props) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex min-w-[40px] h-[40px] items-center justify-center">
       <button 
         className={`bg-sky-500/75 hidden md:block py-[3px] px-[8px] md:py-[6px] md:px-[16px] rounded-[50px] flex-right text-lg font-semibold disabled ${styles} disabled:opacity-50`}
         onClick={onClickAction}

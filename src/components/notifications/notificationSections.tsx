@@ -63,8 +63,6 @@ const NotificationsSection = ({ session, fetchedUserNotifications }: Props) => {
                     session={session} 
                     notification={notification}
                   />
-
-                  <div className="border w-[100%] border-zinc-800 mb-2"></div>
                 </div>
               ) 
             })

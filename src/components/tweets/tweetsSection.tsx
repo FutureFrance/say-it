@@ -64,7 +64,7 @@ export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {
             tweets.map(tweet => {
               return (
                 <div key={tweet.id} className="hover:bg-hover_tweet_gray"> 
-                  <div className="border w-[100%] border-zinc-800 mb-2"></div>
+                  <div className="border w-[100%] border-zinc-900 mb-2"></div>
 
                   <Tweet  
                     session={session} 
