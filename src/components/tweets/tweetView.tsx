@@ -3,14 +3,15 @@
 import { Session } from "next-auth";
 import TweetOwnerAvatar from "./tweetOwnerAvatar";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
-import React, { useCallback, useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import TweetMedia from "./media/tweetMedia";
 import TweetStatistics from "./tweetStatistics";
 import TweetSettings from "./tweetSettings";
 import UserThoughtsInput from "../user/userThoughtsInput";
-import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
 import { TweetContext } from "@/context/tweetContext";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { initializeTweetsStatistics } from "@/redux/features/tweetStatisticsSlice";
 
 type Props = {
   session: Session;
@@ -20,18 +21,15 @@ type Props = {
 const TweetView = ({ session, tweet }: Props) => {
   const { setTweets } = useContext(TweetContext);
 
-  const tweetLikeCount = useAppSelector<number>(state => state.persistedReducer.tweets[tweet.id]?.likes_count || tweet.likes_count);
-  const tweetRepliesCount = useAppSelector<number>(state => state.persistedReducer.tweets[tweet.id]?.replies_count || tweet.replies_count);
-  const tweetViewsCount = useAppSelector<number>(state => state.persistedReducer.tweets[tweet.id]?.replies_count || tweet.views_count);
+  const tweetsStats = useAppSelector(state => state.persistedReducer.tweets);
 
-  const formatDate = useCallback((inputDate: Date): string => {
-    const timeString = inputDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const monthString = inputDate.toLocaleString('default', { month: 'short' });
-    const dayOfMonth = inputDate.getDate();
-    const year = inputDate.getFullYear();
+  const dispatch = useAppDispatch();
 
-    return `${timeString} · ${monthString} ${dayOfMonth}, ${year} ·`;
-  }, []);
+  useEffect(() => {
+    if (tweetsStats[tweet.id] === undefined) { 
+      dispatch(initializeTweetsStatistics({ initialTweetsStats: [tweet] })); 
+    }
+  }, []); 
 
   return (
     <article className="px-4 mt-[12px]">
@@ -41,7 +39,7 @@ const TweetView = ({ session, tweet }: Props) => {
           
           <Link href={`/user/${tweet.user.username}`} prefetch={false}>
             <div className="text-[15px] leading-5 cursor-pointer">
-              <div><span className="font-semibold">{tweet.user.name}</span></div>
+              <div><span className="font-bold hover:underline">{tweet.user.name}</span></div>
               <div><span className="text-zinc-500 font-normal">@{tweet.user.username}</span></div>
             </div>
           </Link>
@@ -64,44 +62,12 @@ const TweetView = ({ session, tweet }: Props) => {
         }
       </div>
 
-      <div className="flex items-center min-h-[40px] text-[15px] leading-5 text-[white] gap-[4px] font-normal">
-        <time className="hover:underline text-zinc-500" dateTime={tweet.created_at}>{formatDate(new Date(tweet.created_at))}</time>
-
-        <div>
-          <span className="font-semibold">{tweetViewsCount}</span>
-          <span className="hover:underline text-zinc-500 ml-[4px] font-normal">Views</span>
-        </div>
-      </div>
-
-      <div className="border w-[100%] border-zinc-800"></div>
-
-      <div className="flex items-center h-[45px] text-sm font-normal gap-4">
-        <div className="cursor-pointer">
-          <span className="font-semibold">{tweetRepliesCount}</span>
-          <span className="hover:underline text-zinc-500 ml-[4px]">Replies</span>
-        </div>
-
-        <div className="cursor-pointer">
-          <span className="font-semibold">{tweetLikeCount}</span>
-          <span className="hover:underline text-zinc-500 ml-[4px]">Likes</span>
-        </div>
-
-        <div className="cursor-pointer">
-          <span className="font-semibold">500</span>
-          <span className="hover:underline text-zinc-500 ml-[4px]">Bookmarks</span>
-        </div>
-      </div>
-
-      <div className="border w-[100%] border-zinc-800"></div>
-
-      <div className="flex h-[45px]">
-        <TweetStatistics 
-          fetchedTweet={tweet} 
-          session={session}
-          showStatsNumbers={false}
-          iconSpacing="justify-around"
-        />
-      </div>
+      <TweetStatistics 
+        fetchedTweet={tweet} 
+        session={session}
+        individualTweet={true}
+        iconSpacing="justify-around"
+      />
 
       <div className="border w-[100%] border-zinc-800 mb-2"></div>
 

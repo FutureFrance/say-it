@@ -1,4 +1,5 @@
 import { FETCH_NOTIFICATIONS_TAKE } from "@/constants/tweets/notification.constants";
+import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { api } from "@/lib/http";
 import { IProfileInfo } from "@/types/frienships.interface";
 import { INotificationResponse } from "@/types/notification.interface";
@@ -97,6 +98,32 @@ export const getFollowings = async (accessToken: string, targetUsername: string,
     })
 }
 
+export const getBookmarks = async (accessToken: string, offset?: number, take?: number) => {
+  const url = offset && take
+    ? `/tweets/user-bookmarks/?offset=${offset}&take=${take}`
+    : `/tweets/user-bookmarks`
+
+  return await api
+    .get<IGetBookmarks>(url, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      throw err;
+    })
+}
+
+export const deleteBookmarks = async (accessToken: string) => {
+  return await api
+    .delete('/tweets/bookmarks', { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      throw err;
+    })
+}
+
 interface IUpdateUserProfileBody {
   name?: string;
   bio?: string;
@@ -110,6 +137,11 @@ export interface ISearchUsersResponse {
   username: string, 
   avatar: string, 
   name: string 
+}
+
+export interface IGetBookmarks {
+  tweets: Array<ITweet>, 
+  hasMore: boolean
 }
 
 export type SearchUsersResponse = Array<Pick<IUser, "avatar" | "id" | "username" | "background" | "name">>;

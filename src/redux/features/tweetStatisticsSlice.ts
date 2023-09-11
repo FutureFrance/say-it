@@ -5,8 +5,11 @@ interface ITweetStatistics {
   likes_count: number;
   replies_count: number;
   views_count: number;
+  bookmarks_count: number;
   liked: boolean;
   likeId: number | undefined;
+  bookmarked: boolean;
+  bookmarkId: number | undefined;
 }
 
 interface tweetStatisticsState {
@@ -29,8 +32,11 @@ const tweetStatisticsSlice = createSlice({
           likes_count: tweet.likes_count, 
           liked: tweet.liked, 
           likeId: tweet.likeId,
+          bookmarkId: tweet.bookmarkId,
           views_count: tweet.views_count,
-          replies_count: tweet.replies_count
+          replies_count: tweet.replies_count,
+          bookmarks_count: tweet.bookmarks_count,
+          bookmarked: tweet.bookmarked
         }
       });
     },
@@ -49,14 +55,30 @@ const tweetStatisticsSlice = createSlice({
       state.tweets[tweetId].likeId = undefined;
     },
     incrementRepliesCount: (state, action: PayloadAction<{ tweetId: number }>) => {
-      state.tweets[action.payload.tweetId].replies_count += 1;
+      const targetTweet = state.tweets[action.payload.tweetId];
+      if (targetTweet) targetTweet.replies_count += 1;
     },
     incrementLikesCount: (state, action: PayloadAction<{ tweetId: number }>) => {
-      state.tweets[action.payload.tweetId].likes_count += 1;
+      const targetTweet = state.tweets[action.payload.tweetId];
+      if (targetTweet) targetTweet.likes_count += 1;
     },
     incrementViewsCount: (state, action: PayloadAction<{ tweetId: number }>) => {
-      console.log("incrementing")
-      state.tweets[action.payload.tweetId].views_count += 1;
+      const targetTweet = state.tweets[action.payload.tweetId];
+      if (targetTweet) targetTweet.views_count += 1;
+    },
+    bookmarkATweet: (state, action: PayloadAction<{ tweetId: number, bookmarkId: number }>) => {
+      const { tweetId, bookmarkId } = action.payload;  
+
+      state.tweets[tweetId].bookmarks_count += 1;
+      state.tweets[tweetId].bookmarked = true;
+      state.tweets[tweetId].bookmarkId = bookmarkId;
+    },
+    unBookmarkATweet: (state, action: PayloadAction<{ tweetId: number }>) => {
+      const { tweetId } = action.payload;
+
+      state.tweets[tweetId].bookmarks_count -= 1;
+      state.tweets[tweetId].bookmarked = false;
+      state.tweets[tweetId].bookmarkId = undefined;
     },
   },
 });
@@ -67,7 +89,9 @@ export const {
   initializeTweetsStatistics, 
   incrementRepliesCount,
   incrementLikesCount,
-  incrementViewsCount
+  incrementViewsCount,
+  bookmarkATweet,
+  unBookmarkATweet
 } = tweetStatisticsSlice.actions;
 
 export default tweetStatisticsSlice.reducer;

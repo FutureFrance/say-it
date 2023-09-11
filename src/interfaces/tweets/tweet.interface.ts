@@ -6,6 +6,7 @@ export interface ITweet {
   text_body: string;
   likes_count: number; 
   replies_count: number;
+  bookmarks_count: number;
   timestamp_diff?: string;
   media: Array<IMedia>; 
   replies?: Array<ITweet>; 
@@ -13,6 +14,8 @@ export interface ITweet {
   created_at: string;
   liked: boolean;
   likeId?: number | undefined;
+  bookmarked: boolean;
+  bookmarkId?: number | undefined;
   amIfollowingTweetOwner: boolean;
 }
 

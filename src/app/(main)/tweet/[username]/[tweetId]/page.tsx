@@ -22,7 +22,7 @@ const TweetPage = async ({ params }: { params: { username: string, tweetId: numb
           session={session} 
           tweet={tweetInfo.parentTweet}
         />
-        
+
         {tweetInfo.tweets.length > 0 && (
           <TweetsSection 
             session={session} 

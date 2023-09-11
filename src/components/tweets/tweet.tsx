@@ -2,14 +2,13 @@
 
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Session } from "next-auth"
-import { AxiosError } from "axios";
-import { IMedia, ITweet } from "@/interfaces/tweets/tweet.interface";
+import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import TweetOwnerAvatar from "./tweetOwnerAvatar";
 import TweetStatistics from "./tweetStatistics";
 import TweetMedia from "./media/tweetMedia";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import PopUpMessage from "../ui/errors/popUpMessage";
-import { addViewTweet, deleteTweet } from "@/services/tweets.client.service";
+import { addViewTweet } from "@/services/tweets.client.service";
 import TweetSettings from "./tweetSettings";
 
 type Props = {
@@ -23,7 +22,6 @@ export const Tweet = ({ session, tweet, setTweets }: Props) => {
   const [prefetched, setPrefetched] = useState(false);
 
   const router = useRouter();
-  const pathname = usePathname();
   const tweetRef = useRef(null);
   
   useEffect(() => {
@@ -67,7 +65,7 @@ export const Tweet = ({ session, tweet, setTweets }: Props) => {
 
   return (
     <div 
-      className="py-2 px-4 flex cursor-pointer" 
+      className="pb-2 pt-[12px] px-4 flex cursor-pointer" 
       onClick={() => router.push(`/tweet/${session.user.username}/${tweet.id}`)}
       ref={tweetRef}
     >
@@ -76,9 +74,9 @@ export const Tweet = ({ session, tweet, setTweets }: Props) => {
       <div className="w-[100%] cursor-pointer">
         <div className="flex justify-between">
           <div className="flex leading-5 text-[15px] max-w-fit" onClick={e => handleUserClick(e)}>
-            <span className="font-semibold">{tweet.user.name} &nbsp;</span>
-            <span className="text-zinc-500">@{tweet.user.username} ·&nbsp;</span>
-            <span className="text-sm text-zinc-400">{tweet.timestamp_diff}</span>
+            <span className="font-bold hover:underline">{tweet.user.name}</span>
+            <span className="text-zinc-400">&nbsp;@{tweet.user.username} ·&nbsp;</span>
+            <span className="text-sm text-zinc-400 hover:underline">{tweet.timestamp_diff}</span>
           </div>
 
           <TweetSettings 

@@ -15,8 +15,8 @@ export const AppMenu = async () => {
   return (
     <>
     <SseConnector session={session}/>
-      <div className="fixed select-none top-[10px] h-[100vh] gap-2">  
-        <div className="flex flex-col text-white font-thin justify-center">
+      <div className="fixed select-none top-[10px] h-[100vh] gap-[4px]">  
+        <div className="flex flex-col text-white font-thin justify-center gap-2">
           <MenuOption 
             optionText=""
             urlTarget="/feed"
@@ -40,6 +40,13 @@ export const AppMenu = async () => {
 
           <NotificationOption notificationsCount={session.user.notifications_count}/>
 
+          <MenuOption 
+            optionText="Bookmarks"
+            urlTarget={`/bookmarks`}
+            imgSource="/assets/app_menu/bookmark_icon.svg"
+            styles="transition hover:bg-neutral-900 transition-colors duration-700 ease-in-out gap-[20px]"
+          /> 
+          
           <AppMenuTweetButton session={session}/>
         </div>
             

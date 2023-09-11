@@ -34,6 +34,8 @@ const ConnectionsList = ({ session, targetUsername, fetchedConnections, connecti
       setPageOffSet(prev => prev + FETCH_CONNECTION_TAKE);
       setConnections(prev => [...prev, ...response.data[connectionType]]);
       setHasMore(response.data.hasMore);
+
+      return [...connections, ...response.data[connectionType]];
     } catch(err) {
       if (err instanceof AxiosError) setApiError(err.response?.data.message);
     }

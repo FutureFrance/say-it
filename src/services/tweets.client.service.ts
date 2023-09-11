@@ -1,6 +1,7 @@
 import { IndividualTweet } from "@/interfaces/tweets/individualTweet.interface";
 import { ITweet } from "@/interfaces/tweets/tweet.interface";
 import { api } from "@/lib/http";
+import { IUser } from "@/types/user.interface";
 
 export const createTweet = async (
   accessToken: string, 
@@ -53,6 +54,28 @@ export const getTweet = async (accessToken: string, username: string, tweetId: n
 export const addViewTweet = async (accessToken: string, tweetId: number) => {
   return await api
     .post('/tweets/view', { tweetId }, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res.data
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+export const bookmarkTweet = async (accessToken: string, tweetId: number) => {
+  return await api
+    .post<{ id: number, tweet: ITweet, user: IUser}>(`/tweets/bookmark`, { tweetId }, { headers: { Authorization: `Bearer ${accessToken}` }})
+    .then(res => {
+      return res.data
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+export const deleteBookmark = async (accessToken: string, bookmarkId: number) => {
+  return await api
+    .delete(`/tweets/bookmark/${bookmarkId}`, { headers: { Authorization: `Bearer ${accessToken}` }})
     .then(res => {
       return res.data
     })
