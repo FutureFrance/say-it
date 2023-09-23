@@ -28,6 +28,7 @@ const TweetPage = async ({ params }: { params: { username: string, tweetId: numb
             session={session} 
             fetchNewTweets={getTweetReplies}
             funcArgs={[session.accessToken, tweetInfo.parentTweet.id]}
+            hasMoreToFetch={tweetInfo.hasMore}
           />
         )}
       </section>

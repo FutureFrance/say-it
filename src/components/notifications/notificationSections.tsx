@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { AxiosError } from "axios";
 import SpinningLoader from "../ui/loaders/spinningLoader";
 import { Session } from "next-auth";
-import { INotification } from "@/types/notification.interface";
+import { INotification, INotificationResponse } from "@/types/notification.interface";
 import { getUserNotifications } from "@/services/user.service";
 import { FETCH_NOTIFICATIONS_TAKE } from "@/constants/tweets/notification.constants";
 import { setInitialNotificationsCount } from "@/redux/features/userNotificationsSlice";
@@ -16,13 +16,13 @@ import { useDispatch } from "react-redux";
 
 type Props = { 
   session: Session;
-  fetchedUserNotifications: Array<INotification>;
+  fetchedNotificationsResponse: INotificationResponse;
 }
 
-const NotificationsSection = ({ session, fetchedUserNotifications }: Props) => {
-  const [notifications, setNotifications] = useState<Array<INotification>>(fetchedUserNotifications);
+const NotificationsSection = ({ session, fetchedNotificationsResponse }: Props) => {
+  const [notifications, setNotifications] = useState<Array<INotification>>(fetchedNotificationsResponse.notifications);
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_NOTIFICATIONS_TAKE);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(fetchedNotificationsResponse.hasMore);
   const [apiError, setApiError] = useState<string | null>(null);
   
   const dispatch = useDispatch();

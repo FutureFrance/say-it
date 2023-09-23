@@ -18,12 +18,13 @@ type Props = {
   session: Session;
   fetchNewTweets: (...args: Array<any>) => Promise<IPaginatedTweets>;
   funcArgs: Array<any>;
+  hasMoreToFetch: boolean;
 }
 
-export const TweetsSection = ({ session, fetchNewTweets, funcArgs }: Props) => {  
+export const TweetsSection = ({ session, fetchNewTweets, funcArgs, hasMoreToFetch }: Props) => {  
   const { tweets, setTweets } = useContext(TweetContext);
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_TWEET_TAKE);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(hasMoreToFetch);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const tweetsStats = useAppSelector(state => state.persistedReducer.tweets);

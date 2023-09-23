@@ -31,6 +31,7 @@ const User = async ({ params }: {params: { username: string }}) => {
           fetchNewTweets={getUserTweets}
           funcArgs={[session.accessToken, params.username]}
           session={session} 
+          hasMoreToFetch={tweetsResponse.hasMore}
         />
       </section>
     </TweetProvider>

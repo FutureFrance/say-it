@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { likeATweet, unlikeATweet } from "@/redux/features/tweetStatisticsSlice";
 import { bookmarkATweet, unBookmarkATweet } from "@/redux/features/tweetStatisticsSlice";
 import { bookmarkTweet, deleteBookmark } from "@/services/tweets.client.service";
-
+import TweetLikesModal from "../modals/tweetLikesModal";
 type Props = {
   fetchedTweet: ITweet; 
   session: Session; 
@@ -22,6 +22,7 @@ type Props = {
 export const TweetStatistics = ({ fetchedTweet, session, individualTweet = false, iconSpacing = "justify-between" }: Props) => {
   const [isModalOn, setIsModalOn] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [showTweetLikes, setShowTweetLikes] = useState<boolean>(false);
 
   const tweetLikeCount = useAppSelector<number>(state => state.persistedReducer.tweets[fetchedTweet.id]?.likes_count);
   const tweetRepliesCount = useAppSelector<number>(state => state.persistedReducer.tweets[fetchedTweet.id]?.replies_count);
@@ -111,17 +112,17 @@ export const TweetStatistics = ({ fetchedTweet, session, individualTweet = false
           <div className="border w-[100%] border-zinc-800"></div>
 
           <div className="flex items-center h-[45px] text-sm font-normal gap-4">
-            <div className="cursor-pointer">
+            <div className="">
               <span className="font-semibold">{tweetRepliesCount}</span>
               <span className="hover:underline text-zinc-500 ml-[4px]">Replies</span>
             </div>
 
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" onClick={() => setShowTweetLikes(true)}>
               <span className="font-semibold">{tweetLikeCount}</span>
               <span className="hover:underline text-zinc-500 ml-[4px]">Likes</span>
             </div>
 
-            <div className="cursor-pointer">
+            <div className="">
               <span className="font-semibold">{tweetBookmarksCount}</span>
               <span className="hover:underline text-zinc-500 ml-[4px]">Bookmarks</span>
             </div>
@@ -167,6 +168,14 @@ export const TweetStatistics = ({ fetchedTweet, session, individualTweet = false
           clickAction={handleBookmarkClick}
           individualTweet={individualTweet}
         />
+
+        { showTweetLikes && 
+          <TweetLikesModal 
+            setModal={setShowTweetLikes} 
+            session={session}
+            tweetId={fetchedTweet.id}
+          />
+        }
 
         { isModalOn && 
           <TweetModal 

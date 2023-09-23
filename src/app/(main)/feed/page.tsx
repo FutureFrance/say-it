@@ -29,6 +29,7 @@ const Feed = async () => {
           session={session} 
           fetchNewTweets={getFeedTweets}
           funcArgs={[session.accessToken]}
+          hasMoreToFetch={fetchedTweets.hasMore}
         />
       </TweetProvider>
     </section>

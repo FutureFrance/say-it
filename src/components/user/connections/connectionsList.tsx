@@ -17,13 +17,14 @@ type Props = {
   fetchedConnections: Array<GetConnection>; 
   targetUsername: string;
   connectionType: CONNECTIONS_TYPE;
+  hasToFetchMore: boolean;
 }
 
-const ConnectionsList = ({ session, targetUsername, fetchedConnections, connectionType}: Props) => {
+const ConnectionsList = ({ session, targetUsername, fetchedConnections, connectionType, hasToFetchMore }: Props) => {
   const [connections, setConnections] = useState<Array<GetConnection>>(fetchedConnections);
   const [apiError, setApiError] = useState<null | string>(null);
   const [pageOffSet, setPageOffSet] = useState<number>(FETCH_CONNECTION_TAKE);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(hasToFetchMore);
 
   const handleConnections = async () => {
     try {

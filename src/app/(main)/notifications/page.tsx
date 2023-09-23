@@ -16,7 +16,7 @@ const Notifications = async () => {
       <StickyTitle title="Notifications"/>
       <NotificationsSection 
         session={session} 
-        fetchedUserNotifications={fetchedNotifications.data.notifications}
+        fetchedNotificationsResponse={fetchedNotifications.data}
       />
     </>
   )

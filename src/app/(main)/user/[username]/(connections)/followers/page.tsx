@@ -18,6 +18,7 @@ const Followers = async ({ params }: { params: { username: string }}) => {
         fetchedConnections={response.data.followers}
         targetUsername={params.username}
         connectionType={CONNECTIONS_TYPE.FOLLOWERS}
+        hasToFetchMore={response.data.hasMore}
       />
     </section>
   )
