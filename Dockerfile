@@ -2,14 +2,14 @@ FROM node:18
 
 WORKDIR /app
 
-RUN apt update && apt install vim -y
-
 COPY package*.json ./
 
 RUN npm install 
 
 COPY . .
 
+RUN npm run build
+
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
